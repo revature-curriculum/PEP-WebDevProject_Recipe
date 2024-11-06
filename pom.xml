@@ -15,9 +15,8 @@
     
 <!-- Java version compatibility: Use versions above 9 and below 22.
      If Java 22 is used, additional configuration may be needed. -->
-    
-    <maven.compiler.source>22</maven.compiler.source>
-    <maven.compiler.target>22</maven.compiler.target>
+    <maven.compiler.source>21</maven.compiler.source>
+    <maven.compiler.target>21</maven.compiler.target>
   </properties>
 
 <dependencies>
@@ -32,9 +31,7 @@
       <artifactId>selenium-java</artifactId>
       <version>4.26.0</version>
     </dependency>
-  </dependencies>
-        
-  </dependencies>
+</dependencies>
 
   <build>
     <pluginManagement><!-- lock down plugins versions to avoid using Maven defaults (may be moved to parent pom) -->
