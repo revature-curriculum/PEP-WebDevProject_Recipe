@@ -44,7 +44,7 @@ function updateRecipe(){
 /**
  * Function to delete a recipe from the list.
  * 
- * This function removes a recipe from the recipes array based on the recipe name input by the userand then refreshes the displayed recipe list.
+ * This function removes a recipe from the recipes array based on the recipe name input by the user and then refreshes the displayed recipe list.
  */
 function deleteRecipe(){
     
