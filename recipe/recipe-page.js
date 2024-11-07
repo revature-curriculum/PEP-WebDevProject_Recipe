@@ -2,26 +2,18 @@
  * This script defines the CRUD operations for Recipe objects in the Recipe Management Application.
  */
 
-/**
- * 1. Get references to various DOM elements, such as buttons and input elements, using the document object's `getElementById()` method.
-*/
+// Get references to various DOM elements, such as buttons and input elements, using the document object's `getElementById()` method.
 
-/**
- * 2. Ensure the buttons have their 'onclick' events associated with a corresponding function.
-*/
 
-/**
- * 3. Create an object, like an array, to keep track of recipes.
-*/
+// Ensure the buttons have their 'onclick' events associated with a corresponding function.
 
-/**
- * 4. Ensure that, on start up, the recipe list is refreshed.
-refreshRecipeList();
-*/
 
-/**
- * 5. Provide implementations to the below four functions.
-*/
+// Create an object, like an array, to keep track of recipes.
+
+
+// Ensure that, on start up, the recipe list is refreshed.x
+
+
 
 /**
  * Function to add a new recipe to the list.
