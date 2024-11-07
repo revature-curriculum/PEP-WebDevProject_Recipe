@@ -21,9 +21,11 @@ import org.openqa.selenium.support.ui.WebDriverWait;
  * This class contains Selenium tests written in Java. Selenium is a tool used for BDD, or behavior-driven-development, for frontends. That means that the tests verify that the site exhbits expected
  * behavior behavior, such as verifying that some behavior occurs on the site when a button is clicked. In this case, Selenium will just be used to verify that certain tags exist on the site.
  */
-public class SeleniumTest{
+public class RecipePageTest{
     
     private WebDriver webDriver;
+    
+    @SuppressWarnings("unused")
     private WebDriverWait wait;
     /**
      * Set up the chrome driver for running bdd selenium tests in the browser.
