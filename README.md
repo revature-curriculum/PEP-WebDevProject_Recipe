@@ -8,25 +8,42 @@ This project is a web-based recipe management application with user authenticati
 ## Getting Started
 - You will be working on the front end of this application.
 - You can test your implementation by opening the HTML files in a browser and interacting with the UI.
+
 - Ensure the backend is running if you are testing features that require the use of the backend. To run the backend, navigate to the `backend/src/main/java/com/revature/Main.java` file and run that file. The server will run on `http://localhost:8081/`. 
 - If the backend is running, you cannot run tests simultaneously. Ensure the backend is stopped before you run your tests.
+
 - You are encouraged to incorporate CSS however you'd like to provide styling for the application.
 
 ## Requirements
 
-### User Story 1: The user can view a webpage that lists recipes and provides recipe management UI elements.
+### 1: The user can view a webpage that lists recipes and provides recipe management UI elements.
 
-Located within the `recipe` folder, the file `recipe-page.html` should be present. Its purpose is to provide the main interface for recipe management. Read the comments in the the file in order to complete the below tasks:
-- Ensure the specified 13 elements have been added to the page.
+Located within the `recipe` folder, the file `recipe-page.html` should be present. Its purpose is to provide the main interface for recipe management. Read the comments in the file in order to complete the below tasks:
+- Ensure the specified elements have been added to the page.
 - Ensure the elements have the specified id values as mentioned in the instructions.
 
-### User Story 2: The user can add, update, or delete recipes.
-Located within the `recipe` folder, the file `recipe-page.js` should be present. Its purpose is to provide the logic and functionality required to allow the user to perform certains actions. Read the comments in the the file in order to complete the below tasks:
+### 2: The user can add, update, or delete recipes.
+Located within the `recipe` folder, the file `recipe-page.js` should be present. Its purpose is to provide the logic and functionality required to allow the user to perform certains actions. Read the comments in the file in order to complete the below tasks:
 - Ensure that, if the user clicks on the "Add Recipe" button, the relevant recipe should be displayed in the list of recipes.
 - Ensure that, if the user clicks on the "Update Recipe" button, the relevant recipe's information should be updated in the list of recipes.
 - Ensure that, if the user clicks on the "Delete Recipe" button, the relevant recipe should no longer be displayed in the list of recipes.
 - Ensure that the most up-to-date list of recipes is displayed after each user action.
 
+### 3: The user can attempt to login.
+Located within the `login` folder, the files `login-page.html` and `login-page.js` should be present. Their purpose is to provide the user interface and functionality for a user logging in to the application. Read the comments in these files in order to complete the below tasks:
+- Ensure that `login-page.html`contains the specified elements.
+- Ensure that the user can either login successfully and be redirected to the recipe page, or receive an alert if the login is unsuccessful. 
+- Note: The request options already configured for you, but it is good to know about CORS and why the options we provided were chosen.
+
+CORS is a protocol that requires any HTTP requests sent to first send out a pre-flight "options" request to your backend, so that the backend may verify that this particular HTTP request is safe for the backend to respond to. Modern browsers enforce CORS to prevent external sites from accessing information that they ought to not have access to, by restricting access to your backend to only be allowed to communicate with origins (URLs) that you specify. Your browser will not permit outgoing HTTP requests that contain a body and do not have CORS enabled.
+
+It is recommended that you refer to documentation on how to specify all options required for a request. Please reference this documentation on supplying options: https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch
+
+You can manually test this user story running the backend, then navigating to the `http://localhost:8081/login` URL and providing the following credentials:
+    - username: 'ChefTrevin'
+    - password: 'trevature'
+
+### 4:
 
 
 
