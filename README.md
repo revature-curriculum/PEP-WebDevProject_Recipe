@@ -1,6 +1,5 @@
 # Project: RecipeHub (Full-Stack)
 
-
 ## Background
 
 This project is a web-based recipe management application with user authentication and admin functionality. It allows users to view, add, update, and delete recipes, as well as search for specific recipes. Admins have additional capabilities to manage ingredients. The application uses a frontend built with HTML, CSS, and JavaScript. The front-end communicates with a backend API.
@@ -16,21 +15,8 @@ This project is a web-based recipe management application with user authenticati
 
 ## Requirements
 
-### 1: The user can view a webpage that lists recipes and provides recipe management UI elements.
-
-Located within the `recipe` folder, the file `recipe-page.html` should be present. Its purpose is to provide the main interface for recipe management. Read the comments in the file in order to complete the below tasks:
-- Ensure the specified elements have been added to the page.
-- Ensure the elements have the specified id values as mentioned in the instructions.
-
-### 2: The user can add, update, or delete recipes.
-Located within the `recipe` folder, the file `recipe-page.js` should be present. Its purpose is to provide the logic and functionality required to allow the user to perform certains actions. Read the comments in the file in order to complete the below tasks:
-- Ensure that, if the user clicks on the "Add Recipe" button, the relevant recipe should be displayed in the list of recipes.
-- Ensure that, if the user clicks on the "Update Recipe" button, the relevant recipe's information should be updated in the list of recipes.
-- Ensure that, if the user clicks on the "Delete Recipe" button, the relevant recipe should no longer be displayed in the list of recipes.
-- Ensure that the most up-to-date list of recipes is displayed after each user action.
-
-### 3: The user can attempt to login.
-Located within the `login` folder, the files `login-page.html` and `login-page.js` should be present. Their purpose is to provide the user interface and functionality for a user logging in to the application. Read the comments in these files in order to complete the below tasks:
+### 1: The user can attempt to login.
+Located within the `frontend/src/main/java/com/revature/login` folder, the files `login-page.html` and `login-page.js` should be present. Their purpose is to provide the user interface and functionality for a user logging in to the application. Read the comments in these files in order to complete the below tasks:
 - Ensure that `login-page.html`contains the specified elements.
 - Ensure that the user can either login successfully and be redirected to the recipe page, or receive an alert if the login is unsuccessful. 
 - Note: The request options already configured for you, but it is good to know about CORS and why the options we provided were chosen.
@@ -39,11 +25,18 @@ CORS is a protocol that requires any HTTP requests sent to first send out a pre-
 
 It is recommended that you refer to documentation on how to specify all options required for a request. Please reference this documentation on supplying options: https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch
 
-You can manually test this user story running the backend, then navigating to the `http://localhost:8081/login` URL and providing the following credentials:
+You can manually test this user story by running the backend, then navigating to the `http://localhost:8081/login` URL and providing the following credentials:
     - username: 'ChefTrevin'
     - password: 'trevature'
 
-### 4:
+### 2: The user can view, add, update, or delete recipes.
+Located within the `frontend/src/main/java/com/revature/recipe` folder, the files `recipe-page.html` and `recipe-page.js` should be present. Its purpose is to provide the main interface and functionality required to allow the user view and manage recipes. Read the comments in these files in order to complete the below tasks:
+- Ensure the specified elements have been added to the HTML page.
+- Ensure the elements have the specified id values as mentioned in the instructions.
+- Ensure that, if the user clicks on the "Add Recipe" button, the relevant recipe should be displayed in the list of recipes.
+- Ensure that, if the user clicks on the "Update Recipe" button, the relevant recipe's information should be updated in the list of recipes.
+- Ensure that, if the user clicks on the "Delete Recipe" button, the relevant recipe should no longer be displayed in the list of recipes.
+- Ensure that the most up-to-date list of recipes is displayed after each user action.
 
 
 

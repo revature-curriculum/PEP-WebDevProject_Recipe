@@ -37,6 +37,8 @@ public class JavalinAppUtil {
 
     private IngredientController ingredientController;
 
+    private AdminMiddleware adminMiddleware;
+
     /**
      * Constructs a JavalinAppUtil with the specified controllers.
      *
@@ -49,6 +51,7 @@ public class JavalinAppUtil {
         this.recipeController = recipeController;
         this.authenticationController = authController;
         this.ingredientController = ingredientController;
+        this.adminMiddleware = adminMiddleware;
     }
 
     /**

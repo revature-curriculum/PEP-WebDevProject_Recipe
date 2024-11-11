@@ -65,6 +65,7 @@ class LoginIntegrationTest {
 		recipeService = new RecipeService(recipeDAO);
 		ingredientService = new IngredientService(ingredientDAO);
 		chefService = new ChefService(chefDAO);
+		adminMiddleware = new AdminMiddleware(chefService, null);
 		authService = new AuthenticationService(chefService);
 		authController = new AuthenticationController(chefService, authService);
 		recipeController = new RecipeController(recipeService, authService);
