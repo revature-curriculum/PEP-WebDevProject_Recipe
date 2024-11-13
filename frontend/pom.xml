@@ -24,7 +24,6 @@
         <sourceDirectory>src/main/java</sourceDirectory>
     </build>
 
-    
     <dependencies>
         <!-- Jackson Databind -->
         <dependency>
@@ -33,7 +32,7 @@
             <version>2.15.2</version>
         </dependency>
 
-        <!-- Mockito -->
+        <!-- Mockito for Mocking in Unit Tests -->
         <dependency>
             <groupId>org.mockito</groupId>
             <artifactId>mockito-core</artifactId>
@@ -41,7 +40,7 @@
             <scope>test</scope>
         </dependency>
 
-        <!-- JUnit Jupiter API -->
+        <!-- JUnit Jupiter API for Testing -->
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-api</artifactId>
@@ -56,36 +55,36 @@
             <version>2.1.214</version>
         </dependency>
 
-        <!-- Javalin -->
+        <!-- Javalin (If needed for other purposes) -->
         <dependency>
             <groupId>io.javalin</groupId>
             <artifactId>javalin</artifactId>
             <version>5.6.1</version>
         </dependency>
 
-        <!-- Javalin TestTools -->
+        <!-- Javalin TestTools (If needed for testing with Javalin) -->
         <dependency>
             <groupId>io.javalin</groupId>
             <artifactId>javalin-testtools</artifactId>
             <version>5.6.1</version>
         </dependency>
 
-        <!-- SLF4J Simple -->
+        <!-- SLF4J Simple (For logging) -->
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-simple</artifactId>
             <version>2.0.7</version>
         </dependency>
 
-        <!-- AssertJ Core -->
+        <!-- AssertJ for Assertions in Tests -->
         <dependency>
             <groupId>org.assertj</groupId>
             <artifactId>assertj-core</artifactId>
-            <version>3.24.2</version>
+            <version>3.26.3</version>
             <scope>test</scope>
         </dependency>
 
-        <!-- Hamcrest -->
+        <!-- Hamcrest for Matchers in Tests -->
         <dependency>
             <groupId>org.hamcrest</groupId>
             <artifactId>hamcrest-all</artifactId>
@@ -93,19 +92,22 @@
             <scope>test</scope>
         </dependency>
 
-        <!-- Byte Buddy -->
+        <!-- Byte Buddy (if required for advanced mocking) -->
         <dependency>
             <groupId>net.bytebuddy</groupId>
             <artifactId>byte-buddy</artifactId>
             <version>1.15.5</version>
         </dependency>
 
-        <!-- https://mvnrepository.com/artifact/org.seleniumhq.selenium/selenium-chrome-driver -->
+
+<!-- https://mvnrepository.com/artifact/org.mock-server/mockserver-netty -->
 <dependency>
-    <groupId>org.seleniumhq.selenium</groupId>
-    <artifactId>selenium-chrome-driver</artifactId>
-    <version>4.26.0</version>
+    <groupId>org.mock-server</groupId>
+    <artifactId>mockserver-netty</artifactId>
+    <version>5.15.0</version>
+    <scope>test</scope>
 </dependency>
+
 
     </dependencies>
 </project>
