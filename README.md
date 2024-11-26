@@ -19,7 +19,6 @@ This project is a web-based recipe management application with user authenticati
 Located within the `frontend/src/main/java/com/revature/register` folder, the files `register-page.html`, `register-page.css`, and `register-page.js` should be present. Their purpose is to provide the user interface and the functionality for the user registration process in to the application. Read the comments in these files in order to complete the below tasks:
 
 - Ensure that `register-page.html` contains the specified elements.
-- Ensure the `register-page.css` contains the necessary CSS styles to make the registration page look visually appealing and consistent with the rest of the application.
 - Ensure the `register-page.js` pulls the username, password, and repeated password. 
 - Ensure the password and repeated password are checked for equality.
 - Ensure an AJAX or Fetch Call is made to register the user.
