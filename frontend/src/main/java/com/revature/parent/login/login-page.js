@@ -26,11 +26,8 @@ async function processLogin() {
         method: "POST",
         mode: "cors",
         cache: "no-cache",
-        credentials: "same-origin",
         headers: {
-            "Content-Type": "application/json",
-            "Access-Control-Allow-Origin": "*",
-            "Access-Control-Allow-Headers": "*"
+            "Content-Type": "application/json"
         },
         redirect: "follow",
         referrerPolicy: "no-referrer",
@@ -39,19 +36,18 @@ async function processLogin() {
 
     try {
         const response = await fetch("http://localhost:8081/login", requestOptions);
-
+        
         if (response.status === 200) {
-            const data = await response.json();
-            const authToken = data.token;
-
+            const data = await response.text();
+            console.log(data);
+            const authToken = data;
             // Save the token in sessionStorage
             sessionStorage.setItem("auth-token", authToken);
-            //FileSystem.out.println(authToken);
 
             // Add a small delay for the test to capture the token before redirection
             setTimeout(() => {
                 // Redirect to the recipe page
-                window.location.href = "recipe-page.html";
+            window.location.href = "/frontend/src/main/java/com/revature/parent/recipe/recipe-page.html";
             }, 500);  // 500ms delay
         } else if (response.status === 401) {
             alert("Incorrect login!");
