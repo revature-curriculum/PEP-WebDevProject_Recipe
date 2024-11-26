@@ -2,38 +2,58 @@
  * This script defines the registration functionality for the Registration page in the Recipe Management Application.
  */
 
-// Get references to various DOM elements, such as inputs and the register button, using the document object's `getElementById()` method.
+
+/* 
+ * TODO: Get references to various DOM elements
+*/
 
 
-// Ensure the register button has its 'onclick' event associated with the function `processRegistration`.
+/* 
+ * TODO: Ensure the register button has its 'onclick' event associated with the function
+*/
 
 
 /**
- * Function to process user registration.
- *
- * This function does the following:
- * - Retrieves input values for username, email, password, and repeat password.
- * - Verifies that the password matches the repeat password field.
- * - Creates a user object and sends a POST request to the registration endpoint `http://localhost:8081/register`.
- * - Provides feedback to the user:
- *   - On successful registration, redirects to the login page.
- *   - On failure, alerts the user to a registration error.
- *   - If passwords do not match, alerts the user of the mismatch.
+ * TODO: Process Registration Function
+ * 
+ * Requirements:
+ * - Retrieve username, email, password, and repeat password from input fields
+ * - Validate that all input fields are not empty
+ * - Verify passwords match
+ * - Create registration object with user details
+ * - Send POST request to registration endpoint - http://localhost:8081/register
+ * - Handle different response status codes:
+ *      - Redirect to login page on successful registration
+ *      - Alerts the user to a registration error on failure registration
+ *      - If passwords do not match, alerts the user of the mismatch.
+ * 
+ * Hints:
+ * - Use fetch with 'POST' method
+ * - Set appropriate request headers
+ * - Validate input before sending request
+ * - Check response status codes (201 for success, 409 for conflict)
+ * - Implement proper error handling
+ * - Clear sensitive information after processing
  */
 async function processRegistration() {
-    
-        let response =  {
-            method: "POST",                             // HTTP method: POST for adding new data
-            mode: "cors",                               // Enable Cross-Origin Resource Sharing (CORS)
-            cache: "no-cache",                          // Disable caching for fresh data on each request
-            credentials: "same-origin",                 // Use credentials only if on the same domain
-            headers: {
-                "Content-Type": "application/json",     // Specify JSON data format
-                "Access-Control-Allow-Origin": "*",     // Allow requests from any origin
-                "Access-Control-Allow-Headers": "*"     // Allow all headers
-            },
-            redirect: "follow",                         // Follow redirects if they occur
-            referrerPolicy: "no-referrer",              // Do not send a referrer header
-            body: JSON.stringify(registerBody)          // Convert the register object to a JSON string for transmission
-        };
+ 
+    // Implement registration logic here
+
+
+    // Defining the request configuration
+    const requestOptions = {
+        method: "POST",
+        mode: "cors",
+        cache: "no-cache",
+        credentials: "same-origin",
+        headers: {
+            "Content-Type": "application/json",
+            "Access-Control-Allow-Origin": "*",
+            "Access-Control-Allow-Headers": "*"
+        },
+        redirect: "follow",
+        referrerPolicy: "no-referrer",
+        body: JSON.stringify(registerBody)
+    };
+   
 }
