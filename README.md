@@ -13,7 +13,7 @@ This project is a web-based recipe management application with user authenticati
 
 - You are encouraged to incorporate CSS however you'd like to provide styling for the application.
 
-- If you are working on this project locally (NOT in Gitpod), please ensure the backend `pom.xml` file is updated to the version of Java you are using. You can get this version by opening the command prompt and typing `java -version`. This will tell you the version of Java you are currently working with. For this project, you will need to work with any version between 9 and 22. If you are using version 22, you might need to uncomment the bytebuddy dependency that is located at the bottom of the `pom.xml` file. Your `pom.xml` should be similar to Part 1. 
+- If you are working on this project locally (NOT in Gitpod), please ensure the backend `pom.xml` files are updated to the version of Java you are using. You can get this version by opening the command prompt and typing `java -version`. This will tell you the version of Java you are currently working with. For this project, you will need to work with any version between 9 and 22. If you are using version 22, you might need to uncomment the bytebuddy dependency that is located at the bottom of the `pom.xml` file. Your `pom.xml` should be similar to Part 1. 
 
 ## Requirements
 
