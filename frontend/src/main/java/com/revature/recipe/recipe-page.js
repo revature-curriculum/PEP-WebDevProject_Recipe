@@ -2,124 +2,108 @@
  * This script defines the CRUD operations for Recipe objects in the Recipe Management Application.
  */
 
-// Get references to various DOM elements, such as buttons and input elements, using the document object's `getElementById()` method.
+const BASE_URL = "http://localhost:8081"; // MockServer + backend URL
+
+/* 
+ * TODO: Get references to various DOM elements
+*/
 
 
-// Ensure the buttons have their 'onclick' events associated with a corresponding function.
+/* 
+ * TODO: Attach 'onclick' events to buttons
+*/
 
-
-// Create an array to keep track of recipes.
+/* 
+ * TODO: Create an array to keep track of recipes.
+*/
 let recipes;
 
-// Ensure that, on start up, the recipe list is refreshed.
+/* 
+ * TODO: Ensure that, on start up, the recipe list is refreshed.
+*/
+
 
 /**
- * Function to refresh and display the list of recipes on the webpage.
+ * TODO: Add Recipe Function
  * 
- * This does the following:
- * - retreives the current list of recipes from the backend by performing a GET request to the URL `http://localhost:8081/recipes`
- * - converts the returned list to JSON and assigns it to the `recipes` array 
- * - clears the current recipe list within the relevant HTML element
- * - creates a <li> element for each recipe retrieved
- *     - each <li> element should have a <p> element that contains the recipe information in the following format: `name, instructions`
- * - the created elements should be correctly added to the DOM
- * - 
+ * Requirements:
+ * - Capture recipe name and instructions from input fields
+ * - Validate input fields are not empty
+ * - Send POST request to create new recipe
+ * - Handle successful recipe addition
+ * - Clear input fields after submission
+ * - Refresh recipe list
+ * 
+ * Hints:
+ * - Use fetch with 'POST' method
+ * - Trim input values to remove whitespace
+ * - Add error handling for failed requests
+ * - Verify input before sending request
  */
-function refreshRecipeList(){
-    
+async function addRecipe() {
+    // Implement add recipe logic here
 }
+
 
 /**
- * Function to add a new recipe to the list.
+ * TODO: Delete Recipe Function
  * 
- * This function does the following:
- * - retrieves the current session's auth-token from storage
- * - collects input from the user for a new recipe's name and instructions
- * - creates a recipe object
- * - sends a POST request to `http://localhost:8081/recipes` with the appropriate request options.
- * - refreshes the recipe list that should then include the new recipe
+ * Requirements:
+ * - Capture recipe name from input field
+ * - Find corresponding recipe ID
+ * - Send DELETE request to remove recipe
+ * - Handle successful recipe deletion
+ * - Clear input field after submission
+ * - Refresh recipe list
+ * 
+ * Hints:
+ * - Use fetch with 'DELETE' method
+ * - Locate recipe ID based on recipe name
+ * - Add error handling for failed deletion
+ * - Validate input before sending request
  */
-async function addRecipe(){
-    let token;
-    let options = {
-        method: "POST",                 // HTTP method: POST for adding new data
-        mode: "cors",                   // Enable Cross-Origin Resource Sharing (CORS)
-        cache: "no-cache",              // Disable caching for fresh data on each request
-        credentials: "same-origin",     // Use credentials only if on the same domain
-        headers: {
-            "Content-Type": "application/json",        // Specify JSON data format
-            "Access-Control-Allow-Origin": "*",        // Allow requests from any origin
-            "Access-Control-Allow-Headers": "*",       // Allow all headers
-            "Authorization": token                     // Add token to authenticate the user
-        },
-        redirect: "follow",             // Follow redirects if they occur
-        referrerPolicy: "no-referrer",  // Do not send a referrer header
-        body: JSON.stringify(newRecipe) // Convert the recipe object to a JSON string for transmission
-    };
+async function deleteRecipe() {
+    // Implement delete recipe logic here
 }
+
 
 /**
- * Function to update an existing recipe's instructions.
+ * TODO: Refresh Recipe List Function
  * 
- * This function does the following:
- * - retrieves the current session's auth-token from storage
- * - collects input from the user for a recipe's name and new instructions
- * - finds the recipe in the array named `recipes` and updates its instructions
- * - sends a PUT request to the URL `http://localhost:8081/recipes/` that has the recipe's id concatenated to the end with the appropriate request options.
- *     - example URL: http://localhost:8081/recipes/1 where the recipe's id is 1
- * - refreshes the recipe list
+ * Requirements:
+ * - Fetch all recipes from backend
+ * - Clear existing recipe list container
+ * - Populate list with fetched recipes
+ * - Store fetched recipes in local array
+ * - Handle potential fetch errors
+ * 
+ * Hints:
+ * - Use fetch with 'GET' method
+ * - Parse JSON response
+ * - Create list items dynamically
+ * - Add error logging
  */
-function updateRecipe(){
-    let token;
-    let options = {
-        method: "PUT",                  // HTTP method: PUT for updating existing data
-        mode: "cors",                   // Enable CORS
-        cache: "no-cache",              // Disable caching for fresh data on each request
-        credentials: "same-origin",     // Use credentials only if on the same domain
-        headers: {
-            "Content-Type": "application/json",        // Specify JSON data format
-            "Access-Control-Allow-Origin": "*",        // Allow requests from any origin
-            "Access-Control-Allow-Headers": "*",       // Allow all headers
-            "Authorization": token                     // Add token to authenticate the user
-        },
-        redirect: "follow",             // Follow redirects if they occur
-        referrerPolicy: "no-referrer",  // Do not send a referrer header
-        body: JSON.stringify(recipe)    // Convert the updated recipe object to a JSON string
-    };
+async function refreshRecipeList() {
+    // Implement recipe list refresh logic here
 }
+
 
 /**
- * Function to delete a recipe from the list.
+ * TODO: Update Recipe Function
  * 
- * This function does the following:
- * - retrieves the current session's auth-token from storage
- * - collects input from the user for a recipe's name
- * - finds the recipe in the array named `recipes`
- * - sends a DELETE request to the URL `http://localhost:8081/recipes/` that has the recipe's id concatenated to the end with the appropriate request options.
- *     - example URL: http://localhost:8081/recipes/1 where the recipe's id is 1
- * - refreshes the recipe list
+ * Requirements:
+ * - Capture recipe name and new instructions from input fields
+ * - Find corresponding recipe ID
+ * - Send PUT request to update recipe instructions
+ * - Refresh recipe list after successful update
+ * - Handle potential errors
+ * 
+ * Hints:
+ * - Use fetch with 'PUT' method
+ * - Construct URL with recipe ID
+ * - Validate input before sending request
+ * - Clear input fields after update
  */
-function deleteRecipe(){
-    let token;
-    let options = {
-        method: "DELETE",               // HTTP method: DELETE for removing data
-        mode: "cors",                   // Enable CORS
-        cache: "no-cache",              // Disable caching for fresh data on each request
-        credentials: "same-origin",     // Use credentials only if on the same domain
-        headers: {
-            "Content-Type": "application/json",        // Specify JSON data format
-            "Access-Control-Allow-Origin": "*",        // Allow requests from any origin
-            "Access-Control-Allow-Headers": "*",       // Allow all headers
-            "Authorization": token                     // Add token to authenticate the user
-        },
-        redirect: "follow",             // Follow redirects if they occur
-        referrerPolicy: "no-referrer"   // Do not send a referrer header
-    };
+async function updateRecipe() {
+    // Implement update recipe logic here
 }
-
-// helper function to get a recipe object by its name:
-function getRecipeByName(name){
-    let recipe = recipes.filter(recipe=>{return recipe.name==name})[0]
-    return recipe;
-}
-
