@@ -8,7 +8,6 @@ import com.revature.util.Page;
 import io.javalin.Javalin;
 import io.javalin.http.Context;
 
-import java.sql.SQLException;
 import java.util.Optional;
 
 /**
@@ -94,6 +93,7 @@ public class IngredientController {
 
     /**
      * Retrieves a paginated list of ingredients, or all ingredients if no pagination parameters are provided.
+     * 
      * If pagination parameters are included, returns ingredients based on page, page size, sorting, and filter term.
      *
      * @param ctx the Javalin context containing query parameters for pagination, sorting, and filtering

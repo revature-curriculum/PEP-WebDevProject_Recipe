@@ -37,8 +37,6 @@ public class JavalinAppUtil {
 
     private IngredientController ingredientController;
 
-    private AdminMiddleware adminMiddleware;
-
     /**
      * Constructs a JavalinAppUtil with the specified controllers.
      *
@@ -47,11 +45,10 @@ public class JavalinAppUtil {
      * @param ingredientController the controller for handling ingredient operations
      */
 
-    public JavalinAppUtil(RecipeController recipeController, AuthenticationController authController, IngredientController ingredientController, AdminMiddleware adminMiddleware) {
+    public JavalinAppUtil(RecipeController recipeController, AuthenticationController authController, IngredientController ingredientController) {
         this.recipeController = recipeController;
         this.authenticationController = authController;
         this.ingredientController = ingredientController;
-        this.adminMiddleware = adminMiddleware;
     }
 
     /**
@@ -62,24 +59,27 @@ public class JavalinAppUtil {
      */
 	
     public Javalin getApp() {
-        // Create Javalin object and enable CORS
         Javalin app = Javalin.create(config -> {
-			config.plugins.enableCors(cors -> {
-				cors.add(it -> {
-					it.anyHost();
-				});
-			});
-		});
+            config.plugins.enableCors(cors -> {
+                cors.add(it -> {
+                    it.anyHost();
+                });
+
+            });
+
+            
+        });
 
         // Configure routes for each controller
         recipeController.configureRoutes(app);
         authenticationController.configureRoutes(app);
         ingredientController.configureRoutes(app);
 
-        // apply middleware:
-        app.before("/recipe", adminMiddleware);
+        app.before("/recipes/*", new AdminMiddleware("DELETE"));
+        app.before("/ingredients/*", new AdminMiddleware("UPDATE", "CREATE", "DELETE"));
 
-		return app;
-	}
+        return app;
+    }
+
 
 }

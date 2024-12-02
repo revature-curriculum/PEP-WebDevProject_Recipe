@@ -47,10 +47,10 @@ public class RecipeDAO {
 	 * @param ingredientDAO the IngredientDAO used for retrieving ingredient
 	 *                      details.
 	 */
-	public RecipeDAO(ChefDAO chefDAO, IngredientDAO ingredientDAO) {
+	public RecipeDAO(ChefDAO chefDAO, IngredientDAO ingredientDAO, ConnectionUtil connectionUtil) {
 		this.chefDAO = chefDAO;
 		this.ingredientDAO = ingredientDAO;
-		this.connectionUtil = new ConnectionUtil();
+		this.connectionUtil = connectionUtil;
 	}
 
 	/**
@@ -206,51 +206,101 @@ public class RecipeDAO {
 			try (ResultSet rs = statement.getGeneratedKeys()) {
 				if (rs.next()) {
 					generatedId = rs.getInt(1); // Get generated ID
+					System.out.println("Recipe added with ID: " + generatedId); // Logging
 				}
 			}
 		} catch (SQLException e) {
+			System.err.println("Error adding recipe: " + e.getMessage()); // Logging
 			e.printStackTrace();
 		}
-
+	
 		return generatedId;
 	}
 
 	/**
-	 * Updates an existing recipe in the database.
+	 * Updates an existing recipe's instructions and chef_id in the database.
 	 *
 	 * @param recipe the Recipe object containing updated information.
 	 */
+	// public void updateRecipe(Recipe recipe) {
+	// 	String sql = "UPDATE RECIPE SET instructions = ?, chef_id = ? WHERE id = ?";
+	// 	try (Connection connection = connectionUtil.getConnection();
+	// 			PreparedStatement statement = connection.prepareStatement(sql)) {
+	// 		statement.setString(1, recipe.getInstructions());
+	// 		statement.setInt(2, recipe.getAuthor().getId());
+	// 		statement.setInt(3, recipe.getId());
+	// 		statement.executeUpdate();
+	// 	} catch (SQLException e) {
+	// 		e.printStackTrace();
+	// 	}
+
+	// }
+
+
+
+
 	public void updateRecipe(Recipe recipe) {
-		String sql = "UPDATE RECIPE SET name = ?, instructions = ?, chef_id = ? WHERE id = ?";
-		try (Connection connection = connectionUtil.getConnection();
-				PreparedStatement statement = connection.prepareStatement(sql)) {
-			statement.setString(1, recipe.getName());
-			statement.setString(2, recipe.getInstructions());
-			statement.setInt(3, recipe.getAuthor().getId());
-			statement.setInt(4, recipe.getId());
-			statement.executeUpdate();
-		} catch (SQLException e) {
-			e.printStackTrace();
+		if (recipe == null || recipe.getId() == 0) {
+			throw new IllegalArgumentException("Invalid recipe provided for update.");
 		}
-
+		String sql = "UPDATE RECIPE SET instructions = ?, chef_id = ? WHERE id = ?";
+		try (Connection connection = connectionUtil.getConnection();
+			 PreparedStatement statement = connection.prepareStatement(sql)) {
+			statement.setString(1, recipe.getInstructions());
+			statement.setInt(2, recipe.getAuthor().getId());
+			statement.setInt(3, recipe.getId());
+			int rowsUpdated = statement.executeUpdate();
+			if (rowsUpdated == 0) {
+				throw new RuntimeException("No rows updated. Recipe ID may be invalid.");
+			}
+		} catch (SQLException e) {
+			throw new RuntimeException("Error updating recipe in database", e);
+		}
 	}
-
+	
 	/**
 	 * Deletes a recipe from the database, along with its associated ingredients.
 	 *
 	 * @param recipe the Recipe object to be deleted.
 	 */
+	// public void deleteRecipe(Recipe recipe) {
+	// 	String ingredientSql = "DELETE FROM RECIPE_INGREDIENT WHERE recipe_id = ?";
+	// 	String sql = "DELETE FROM RECIPE WHERE id = ?";
+	// 	try (Connection connection = connectionUtil.getConnection()) {
+	// 		connection.setAutoCommit(false);
+	// 		try (PreparedStatement ingredientStatement = connection.prepareStatement(ingredientSql);
+	// 				PreparedStatement statement = connection.prepareStatement(sql)) {
+	// 			ingredientStatement.setInt(1, recipe.getId());
+	// 			ingredientStatement.executeUpdate();
+	// 			statement.setInt(1, recipe.getId());
+	// 			statement.executeUpdate();
+	// 			connection.commit();
+	// 		} catch (SQLException e) {
+	// 			connection.rollback(); // Roll back if there's an error
+	// 			throw new RuntimeException("Unable to delete recipe", e);
+	// 		}
+	// 	} catch (SQLException e) {
+	// 		throw new RuntimeException("Unable to obtain connection", e);
+	// 	}
+	// }
+
+
+
+
 	public void deleteRecipe(Recipe recipe) {
 		String ingredientSql = "DELETE FROM RECIPE_INGREDIENT WHERE recipe_id = ?";
 		String sql = "DELETE FROM RECIPE WHERE id = ?";
 		try (Connection connection = connectionUtil.getConnection()) {
 			connection.setAutoCommit(false);
 			try (PreparedStatement ingredientStatement = connection.prepareStatement(ingredientSql);
-					PreparedStatement statement = connection.prepareStatement(sql)) {
+				 PreparedStatement statement = connection.prepareStatement(sql)) {
 				ingredientStatement.setInt(1, recipe.getId());
 				ingredientStatement.executeUpdate();
 				statement.setInt(1, recipe.getId());
-				statement.executeUpdate();
+				int rowsDeleted = statement.executeUpdate();
+				if (rowsDeleted == 0) {
+					throw new RuntimeException("Recipe not found for deletion: " + recipe.getId());
+				}
 				connection.commit();
 			} catch (SQLException e) {
 				connection.rollback(); // Roll back if there's an error
@@ -261,6 +311,8 @@ public class RecipeDAO {
 		}
 	}
 
+	
+	// below are two extra methods that we don't test for. Not provided in student boilerplate.
 	/**
 	 * Retrieves a list of ingredients associated with a specific recipe.
 	 *

@@ -1,5 +1,6 @@
 package com.revature.model;
 
+import java.io.Serializable;
 import java.util.Objects;
 
 /**
@@ -8,7 +9,7 @@ The Chef class represents a chef user in the system. It stores the chef's basic 
 You do not need to edit this class.
 
  */
-public class Chef {
+public class Chef implements Serializable{
 
     // fields
 

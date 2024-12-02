@@ -32,7 +32,9 @@ public class AuthenticationController {
 
     /**
      * Registers a new chef in the system.
+     * 
      * If the username already exists, responds with a 409 Conflict status and a result of "Username already exists".
+     * 
      * Otherwise, registers the chef and responds with a 201 Created status and the registered chef details.
      *
      * @param ctx the Javalin context containing the chef information in the request body
@@ -51,6 +53,7 @@ public class AuthenticationController {
 
     /**
      * Authenticates a chef and uses a generated authorization token if the credentials are valid. The token is used to check if login is successful. If so, this method responds with a 200 OK status, the token in the response body, and an "Authorization" header that sends the token.
+     * 
      * If login fails, responds with a 401 Unauthorized status and an error message of "Invalid username or password".
      *
      * @param ctx the Javalin context containing the chef login credentials in the request body
@@ -73,28 +76,14 @@ public class AuthenticationController {
      * @param ctx the Javalin context, containing the Authorization token in the request header
      */
     public void logout(Context ctx) {
-
         authService.logout(ctx.header("Authorization").split(" ")[1]);
+
         if (" " != null) {
             ctx.status(200).result("Logout successful");
         } 
     }
 
-    /**
-     * Authorization filter to restrict access to certain routes.
-     * Checks if a user is logged in and has admin privileges; if not, denies access with a 403 Forbidden status and a result of "Access denied" and redirects to the login page.
-     *
-     * @param ctx the Javalin context of the incoming request
-     */
-    public void authorizationFilter(Context ctx) {
-        Chef user = ctx.sessionAttribute("user");
-        if (user == null || !user.isAdmin()) { 
-            ctx.status(403).result("Access denied");
-            // Optionally redirect to login page
-            ctx.redirect("/login"); 
-        }
-    }
-
+    
     /**
      * Configures the routes for authentication operations.
      * Sets up routes for registration, login, and logout, and applies the authorization filter to protect specific routes.
@@ -105,8 +94,5 @@ public class AuthenticationController {
         app.post("/register", this::register);
         app.post("/login", this::login);
         app.post("/logout", this::logout);
-
-        // Protect routes with authentication
-        app.before("/protected/*", this::authorizationFilter);
     }
 }
