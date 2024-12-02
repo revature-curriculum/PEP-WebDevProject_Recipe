@@ -9,6 +9,7 @@ import com.revature.util.Page;
 import io.javalin.Javalin;
 import io.javalin.http.Context;
 import io.javalin.http.Handler;
+import jakarta.servlet.http.HttpSession;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -52,6 +53,7 @@ public class RecipeController {
 
 			Page<Recipe> recipePage = recipeService.searchRecipes(term, page, pageSize, sortBy, sortDirection);
 
+            
 			ctx.json(recipePage);
 
 		} else {
@@ -60,9 +62,12 @@ public class RecipeController {
             String recipeName = ctx.queryParam("name");
 
             List<Recipe> recipes = new ArrayList<>();
-            if(ingredient == null && recipeName == null) recipes = recipeService.searchRecipes("");
-            else if(ingredient == null && recipeName != null) recipes = recipeService.searchRecipes(recipeName);
-
+            if(ingredient == null && recipeName == null) {
+                recipes = recipeService.searchRecipes(null);
+            }
+            else if(ingredient == null && recipeName != null) {
+                recipes = recipeService.searchRecipes(recipeName);
+            }
             if(recipes.isEmpty()) {
                 ctx.status(404);
                 ctx.result("No recipes found");
@@ -116,25 +121,147 @@ public class RecipeController {
 
     /**
      * Handler for deleting a recipe by its ID.
-     * Responds with a 204 No Content status.
+     * Responds with a 200 status.
      */
+    // public Handler deleteRecipe = ctx -> {
+    //     int id = Integer.parseInt(ctx.pathParam("id"));
+    //     recipeService.deleteRecipe(id);
+    // };
+
+
+
+
+    // public Handler deleteRecipe = ctx -> {
+    //     try {
+    //         // Parse the recipe ID from the path parameter
+    //         int id = Integer.parseInt(ctx.pathParam("id"));
+            
+    //         // Attempt to delete the recipe
+    //         boolean deleted = recipeService.deleteRecipe(id);
+    
+    //         // Handle the result of the deletion
+    //         if (deleted) {
+    //             ctx.status(204).result("Recipe deleted successfully.");
+    //         } else {
+    //             ctx.status(404).result("Recipe not found.");
+    //         }
+    //     } catch (NumberFormatException e) {
+    //         // Handle invalid ID format
+    //         ctx.status(400).result("Invalid recipe ID format.");
+    //     } catch (Exception e) {
+    //         // Handle unexpected exceptions
+    //         ctx.status(500).result("An error occurred while deleting the recipe.");
+    //     }
+    // };
+    
+    
+
+
     public Handler deleteRecipe = ctx -> {
-        int id = Integer.parseInt(ctx.pathParam("id"));
-        recipeService.deleteRecipe(id);
+        try {
+            // Parse the recipe ID from the path parameter
+            int id = Integer.parseInt(ctx.pathParam("id"));
+            
+            // Attempt to delete the recipe
+            boolean deleted = recipeService.deleteRecipe(id);
+    
+            // Handle the result of the deletion
+            if (deleted) {
+                ctx.status(204).result("Recipe deleted successfully.");
+            } else {
+                ctx.status(404).result("Recipe not found.");
+            }
+        } catch (NumberFormatException e) {
+            // Handle invalid ID format
+            ctx.status(400).result("Invalid recipe ID format.");
+        } catch (Exception e) {
+            // Handle unexpected exceptions
+            ctx.status(500).result("An error occurred while deleting the recipe.");
+        }
     };
+    
+
+
+
+    
 
     /**
      * Handler for updating a recipe by its ID.
      * 
-     * Responds with a 204 No Content status if the update is successful.
+     * Responds with a 200 status code.
      */
+    // public Handler updateRecipe = ctx -> {
+    //     int id = Integer.parseInt(ctx.pathParam("id"));
+    //     Recipe recipe = ctx.bodyAsClass(Recipe.class);
+    //     recipe.setId(id);
+    //     recipeService.saveRecipe(recipe);
+    // };
+
+
+    // public Handler updateRecipe = ctx -> {
+    //     int id = Integer.parseInt(ctx.pathParam("id"));
+    //     Recipe recipe = ctx.bodyAsClass(Recipe.class);
+    //     recipe.setId(id);
+    
+    //     // Save the updated recipe
+    //     recipeService.saveRecipe(recipe);
+    
+    //     // Return the updated recipe as JSON
+    //     Optional<Recipe> updatedRecipe = recipeService.findRecipe(id);
+    //     if (updatedRecipe.isPresent()) {
+    //         ctx.json(updatedRecipe.get()); // Respond with the updated recipe
+    //         ctx.status(200);
+    //     } else {
+    //         ctx.status(404).result("Recipe not found"); // Handle cases where the recipe is not found
+    //     }
+    // };
+
+
+
+    // public Handler updateRecipe = ctx -> {
+    //     int id = Integer.parseInt(ctx.pathParam("id"));
+    //     Recipe recipe = ctx.bodyAsClass(Recipe.class);
+    
+    //     if (recipe.getInstructions() == null || recipe.getAuthor() == null) {
+    //         ctx.status(400).result("Invalid input: Missing required fields.");
+    //         return;
+    //     }
+    
+    //     recipe.setId(id);
+    //     recipeService.saveRecipe(recipe);
+    //     Optional<Recipe> updatedRecipe = recipeService.findRecipe(id);
+    
+    //     if (updatedRecipe.isPresent()) {
+    //         ctx.json(updatedRecipe.get());
+    //         ctx.status(200);
+    //     } else {
+    //         ctx.status(404).result("Recipe not found.");
+    //     }
+    // };
+   
+    
+
+
+
+
     public Handler updateRecipe = ctx -> {
         int id = Integer.parseInt(ctx.pathParam("id"));
         Recipe recipe = ctx.bodyAsClass(Recipe.class);
+    
+        Optional<Recipe> existingRecipe = recipeService.findRecipe(id);
+        if (!existingRecipe.isPresent()) {
+            ctx.status(404).result("Recipe not found.");
+            return;
+        }
+    
         recipe.setId(id);
         recipeService.saveRecipe(recipe);
+        ctx.status(200).json(recipe);
     };
 
+    
+
+    
     /**
      * A helper method to retrieve a query parameter from the context as a specific class type, or return a default value if the query parameter is not present.
      * 

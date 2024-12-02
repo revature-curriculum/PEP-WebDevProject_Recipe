@@ -16,6 +16,7 @@ import com.revature.service.ChefService;
 import com.revature.service.IngredientService;
 import com.revature.service.RecipeService;
 import com.revature.util.AdminMiddleware;
+import com.revature.util.ConnectionUtil;
 import com.revature.util.JavalinAppUtil;
 
 class JavalinConfigTest {
@@ -30,23 +31,21 @@ class JavalinConfigTest {
 	private IngredientDAO ingredientDao;
 	private IngredientService ingredientService;
 	private IngredientController ingredientController;
-	private AdminMiddleware adminMiddleware;
 
 	@BeforeEach
 	void setUpTestsData() throws SQLException {
 		
-		chefDao = new ChefDAO();
+		chefDao = new ChefDAO(new ConnectionUtil());
 		chefService = new ChefService(chefDao);
 		authService = new AuthenticationService(chefService);
 		authController = new AuthenticationController(chefService, authService);
 
-		ingredientDao = new IngredientDAO();
+		ingredientDao = new IngredientDAO(new ConnectionUtil());
 		ingredientService = new IngredientService(ingredientDao);
 		ingredientController = new IngredientController(ingredientService);
-		adminMiddleware = new AdminMiddleware(chefService, null);
 		
 		
-		recipeDao = new RecipeDAO(chefDao, ingredientDao);
+		recipeDao = new RecipeDAO(chefDao, ingredientDao, new ConnectionUtil());
 		recipeService = new RecipeService(recipeDao);
 		recipeController = new RecipeController(recipeService, authService);
 	}
@@ -55,7 +54,7 @@ class JavalinConfigTest {
 	@Test
 	void test() {
 		
-		new JavalinAppUtil(recipeController, authController, ingredientController, adminMiddleware).getApp().start();
+		new JavalinAppUtil(recipeController, authController, ingredientController).getApp().start();
 		
 	}
 

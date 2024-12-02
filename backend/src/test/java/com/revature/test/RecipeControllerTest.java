@@ -39,7 +39,7 @@ public class RecipeControllerTest {
         RecipeService recipeService = mock(RecipeService.class);
         AuthenticationService authService = mock(AuthenticationService.class);
         List<Recipe> allRecipes = Arrays.asList(new Recipe("Apple Pie"), new Recipe("Grilled Cheese"), new Recipe("Steak"));
-        when(recipeService.searchRecipes("")).thenReturn(allRecipes);
+        when(recipeService.searchRecipes(null)).thenReturn(allRecipes);
 
         Context ctx = mock(Context.class);
         when(ctx.queryParam("name")).thenReturn(null);

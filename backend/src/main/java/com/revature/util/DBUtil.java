@@ -2,6 +2,7 @@ package com.revature.util;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.Scanner;
@@ -16,13 +17,14 @@ public class DBUtil {
 	
 	/** A mutable text object that will contain the contents of a file once initialized. */
 	private static StringBuilder sqlScript = new StringBuilder();
+	private static InputStream inputStream =  DBUtil.class.getResourceAsStream("/sqlScript.sql");
+	
 
 	/**
 	 * static initialization block to initialize the `sqlScript` field with the content within the `sqlScript.sql` file. Any lines starting with comment syntax are ignored.
 	 */
 	static {
-		try {
-			Scanner sc = new Scanner(new FileInputStream("./src/main/resources/sqlScript.sql"));
+			Scanner sc = new Scanner(inputStream);
 			while (sc.hasNextLine()) {
 				String nextLine = sc.nextLine();
 				if (!nextLine.startsWith("--")) {
@@ -30,9 +32,6 @@ public class DBUtil {
 				}
 			}
 			sc.close();
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		}
 	}
 
 	/**

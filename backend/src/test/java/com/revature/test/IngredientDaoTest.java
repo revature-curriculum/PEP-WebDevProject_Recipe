@@ -10,6 +10,7 @@ import org.junit.jupiter.api.Test;
 
 import com.revature.model.Ingredient;
 import com.revature.dao.IngredientDAO;
+import com.revature.util.ConnectionUtil;
 import com.revature.util.DBUtil;
 import com.revature.util.Page;
 import com.revature.util.PageOptions;
@@ -26,7 +27,7 @@ public class IngredientDaoTest {
     void setupTestsData() throws SQLException {
         DBUtil.RUN_SQL(); // Create table
         ingredientList.clear();
-        ingredientDao = new IngredientDAO();
+        ingredientDao = new IngredientDAO(new ConnectionUtil());
         ingredientList.addAll(Arrays.asList(
                 new Ingredient(1, "carrot"),
                 new Ingredient(2, "potato"),

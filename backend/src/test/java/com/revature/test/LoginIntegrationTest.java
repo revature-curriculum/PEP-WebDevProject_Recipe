@@ -59,18 +59,18 @@ class LoginIntegrationTest {
 	@BeforeEach
 	void setUpTestsData() throws SQLException {
 		DBUtil.RUN_SQL();
-		chefDAO = new ChefDAO();
-		ingredientDAO = new IngredientDAO();
-		recipeDAO = new RecipeDAO(chefDAO, ingredientDAO);
+		chefDAO = new ChefDAO(new ConnectionUtil());
+		ingredientDAO = new IngredientDAO(new ConnectionUtil());
+		recipeDAO = new RecipeDAO(chefDAO, ingredientDAO, new ConnectionUtil());
 		recipeService = new RecipeService(recipeDAO);
 		ingredientService = new IngredientService(ingredientDAO);
 		chefService = new ChefService(chefDAO);
-		adminMiddleware = new AdminMiddleware(chefService, null);
+		adminMiddleware = new AdminMiddleware(null);
 		authService = new AuthenticationService(chefService);
 		authController = new AuthenticationController(chefService, authService);
 		recipeController = new RecipeController(recipeService, authService);
 		ingredientController = new IngredientController(ingredientService);
-		appUtil = new JavalinAppUtil(recipeController, authController, ingredientController, adminMiddleware);
+		appUtil = new JavalinAppUtil(recipeController, authController, ingredientController);
 		app = appUtil.getApp();
 		app.start(PORT);
 		client = new OkHttpClient();

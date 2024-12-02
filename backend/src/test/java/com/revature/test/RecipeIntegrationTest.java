@@ -26,6 +26,7 @@ import com.revature.service.ChefService;
 import com.revature.service.IngredientService;
 import com.revature.service.RecipeService;
 import com.revature.util.AdminMiddleware;
+import com.revature.util.ConnectionUtil;
 import com.revature.util.DBUtil;
 import com.revature.util.JavalinAppUtil;
 import com.revature.util.Page;
@@ -57,18 +58,12 @@ class RecipeIntegrationTest {
 	private IngredientController ingredientController;
 	private AuthenticationService authService;
 	private AuthenticationController authController;
-	private AdminMiddleware adminMiddleware;
 	private String token;
 	private Javalin app;
 	private OkHttpClient client;
 
-	@BeforeAll
-	static void setUpDB() {
-	}
-
 	@BeforeEach
 	void setUpTestsData() throws SQLException, IOException {
-		
 		DBUtil.RUN_SQL();
 		recipeList.clear();
 		chefList.addAll(Arrays.asList(
@@ -86,24 +81,23 @@ class RecipeIntegrationTest {
 
 		jsonRecipeList = new JavalinJackson().toJsonString(recipeList.toArray(), Recipe[].class);
 
-		chefDao = new ChefDAO();
-		recipeDao = new RecipeDAO(chefDao, ingredientDao);
+		chefDao = new ChefDAO(new ConnectionUtil());
+		recipeDao = new RecipeDAO(chefDao, ingredientDao, new ConnectionUtil());
 		recipeService = new RecipeService(recipeDao);
 		chefService = new ChefService(chefDao);
 		authService = new AuthenticationService(chefService);
 		recipeController = new RecipeController(recipeService, authService);
 		authController = new AuthenticationController(chefService, authService);
-		ingredientDao = new IngredientDAO();
+		ingredientDao = new IngredientDAO(new ConnectionUtil());
 		ingredientService = new IngredientService(ingredientDao);
 		ingredientController = new IngredientController(ingredientService);
-		adminMiddleware = new AdminMiddleware(chefService);
-		appUtil = new JavalinAppUtil(recipeController, authController, ingredientController, adminMiddleware);
+		appUtil = new JavalinAppUtil(recipeController, authController, ingredientController);
 		app = appUtil.getApp();
 		app.start(PORT);
 		client = new OkHttpClient();
 		Chef chef = new Chef();
-		chef.setUsername(chefList.get(0).getUsername());
-		chef.setPassword(chefList.get(0).getPassword());
+		chef.setUsername(chefList.get(3).getUsername());
+		chef.setPassword(chefList.get(3).getPassword());
 		RequestBody chefBody = RequestBody.create(
 				"{\"username\":\"" + chef.getUsername() + "\",\"password\":\"" + chef.getPassword() + "\"}",
 				MediaType.get("application/json; charset=utf-8"));
@@ -115,9 +109,7 @@ class RecipeIntegrationTest {
 
 	@AfterEach
 	void tearDownTestsData() {
-
 		app.close();
-
 	}
 
 	@Test
@@ -142,7 +134,7 @@ class RecipeIntegrationTest {
 	@Test
 	void testPostRecipe() throws Exception {
 
-		Recipe newRecipe = new Recipe(6, "fried fish", "fish, oil, stove", chefList.get(0));
+		Recipe newRecipe = new Recipe(6, "fried fish", "fish, oil, stove", chefList.get(3));
 		RequestBody recipeBody = RequestBody.create(new JavalinJackson().toJsonString(newRecipe, Recipe.class),
 				MediaType.get("application/json; charset=utf-8"));
 		Request recipeRequest = new Request.Builder().url(BASE_URL + "/recipes").addHeader("Authorization", "Bearer " + token)
@@ -173,7 +165,7 @@ class RecipeIntegrationTest {
 	@Test
 	void testDeleteRecipe() throws IOException {
 
-		Request request = new Request.Builder().url(BASE_URL + "/recipes/2").addHeader("Authorization", token).delete()
+		Request request = new Request.Builder().url(BASE_URL + "/recipes/2").addHeader("Authorization", "Bearer" + token).delete()
 				.build();
 		Response response = client.newCall(request).execute();
 		assertEquals(200, response.code(), () -> "Recipe should delete successfully");

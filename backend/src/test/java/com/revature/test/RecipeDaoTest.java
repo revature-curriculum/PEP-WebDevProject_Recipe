@@ -22,6 +22,7 @@ import org.mockito.MockitoAnnotations;
 import com.revature.model.Chef;
 import com.revature.model.Recipe;
 import com.revature.dao.ChefDAO;
+import com.revature.dao.IngredientDAO;
 import com.revature.dao.RecipeDAO;
 import com.revature.util.ConnectionUtil;
 import com.revature.util.Page;
@@ -45,7 +46,7 @@ class RecipeDaoTest {
     private ChefDAO chefDao;
 
     @InjectMocks
-    private RecipeDAO recipeDao = new RecipeDAO(chefDao, null);
+    private RecipeDAO recipeDao = new RecipeDAO(chefDao, null, null);
 
     private List<Recipe> recipeList;
     private List<Chef> chefList;
@@ -154,10 +155,9 @@ class RecipeDaoTest {
         recipeDao.updateRecipe(recipeToUpdate);
 
         // Assert
-        verify(preparedStatement).setString(1, recipeToUpdate.getName());
-        verify(preparedStatement).setString(2, recipeToUpdate.getInstructions());
-        verify(preparedStatement).setInt(3, recipeToUpdate.getAuthor().getId());
-        verify(preparedStatement).setInt(4, recipeToUpdate.getId());
+        verify(preparedStatement).setString(1, recipeToUpdate.getInstructions());
+        verify(preparedStatement).setInt(2, recipeToUpdate.getAuthor().getId());
+        verify(preparedStatement).setInt(3, recipeToUpdate.getId());
     }
 
     @Test

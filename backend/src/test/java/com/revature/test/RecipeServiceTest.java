@@ -16,6 +16,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
 
+import com.revature.model.Ingredient;
 import com.revature.model.Recipe;
 import com.revature.dao.RecipeDAO;
 import com.revature.service.RecipeService;
@@ -70,6 +71,8 @@ public class RecipeServiceTest {
     void updateRecipe() {
         Recipe existingRecipe = new Recipe(42, "Existing Recipe", "Existing Recipe Instructions", null);
         ArgumentCaptor<Recipe> recipeCaptor = ArgumentCaptor.forClass(Recipe.class);
+        doNothing().when(recipeDao).updateRecipe(any(Recipe.class));
+        when(recipeDao.getRecipeById(anyInt())).thenReturn(existingRecipe);
         recipeService.saveRecipe(existingRecipe);
         verify(recipeDao).updateRecipe(recipeCaptor.capture());
         Recipe captureRecipe = recipeCaptor.getValue();
