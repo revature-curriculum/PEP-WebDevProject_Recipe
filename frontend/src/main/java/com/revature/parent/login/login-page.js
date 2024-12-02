@@ -47,7 +47,7 @@ async function processLogin() {
             // Add a small delay for the test to capture the token before redirection
             setTimeout(() => {
                 // Redirect to the recipe page
-            window.location.href = "/frontend/src/main/java/com/revature/parent/recipe/recipe-page.html";
+            window.location.href = "../recipe/recipe-page.html";
             }, 500);  // 500ms delay
         } else if (response.status === 401) {
             alert("Incorrect login!");
@@ -59,3 +59,4 @@ async function processLogin() {
         alert("An error occurred. Please try again.");
     }
 }
+
