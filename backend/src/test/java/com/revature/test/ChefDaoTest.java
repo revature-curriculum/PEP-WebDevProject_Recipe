@@ -45,7 +45,7 @@ public class ChefDaoTest {
     private ResultSet resultSet;
 
     @InjectMocks
-    private ChefDAO chefDAO = new ChefDAO();
+    private ChefDAO chefDAO = new ChefDAO(new ConnectionUtil());
 
     private Chef testChef;
 
