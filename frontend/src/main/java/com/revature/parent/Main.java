@@ -18,11 +18,7 @@ import com.revature.util.DBUtil;
 import io.javalin.Javalin;
 
 /**
- * The Main class serves as the entry point for the application.
- * It initializes and manages various components related to recipes, chefs, 
- * ingredients, and authentication services. This class contains static 
- * references to the utility classes and controllers required for the 
- * application to function correctly.
+ * This class is for testing purposes only! This class allows us to start and stop the backend during integration testing.
  */
 
 public class Main {

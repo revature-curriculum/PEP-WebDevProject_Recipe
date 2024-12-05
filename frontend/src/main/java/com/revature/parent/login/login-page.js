@@ -5,11 +5,13 @@
 
 // Get references to DOM elements
 const loginButton = document.getElementById("login-button");
+const logoutButton = document.getElementById("logout-button");
 const usernameInput = document.getElementById("login-input");
 const passwordInput = document.getElementById("password-input");
 
 // Add click event listener to the login button
 loginButton.onclick = processLogin;
+logoutButton.onclick = processLogout;
 
 /**
  * Handles the login process for the user by:
@@ -56,6 +58,35 @@ async function processLogin() {
         }
     } catch (error) {
         console.error("Error during login process:", error);
+        alert("An error occurred. Please try again.");
+    }
+}
+
+/**
+ * Handles the login process for the user by:
+ * - Retrieving user credentials
+ * - Sending a login request to the server
+ * - Processing the response based on the status code
+ */
+async function processLogout() {
+
+    try {
+        const response = await fetch(`http://localhost:8081/logout`, {
+            method: 'POST',
+            headers: { 
+                'Content-Type': 'application/json',
+                'Authorization': "Bearer " + sessionStorage.getItem("auth-token")
+             }
+            });
+        
+        if (response.status === 200) {
+            // remove the token in sessionStorage
+            sessionStorage.removeItem("auth-token");
+        } else {
+            alert("Failed to log out!");
+        }
+    } catch (error) {
+        console.error("Error during logout process:", error);
         alert("An error occurred. Please try again.");
     }
 }

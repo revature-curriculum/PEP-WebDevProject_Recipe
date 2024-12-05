@@ -41,28 +41,15 @@ public class RecipeService {
     }
 
     /**
-     * Saves a Recipe object to the data store. If the id is 0, create a new Recipe and set the `recipe` id field to the updated id.
+     * Saves a Recipe object to the data store. If the id is 0, create a new Recipe.
      * 
      * Otherwise, updates the recipe's instructions and chef id.
      *
      * @param recipe the Recipe object to be saved
      */
-    // public void saveRecipe(Recipe recipe) {
-    //     if (recipe.getId() == 0) {
-    //         int id = recipeDAO.createRecipe(recipe);
-    //         recipe.setId(id);
-    //     } else {
-    //         Recipe savedRecipe = recipeDAO.getRecipeById(recipe.getId());
-    //         savedRecipe.setInstructions(recipe.getInstructions());
-    //         recipeDAO.updateRecipe(savedRecipe);
-    //     }
-    // }
-
-
     public void saveRecipe(Recipe recipe) {
         if (recipe.getId() == 0) {
-            int id = recipeDAO.createRecipe(recipe);
-            recipe.setId(id);
+            recipeDAO.createRecipe(recipe);
         } else {
             Recipe savedRecipe = recipeDAO.getRecipeById(recipe.getId());
             if (savedRecipe == null) {
