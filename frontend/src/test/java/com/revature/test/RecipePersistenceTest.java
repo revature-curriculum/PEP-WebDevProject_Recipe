@@ -27,7 +27,6 @@ public class RecipePersistenceTest {
     public static void setUp() {
         // Start the backend programmatically
         app = Main.main(new String[0]);
-        //app.start(8081);
 
         System.setProperty("webdriver.chrome.driver", "driver/chromedriver");
 
@@ -35,7 +34,6 @@ public class RecipePersistenceTest {
         options.addArguments("--headless");
         driver = new ChromeDriver(options);
 
-        
         wait = new WebDriverWait(driver, Duration.ofSeconds(30));
 
         // Load the HTML file for the recipe page
@@ -65,151 +63,7 @@ public class RecipePersistenceTest {
             System.out.println("No unexpected alerts.");
         }
     }
-
-    
-    //     @Test
-    //     public void addRecipePostTest() {
-        
-    // // Testing
-    
-    // File loginFile = new File("src/main/java/com/revature/parent/login/login-page.html");
-    // String loginPath = "file://" + loginFile.getAbsolutePath();
-    // driver.get(loginPath);
-    
-    // WebElement usernameInput = driver.findElement(By.id("login-input"));
-    // WebElement passwordInput = driver.findElement(By.id("password-input"));
-    // WebElement loginButton = driver.findElement(By.id("login-button"));
-    
-    // usernameInput.sendKeys("ChefTrevin"); 
-    // passwordInput.sendKeys("trevature");
-    // loginButton.click();
-    
-    // File recipeFile = new File("src/main/java/com/revature/parent/recipe/recipe-page.html");
-    // String recipePath = "file://" + recipeFile.getAbsolutePath();
-    // wait.until(ExpectedConditions.urlContains(recipePath));
-    
-    //         WebElement nameInput = driver.findElement(By.id("add-recipe-name-input"));
-    //         WebElement instructionsInput = driver.findElement(By.id("add-recipe-instructions-input"));
-    //         WebElement addButton = driver.findElement(By.id("add-recipe-submit-input"));
-    
-    //         nameInput.sendKeys("Beef Stroganoff");
-    //         instructionsInput.sendKeys("Mix beef with sauce and serve over pasta");
-//         addButton.click();
-
-//         wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("recipe-list")));
-//         WebElement recipeList = driver.findElement(By.id("recipe-list"));
-//         String innerHTML = recipeList.getAttribute("innerHTML");
-
-//         assertTrue("Expected recipe to be added.", innerHTML.contains("Beef Stroganoff"));
-//     }
-
-
-
-private void performLogin() {
-    File loginFile = new File("src/main/java/com/revature/parent/login/login-page.html");
-    String loginPath = "file:///" + loginFile.getAbsolutePath().replace("\\", "/");
-    driver.get(loginPath);
-
-    WebElement usernameInput = driver.findElement(By.id("login-input"));
-    WebElement passwordInput = driver.findElement(By.id("password-input"));
-    WebElement loginButton = driver.findElement(By.id("login-button"));
-
-    usernameInput.sendKeys("ChefTrevin");
-    passwordInput.sendKeys("trevature");
-    loginButton.click();
-
-    wait.until(ExpectedConditions.urlContains("recipe-page")); // Wait for navigation to the recipe page
-}
-
-
-@Test
-public void addRecipePostTest() {
-    
-    // Load the login page
-    // File loginFile = new File("src/main/java/com/revature/parent/login/login-page.html");
-    // String loginPath = "file:///" + loginFile.getAbsolutePath().replace("\\", "/"); // Ensures URL format consistency
-    // driver.get(loginPath);
-    
-    // // Perform login
-    // WebElement usernameInput = driver.findElement(By.id("login-input"));
-    // WebElement passwordInput = driver.findElement(By.id("password-input"));
-    // WebElement loginButton = driver.findElement(By.id("login-button"));
-    
-    // usernameInput.sendKeys("ChefTrevin"); 
-    // passwordInput.sendKeys("trevature");
-    // loginButton.click();
-
-    performLogin();
-    
-    // Load the recipe page
-    File recipeFile = new File("src/main/java/com/revature/parent/recipe/recipe-page.html");
-    String recipePath = "file:///" + recipeFile.getAbsolutePath().replace("\\", "/"); // Ensures URL format consistency
-    
-    // Debug the current URL to identify mismatches
-    System.out.println("Expected Recipe Page Path: " + recipePath);
-    System.out.println("Current URL before waiting: " + driver.getCurrentUrl());
-    
-    // Wait for the recipe page to load
-    wait.until(ExpectedConditions.urlContains("recipe-page.html")); // Matching by partial identifier for flexibility
-    
-    // Debug the current URL after the wait
-    System.out.println("Current URL after waiting: " + driver.getCurrentUrl());
-
-    // Add a recipe
-    WebElement nameInput = driver.findElement(By.id("add-recipe-name-input"));
-    WebElement instructionsInput = driver.findElement(By.id("add-recipe-instructions-input"));
-    WebElement addButton = driver.findElement(By.id("add-recipe-submit-input"));
-    
-    nameInput.sendKeys("Beef Stroganoff");
-    instructionsInput.sendKeys("Mix beef with sauce and serve over pasta");
-    addButton.click();
-    
-    // Wait for the recipe list to update
-    wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("recipe-list")));
-    WebElement recipeList = driver.findElement(By.id("recipe-list"));
-    String innerHTML = recipeList.getAttribute("innerHTML");
-    
-    // Assert the result
-    assertTrue("Expected recipe to be added.", innerHTML.contains("Beef Stroganoff"));
-}
-
-@Test
-public void displayRecipesOnInitTest() {
-
-    // addRecipePostTest();
-
-    performLogin();
-
-    handleUnexpectedAlerts(driver);
-
-    driver.navigate().refresh(); // Trigger backend API call
-
-    wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("recipe-list")));
-    WebElement recipeList = driver.findElement(By.id("recipe-list"));
-    String innerHTML = recipeList.getAttribute("innerHTML");
-
-    System.out.println("Actual innerHTML: " + innerHTML);
-
-    assertTrue("Expected recipes to be displayed.", innerHTML.contains("Beef Stroganoff"));
-    //assertTrue("Expected recipes to be displayed.", innerHTML.contains("Shashlik"));
-}
-    // @Test
-    // public void updateRecipePutTest() {
-    //     WebElement nameInput = driver.findElement(By.id("update-recipe-name-input"));
-    //     WebElement instructionsInput = driver.findElement(By.id("update-recipe-instructions-input"));
-    //     WebElement updateButton = driver.findElement(By.id("update-recipe-submit-input"));
-
-    //     nameInput.sendKeys("Beef Stroganoff");
-    //     instructionsInput.sendKeys("Updated instructions for beef stroganoff");
-    //     updateButton.click();
-
-    //     wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("recipe-list")));
-    //     WebElement recipeList = driver.findElement(By.id("recipe-list"));
-    //     String innerHTML = recipeList.getAttribute("innerHTML");
-
-    //     assertTrue("Expected recipe to be updated.", innerHTML.contains("Updated instructions for beef stroganoff"));
-    // }
-
+  
     private void handleUnexpectedAlerts() {
         try {
             Alert alert = wait.until(ExpectedConditions.alertIsPresent());
@@ -219,84 +73,140 @@ public void displayRecipesOnInitTest() {
             System.out.println("No unexpected alerts.");
         }
     }
-    
+
+    private void performLogin() {
+        // go to relevant HTML page
+        File loginFile = new File("src/main/java/com/revature/parent/login/login-page.html");
+        String loginPath = "file:///" + loginFile.getAbsolutePath().replace("\\", "/");
+        driver.get(loginPath);
+
+        // perform login functionality
+        WebElement usernameInput = driver.findElement(By.id("login-input"));
+        WebElement passwordInput = driver.findElement(By.id("password-input"));
+        WebElement loginButton = driver.findElement(By.id("login-button"));
+        usernameInput.sendKeys("ChefTrevin");
+        passwordInput.sendKeys("trevature");
+        loginButton.click();
+
+        // ensure we navigate to appropriate webpage
+        wait.until(ExpectedConditions.urlContains("recipe-page")); // Wait for navigation to the recipe page
+    }
+
+    private void performLogout() {
+        // go to relevant HTML page
+        File loginFile = new File("src/main/java/com/revature/parent/login/login-page.html");
+        String loginPath = "file:///" + loginFile.getAbsolutePath().replace("\\", "/");
+        driver.get(loginPath);
+
+        // perform logout functionality
+        WebElement logoutButton = driver.findElement(By.id("logout-button"));
+        logoutButton.click();
+    }
 
     @Test
-public void updateRecipePutTest() {
-    WebElement nameInput = driver.findElement(By.id("update-recipe-name-input"));
-    WebElement instructionsInput = driver.findElement(By.id("update-recipe-instructions-input"));
-    WebElement updateButton = driver.findElement(By.id("update-recipe-submit-input"));
+    public void addRecipePostTest() {
+        // log in as user
+        performLogin();
 
-    nameInput.sendKeys("Beef Stroganoff");
-    instructionsInput.sendKeys("Updated instructions for beef stroganoff");
-    updateButton.click();
-    handleUnexpectedAlerts();
+        // Add a recipe
+        WebElement nameInput = driver.findElement(By.id("add-recipe-name-input"));
+        WebElement instructionsInput = driver.findElement(By.id("add-recipe-instructions-input"));
+        WebElement addButton = driver.findElement(By.id("add-recipe-submit-input"));
+        nameInput.sendKeys("Beef Stroganoff");
+        instructionsInput.sendKeys("Mix beef with sauce and serve over pasta");
+        addButton.click();
 
-  
-    wait.until(ExpectedConditions.textToBePresentInElementLocated(
-            By.id("recipe-list"),
-            "Updated instructions for beef stroganoff"
-    ));
+        // Wait for the recipe list to update
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("recipe-list")));
+        WebElement recipeList = driver.findElement(By.id("recipe-list"));
+        String innerHTML = recipeList.getAttribute("innerHTML");
 
-    WebElement recipeList = driver.findElement(By.id("recipe-list"));
-    String innerHTML = recipeList.getAttribute("innerHTML");
+        // Assert the result
+        assertTrue("Expected recipe to be added.", innerHTML.contains("Beef Stroganoff"));
 
-    assertTrue("Expected recipe to be updated.", innerHTML.contains("Updated instructions for beef stroganoff"));
-}
+        // log out user
+        performLogout();
+    }
 
+    @Test
+    public void displayRecipesOnInitTest() throws InterruptedException {
 
-    // @Test
-    // public void deleteRecipeDeleteTest() {
+        // log in as user
+        performLogin();
 
-    //     WebElement nameInput = driver.findElement(By.id("add-recipe-name-input"));
-    //     WebElement instructionsInput = driver.findElement(By.id("add-recipe-instructions-input"));
-    //     WebElement addButton = driver.findElement(By.id("add-recipe-submit-input"));
+        // check for any issues
+        handleUnexpectedAlerts(driver);
+
+        // refresh the page to trigger backend API call
+        driver.navigate().refresh();
+
+        // gather recipe list information
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("recipe-list")));
+        WebElement recipeList = driver.findElement(By.id("recipe-list"));
+        String innerHTML = recipeList.getAttribute("innerHTML");
+
+        // make assertions: recipe list should contain expected recipes
+        assertTrue("Expected recipes to be displayed.", innerHTML.contains("carrot soup"));
+        assertTrue("Expected recipes to be displayed.", innerHTML.contains("potato soup"));
+        assertTrue("Expected recipes to be displayed.", innerHTML.contains("tomato soup"));
+        assertTrue("Expected recipes to be displayed.", innerHTML.contains("lemon rice soup"));
+        assertTrue("Expected recipes to be displayed.", innerHTML.contains("stone soup"));
+        
+        // log out user
+        performLogout();
     
-    //     nameInput.sendKeys("Beef Stroganoff");
-    //     instructionsInput.sendKeys("Mix beef with sauce and serve over pasta");
-    //     addButton.click();
-    
-    //     // Wait for the recipe to appear
-    //     wait.until(ExpectedConditions.textToBePresentInElementLocated(By.id("recipe-list"), "Beef Stroganoff"));
-
-    //     WebElement deleteNameInput = driver.findElement(By.id("delete-recipe-name-input"));
-    //     WebElement deleteButton = driver.findElement(By.id("delete-recipe-submit-input"));
-
-    //     deleteNameInput.sendKeys("Beef Stroganoff");
-    //     deleteButton.click();
-
-    //     wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("recipe-list")));
-    //     WebElement recipeList = driver.findElement(By.id("recipe-list"));
-    //     String innerHTML = recipeList.getAttribute("innerHTML");
-
-    //     assertTrue("Expected recipe to be deleted.", !innerHTML.contains("Beef Stroganoff"));
-    // }
-
-
-
-
-
-    
+    }
 
 
     @Test
-public void deleteRecipeDeleteTest() {
+    public void updateRecipePutTest() {
+        // log in as user
+        performLogin();
 
-    performLogin();
-    addRecipePostTest();
+        // perform update
+        WebElement nameInput = driver.findElement(By.id("update-recipe-name-input"));
+        WebElement instructionsInput = driver.findElement(By.id("update-recipe-instructions-input"));
+        WebElement updateButton = driver.findElement(By.id("update-recipe-submit-input"));
+        nameInput.sendKeys("carrot soup");
+        instructionsInput.sendKeys("Updated instructions for carrot soup");
+        updateButton.click();
+        handleUnexpectedAlerts();
 
-    // Proceed with deletion
-    WebElement nameInput = driver.findElement(By.id("delete-recipe-name-input"));
-    WebElement deleteButton = driver.findElement(By.id("delete-recipe-submit-input"));
+        // gather recipe list information
+        wait.until(ExpectedConditions.textToBePresentInElementLocated(
+                By.id("recipe-list"),
+                "Updated instructions for carrot soup"));
+        WebElement recipeList = driver.findElement(By.id("recipe-list"));
+        String innerHTML = recipeList.getAttribute("innerHTML");
 
-    nameInput.sendKeys("Beef Stroganoff");
-    deleteButton.click();
+        // make assertion: recipe should be updated
+        assertTrue("Expected recipe to be updated.", innerHTML.contains("Updated instructions for carrot soup"));
+    
+        // log out user
+        performLogout();
+    }
 
-    wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("recipe-list")));
-    WebElement recipeList = driver.findElement(By.id("recipe-list"));
-    String innerHTML = recipeList.getAttribute("innerHTML");
+    @Test
+    public void deleteRecipeDeleteTest() throws InterruptedException {
+        // log in as user
+        performLogin();
 
-    assertTrue("Expected recipe to be deleted.", !innerHTML.contains("Beef Stroganoff"));
-}
+        // Proceed with deletion
+        WebElement nameInput = driver.findElement(By.id("delete-recipe-name-input"));
+        WebElement deleteButton = driver.findElement(By.id("delete-recipe-submit-input"));
+        nameInput.sendKeys("stone soup");
+        deleteButton.click();
+
+        // check recipe list
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("recipe-list")));
+        WebElement recipeList = driver.findElement(By.id("recipe-list"));
+        String innerHTML = recipeList.getAttribute("innerHTML");
+
+        // make assertion: deleted recipe should not be in list
+        assertTrue("Expected recipe to be deleted.", !innerHTML.contains("stone soup"));
+    
+        // log out user
+        performLogout();
+    }
 
 }
