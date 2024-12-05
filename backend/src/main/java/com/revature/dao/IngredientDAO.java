@@ -20,15 +20,19 @@ import com.revature.util.PageOptions;
  */
 public class IngredientDAO {
 
-    /** Utility for obtaining database connections. */
-    private ConnectionUtil connectionUtil;
+   /** A utility class used for establishing connections to the database. */
+   @SuppressWarnings("unused")
+   private ConnectionUtil connectionUtil;
 
-    /**
-     * Constructs an IngredientDAO instance and initializes the ConnectionUtil.
-     */
-    public IngredientDAO() {
-        this.connectionUtil = new ConnectionUtil();
-    }
+   /**
+    * Constructs an IngredientDAO with the specified ConnectionUtil for database connectivity.
+    * 
+    * @param connectionUtil the utility used to connect to the database
+    */
+   public IngredientDAO(ConnectionUtil connectionUtil) {
+       this.connectionUtil = connectionUtil;
+   }
+
 
     /**
      * Retrieves an Ingredient record by its unique identifier.

@@ -41,21 +41,27 @@ public class RecipeService {
     }
 
     /**
-     * Saves a Recipe object to the data store. If the id is 0, create a new Recipe and set the `recipe` id field to the updated id.
+     * Saves a Recipe object to the data store. If the id is 0, create a new Recipe.
      * 
-     * Otherwise, updates the recipe.
+     * Otherwise, updates the recipe's instructions and chef id.
      *
      * @param recipe the Recipe object to be saved
      */
     public void saveRecipe(Recipe recipe) {
         if (recipe.getId() == 0) {
-            int id = recipeDAO.createRecipe(recipe);
-            recipe.setId(id);
+            recipeDAO.createRecipe(recipe);
         } else {
-            recipeDAO.updateRecipe(recipe);
+            Recipe savedRecipe = recipeDAO.getRecipeById(recipe.getId());
+            if (savedRecipe == null) {
+                throw new IllegalArgumentException("Recipe with ID " + recipe.getId() + " not found.");
+            }
+            if (recipe.getInstructions() != null) {
+                savedRecipe.setInstructions(recipe.getInstructions());
+            }
+            recipeDAO.updateRecipe(savedRecipe);
         }
     }
-
+    
     /**
      * Searches for recipes with pagination and sorting options.
      *
@@ -82,6 +88,7 @@ public class RecipeService {
      * @return a list of Recipe objects that match the search term
      */
     public List<Recipe> searchRecipes(String term) {
+        
         if (term == null) {
             return recipeDAO.getAllRecipes();
         } else {
@@ -94,10 +101,13 @@ public class RecipeService {
      *
      * @param id the unique identifier of the recipe to be deleted
      */
-    public void deleteRecipe(int id) {
+    public boolean deleteRecipe(int id) {
         Recipe recipe = recipeDAO.getRecipeById(id);
         if (recipe != null) {
             recipeDAO.deleteRecipe(recipe);
+            return true; // Deletion successful
         }
+        return false; // Recipe not found
     }
+    
 }

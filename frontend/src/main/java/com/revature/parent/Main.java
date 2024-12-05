@@ -1,4 +1,4 @@
-package com.revature;
+package com.revature.parent;
 
 import com.revature.controller.AuthenticationController;
 import com.revature.controller.IngredientController;
@@ -18,11 +18,7 @@ import com.revature.util.DBUtil;
 import io.javalin.Javalin;
 
 /**
- * The Main class serves as the entry point for the application.
- * It initializes and manages various components related to recipes, chefs, 
- * ingredients, and authentication services. This class contains static 
- * references to the utility classes and controllers required for the 
- * application to function correctly.
+ * This class is for testing purposes only! This class allows us to start and stop the backend during integration testing.
  */
 
 public class Main {
@@ -85,7 +81,9 @@ public class Main {
      *
      * @param args Command line arguments passed during application startup.
      */
-    public static void main(String[] args) {
+    public static Javalin main(String[] args) {
+
+    System.out.println("Parent Directory! (Frontend)");
 
     INGREDIENT_DAO = new IngredientDAO(CONNECTION_UTIL);
 		
@@ -114,6 +112,7 @@ public class Main {
 		Javalin app = JAVALIN_APP_UTIL.getApp();
 		
 		app.start(8081);
+        return app;
     }
 }
 
