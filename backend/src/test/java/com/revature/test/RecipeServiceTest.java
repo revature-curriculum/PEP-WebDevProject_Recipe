@@ -70,6 +70,8 @@ public class RecipeServiceTest {
     void updateRecipe() {
         Recipe existingRecipe = new Recipe(42, "Existing Recipe", "Existing Recipe Instructions", null);
         ArgumentCaptor<Recipe> recipeCaptor = ArgumentCaptor.forClass(Recipe.class);
+        doNothing().when(recipeDao).updateRecipe(any(Recipe.class));
+        when(recipeDao.getRecipeById(anyInt())).thenReturn(existingRecipe);
         recipeService.saveRecipe(existingRecipe);
         verify(recipeDao).updateRecipe(recipeCaptor.capture());
         Recipe captureRecipe = recipeCaptor.getValue();

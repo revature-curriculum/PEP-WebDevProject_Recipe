@@ -26,7 +26,7 @@ public class IngredientIntegrationTest {
     void setUp() throws SQLException {
         DBUtil.RUN_SQL();
         app = Javalin.create();
-        ingredientDao = new IngredientDAO();
+        ingredientDao = new IngredientDAO(new ConnectionUtil());
         ingredientService = new IngredientService(ingredientDao);
         ingredientController = new IngredientController(ingredientService);
         ingredientController.configureRoutes(app);

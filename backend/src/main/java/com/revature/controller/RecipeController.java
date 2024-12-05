@@ -52,6 +52,7 @@ public class RecipeController {
 
 			Page<Recipe> recipePage = recipeService.searchRecipes(term, page, pageSize, sortBy, sortDirection);
 
+            
 			ctx.json(recipePage);
 
 		} else {
@@ -60,9 +61,12 @@ public class RecipeController {
             String recipeName = ctx.queryParam("name");
 
             List<Recipe> recipes = new ArrayList<>();
-            if(ingredient == null && recipeName == null) recipes = recipeService.searchRecipes("");
-            else if(ingredient == null && recipeName != null) recipes = recipeService.searchRecipes(recipeName);
-
+            if(ingredient == null && recipeName == null) {
+                recipes = recipeService.searchRecipes(null);
+            }
+            else if(ingredient == null && recipeName != null) {
+                recipes = recipeService.searchRecipes(recipeName);
+            }
             if(recipes.isEmpty()) {
                 ctx.status(404);
                 ctx.result("No recipes found");
@@ -77,7 +81,9 @@ public class RecipeController {
     /**
      * Handler for fetching a recipe by its ID.
      * 
-     * Responds with a 200 OK status and the recipe if found, or 404 Not Found with a result of "Recipe not found".
+     * If successful, responds with a 200 status code and the recipe as the response body.
+     * 
+     * If unsuccessful, responds with a 404 status code and a result of "Recipe not found".
      */
     public Handler fetchRecipeById = ctx -> {
         int id = Integer.parseInt(ctx.pathParam("id"));
@@ -116,25 +122,56 @@ public class RecipeController {
 
     /**
      * Handler for deleting a recipe by its ID.
-     * Responds with a 204 No Content status.
+     * 
+     * If successful, responds with a 200 status and result of "Recipe deleted successfully."
+     * 
+     * Otherwise, responds with a 404 status and a result of "Recipe not found."
      */
     public Handler deleteRecipe = ctx -> {
-        int id = Integer.parseInt(ctx.pathParam("id"));
-        recipeService.deleteRecipe(id);
+        try {
+            // Parse the recipe ID from the path parameter
+            int id = Integer.parseInt(ctx.pathParam("id"));
+            
+            // Attempt to delete the recipe
+            boolean deleted = recipeService.deleteRecipe(id);
+    
+            // Handle the result of the deletion
+            if (deleted) {
+                ctx.status(200).result("Recipe deleted successfully.");
+            } else {
+                ctx.status(404).result("Recipe not found.");
+            }
+        } catch (NumberFormatException e) {
+            // Handle invalid ID format
+            ctx.status(400).result("Invalid recipe ID format.");
+        } catch (Exception e) {
+            // Handle unexpected exceptions
+            ctx.status(500).result("An error occurred while deleting the recipe.");
+        }
     };
-
+    
     /**
      * Handler for updating a recipe by its ID.
      * 
-     * Responds with a 204 No Content status if the update is successful.
+     * If successful, responds with a 200 status code and the updated recipe as the response body.
+     * 
+     * If unsuccessfuly, responds with a 404 status code and a result of "Recipe not found."
      */
     public Handler updateRecipe = ctx -> {
         int id = Integer.parseInt(ctx.pathParam("id"));
         Recipe recipe = ctx.bodyAsClass(Recipe.class);
+    
+        Optional<Recipe> existingRecipe = recipeService.findRecipe(id);
+        if (!existingRecipe.isPresent()) {
+            ctx.status(404).result("Recipe not found.");
+            return;
+        }
+    
         recipe.setId(id);
         recipeService.saveRecipe(recipe);
+        ctx.status(200).json(recipe);
     };
-
+    
     /**
      * A helper method to retrieve a query parameter from the context as a specific class type, or return a default value if the query parameter is not present.
      * 

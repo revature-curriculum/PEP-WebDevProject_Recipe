@@ -18,24 +18,26 @@ import com.revature.util.PageOptions;
  */
 public class ChefDAO {
 
-    /** Utility for obtaining database connections. */
-    private ConnectionUtil connectionUtil;
+   /** A utility class for establishing connections to the database. */
+   @SuppressWarnings("unused")
+   private ConnectionUtil connectionUtil;
 
-    /**
-     * Constructs a ChefDAO instance and initializes the ConnectionUtil.
-     */
-    public ChefDAO() {
-        this.connectionUtil = new ConnectionUtil();
-    }
-
+   /** Constructs a ChefDAO with the specified ConnectionUtil for database connectivity.
+    * 
+    * @param connectionUtil the utility used to connect to the database
+    */
+   public ChefDAO(ConnectionUtil connectionUtil) {
+       this.connectionUtil = connectionUtil;
+   }
      /**
      * Retrieves all Chef records from the database. 
      *
      * @return a list of all Chef objects.
      */
     public List<Chef> getAllChefs() {
-        try (Connection connection = connectionUtil.getConnection();
-                Statement statement = connection.createStatement()) {
+        try  {
+            Connection connection = connectionUtil.getConnection();
+                Statement statement = connection.createStatement();
             String sql = "SELECT * FROM CHEF ORDER BY id";
             ResultSet resultSet = statement.executeQuery(sql);
             return mapRows(resultSet);
@@ -54,8 +56,9 @@ public class ChefDAO {
     public Page<Chef> getAllChefs(PageOptions pageOptions) {
         String sql = String.format("SELECT * FROM CHEF ORDER BY %s %s", pageOptions.getSortBy(),
                 pageOptions.getSortDirection());
-        try (Connection connection = connectionUtil.getConnection();
-                PreparedStatement statement = connection.prepareStatement(sql)) {
+        try {
+            Connection connection = connectionUtil.getConnection();
+                PreparedStatement statement = connection.prepareStatement(sql);
             ResultSet chefSet = statement.executeQuery();
             return pageResults(chefSet, pageOptions);
         } catch (SQLException e) {
@@ -71,8 +74,9 @@ public class ChefDAO {
      */
     public Chef getChefById(int id) {
         String sql = "SELECT * FROM CHEF WHERE id = ?";
-        try (Connection connection = connectionUtil.getConnection();
-                PreparedStatement statement = connection.prepareStatement(sql)) {
+        try {
+            Connection connection = connectionUtil.getConnection();
+                PreparedStatement statement = connection.prepareStatement(sql);
             statement.setInt(1, id);
             ResultSet resultSet = statement.executeQuery();
             resultSet.next();
@@ -91,8 +95,9 @@ public class ChefDAO {
      */
     public int createChef(Chef chef) {
         String sql = "INSERT INTO CHEF (username, email, password, is_admin) VALUES (?, ?, ?, ?)";
-        try (Connection connection = connectionUtil.getConnection();
-                PreparedStatement statement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+        try {
+            Connection connection = connectionUtil.getConnection();
+                PreparedStatement statement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             statement.setString(1, chef.getUsername());
             statement.setString(2, chef.getEmail());
             statement.setString(3, chef.getPassword());
@@ -120,8 +125,9 @@ public class ChefDAO {
      */
     public void updateChef(Chef chef) {
         String sql = "UPDATE CHEF SET username = ?, email = ?, password = ?, is_admin = ? WHERE id = ?";
-        try (Connection connection = connectionUtil.getConnection();
-                PreparedStatement statement = connection.prepareStatement(sql)) {
+        try {
+            Connection connection = connectionUtil.getConnection();
+                PreparedStatement statement = connection.prepareStatement(sql);
             statement.setString(1, chef.getUsername());
             statement.setString(2, chef.getEmail());
             statement.setString(3, chef.getPassword());
@@ -140,8 +146,9 @@ public class ChefDAO {
      */
     public void deleteChef(Chef chef) {
         String sql = "DELETE FROM CHEF WHERE id = ?";
-        try (Connection connection = connectionUtil.getConnection();
-                PreparedStatement statement = connection.prepareStatement(sql)) {
+        try  {
+            Connection connection = connectionUtil.getConnection();
+                PreparedStatement statement = connection.prepareStatement(sql);
             statement.setInt(1, chef.getId());
             statement.executeUpdate();
         } catch (SQLException e) {
@@ -157,8 +164,9 @@ public class ChefDAO {
      */
     public List<Chef> searchChefsByTerm(String term) {
         String sql = "SELECT * FROM CHEF WHERE username LIKE ?";
-        try (Connection connection = connectionUtil.getConnection();
-                PreparedStatement statement = connection.prepareStatement(sql)) {
+        try  {
+            Connection connection = connectionUtil.getConnection();
+                PreparedStatement statement = connection.prepareStatement(sql);
             statement.setString(1, "%" + term + "%");
             ResultSet resultSet = statement.executeQuery();
             return mapRows(resultSet);
@@ -179,8 +187,9 @@ public class ChefDAO {
     public Page<Chef> searchChefsByTerm(String term, PageOptions pageOptions) {
         String sql = String.format("SELECT * FROM CHEF WHERE name LIKE ? ORDER BY %s %s", pageOptions.getSortBy(),
                 pageOptions.getSortDirection());
-        try (Connection connection = connectionUtil.getConnection();
-                PreparedStatement statement = connection.prepareStatement(sql)) {
+        try{
+            Connection connection = connectionUtil.getConnection();
+                PreparedStatement statement = connection.prepareStatement(sql);
             statement.setString(1, "%" + term + "%");
             ResultSet resultSet = statement.executeQuery();
             return pageResults(resultSet, pageOptions);
