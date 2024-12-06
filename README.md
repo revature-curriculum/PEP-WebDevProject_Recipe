@@ -19,6 +19,7 @@ This project is a web-based recipe management application with user authenticati
 Located within the `frontend/src/main/java/com/revature/register` folder, the files `register-page.html`, `register-page.css`, and `register-page.js` should be present. Their purpose is to provide the user interface and the functionality for the user registration process in to the application. Read the comments in these files in order to complete the below tasks:
 
 - Ensure that `register-page.html` contains the specified elements.
+- Ensure the `register-page.css` contains the necessary CSS styles to make the registration page look visually appealing and consistent with the rest of the application.
 - Ensure the `register-page.js` pulls the username, password, and repeated password. 
 - Ensure the password and repeated password are checked for equality.
 - Ensure an AJAX or Fetch Call is made to register the user.
@@ -37,9 +38,10 @@ You can manually test this user story by running the backend, then navigating to
         - Click the Register button
 
 ### 2: The user can attempt to login.
-Located within the `frontend/src/main/java/com/revature/login` folder, the files `login-page.html` and `login-page.js` should be present. Their purpose is to provide the user interface and functionality for a user logging in to the application. Read the comments in these files in order to complete the below tasks:
+Located within the `frontend/src/main/java/com/revature/login` folder, the files `login-page.html` and `login-page.js` should be present. Their purpose is to provide the user interface and functionality for a user logging in and out of to the application. Read the comments in these files in order to complete the below tasks:
 - Ensure that `login-page.html`contains the specified elements.
 - Ensure that the user can either login successfully and be redirected to the recipe page, or receive an alert if the login is unsuccessful. 
+- Ensure that the user can either logout successfully, or receive an alert if the logout is unsuccessful.
 
 You can manually test this user story by running the backend, then navigating to the `http://localhost:8081/login` URL and providing the following credentials:
     - username: 'ChefTrevin'
@@ -53,6 +55,5 @@ Located within the `frontend/src/main/java/com/revature/recipe` folder, the file
 - Ensure that, if the user clicks on the "Update Recipe" button, the relevant recipe's information should be updated in the list of recipes.
 - Ensure that, if the user clicks on the "Delete Recipe" button, the relevant recipe should no longer be displayed in the list of recipes.
 - Ensure that the most up-to-date list of recipes is displayed after each user action.
-
-
+- Ensure that, if the user clicks on the "Search" button, the relevant recipe should display the search results.
 
