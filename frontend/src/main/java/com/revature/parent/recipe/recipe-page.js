@@ -107,3 +107,27 @@ async function refreshRecipeList() {
 async function updateRecipe() {
     // Implement update recipe logic here
 }
+
+
+/**
+ * TODO: Search Recipe Function
+ * 
+ * Requirements:
+ * - Capture search term from input field
+ * - Fetch all recipes from backend
+ * - Filter recipes based on search term (case-insensitive)
+ * - Clear existing recipe list
+ * - Display matching recipes or "No results" message
+ * - Handle potential fetch errors
+ * 
+ * Hints:
+ * - Use fetch with 'GET' method to retrieve all recipes
+ * - Use .filter() to find matching recipes
+ * - Compare recipe names using toLowerCase()
+ * - Create list items dynamically for search results
+ * - Add error handling for failed searches
+ * - Validate input before searching
+ */
+async function searchRecipes() {
+    // Implement search recipe logic here
+}
