@@ -11,11 +11,13 @@ const updateRecipeNameInput = document.getElementById('update-recipe-name-input'
 const updateRecipeInstructionsInput = document.getElementById('update-recipe-instructions-input');
 const deleteRecipeNameInput = document.getElementById('delete-recipe-name-input');
 const recipeListContainer = document.getElementById('recipe-list');
+const searchRecipeNameInput = document.getElementById('search-recipe-name-input');
 
 // Attach 'onclick' events to buttons
 document.getElementById('add-recipe-submit-input').onclick = addRecipe;
 document.getElementById('update-recipe-submit-input').onclick = updateRecipe;
 document.getElementById('delete-recipe-submit-input').onclick = deleteRecipe;
+document.getElementById('search-recipe-submit-input').onclick = searchRecipes;
 
 let recipes = [];
 
@@ -478,3 +480,45 @@ async function refreshRecipeList() {
         console.error("Error fetching recipes:", error);
     }
 }
+
+
+/**
+ *  Function to fetch and display a recipe from the backend.
+ */
+async function searchRecipes() {
+    const searchName = searchRecipeNameInput.value.trim();
+
+    if (!searchName) {
+        alert("Please enter a recipe name to search.");
+        return;
+    }
+
+    try {
+        const response = await fetch(`${BASE_URL}/recipes`);
+        if (!response.ok) throw new Error("Failed to fetch recipes.");
+
+        const recipes = await response.json();
+        const searchResults = recipes.filter(recipe => 
+            recipe.name.toLowerCase().includes(searchName.toLowerCase())
+        );
+
+        // Clear previous list
+        recipeListContainer.innerHTML = '';
+
+        if (searchResults.length === 0) {
+            const noResultsElement = document.createElement('li');
+            noResultsElement.textContent = 'No recipes found matching your search.';
+            recipeListContainer.appendChild(noResultsElement);
+        } else {
+            searchResults.forEach((recipe) => {
+                const recipeElement = document.createElement('li');
+                recipeElement.textContent = `${recipe.name}: ${recipe.instructions}`;
+                recipeListContainer.appendChild(recipeElement);
+            });
+        }
+    } catch (error) {
+        console.error("Error searching recipes:", error);
+        alert("Failed to search recipes.");
+    }
+}
+
