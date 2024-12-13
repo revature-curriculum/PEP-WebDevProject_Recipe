@@ -36,14 +36,13 @@ public class RecipePersistenceTest {
 
         wait = new WebDriverWait(driver, Duration.ofSeconds(30));
 
-        // Load the HTML file for the recipe page
-        File file = new File("src/main/java/com/revature/parent/recipe/recipe-page.html");
-        String path = "file://" + file.getAbsolutePath();
-        driver.get(path);
+        performLogin();
     }
 
     @AfterClass
     public static void tearDown() {
+        performLogout();
+        
         // Stop the backend and clean up
         if (app != null) {
             app.stop();
@@ -74,7 +73,7 @@ public class RecipePersistenceTest {
         }
     }
 
-    private void performLogin() {
+    private static void performLogin() {
         // go to relevant HTML page
         File loginFile = new File("src/main/java/com/revature/parent/login/login-page.html");
         String loginPath = "file:///" + loginFile.getAbsolutePath().replace("\\", "/");
@@ -90,14 +89,10 @@ public class RecipePersistenceTest {
 
         // ensure we navigate to appropriate webpage
         wait.until(ExpectedConditions.urlContains("recipe-page")); // Wait for navigation to the recipe page
+        
     }
 
-    private void performLogout() {
-        // go to relevant HTML page
-        File loginFile = new File("src/main/java/com/revature/parent/login/login-page.html");
-        String loginPath = "file:///" + loginFile.getAbsolutePath().replace("\\", "/");
-        driver.get(loginPath);
-
+    private static void performLogout() {
         // perform logout functionality
         WebElement logoutButton = driver.findElement(By.id("logout-button"));
         logoutButton.click();
@@ -105,9 +100,6 @@ public class RecipePersistenceTest {
 
     @Test
     public void addRecipePostTest() {
-        // log in as user
-        performLogin();
-
         // Add a recipe
         WebElement nameInput = driver.findElement(By.id("add-recipe-name-input"));
         WebElement instructionsInput = driver.findElement(By.id("add-recipe-instructions-input"));
@@ -124,15 +116,10 @@ public class RecipePersistenceTest {
         // Assert the result
         assertTrue("Expected recipe to be added.", innerHTML.contains("Beef Stroganoff"));
 
-        // log out user
-        performLogout();
     }
 
     @Test
     public void displayRecipesOnInitTest() throws InterruptedException {
-
-        // log in as user
-        performLogin();
 
         // check for any issues
         handleUnexpectedAlerts(driver);
@@ -152,16 +139,11 @@ public class RecipePersistenceTest {
         assertTrue("Expected recipes to be displayed.", innerHTML.contains("lemon rice soup"));
         assertTrue("Expected recipes to be displayed.", innerHTML.contains("stone soup"));
         
-        // log out user
-        performLogout();
-    
     }
 
 
     @Test
     public void updateRecipePutTest() {
-        // log in as user
-        performLogin();
 
         // perform update
         WebElement nameInput = driver.findElement(By.id("update-recipe-name-input"));
@@ -182,15 +164,10 @@ public class RecipePersistenceTest {
         // make assertion: recipe should be updated
         assertTrue("Expected recipe to be updated.", innerHTML.contains("Updated instructions for carrot soup"));
     
-        // log out user
-        performLogout();
     }
 
     @Test
     public void deleteRecipeDeleteTest() throws InterruptedException {
-        // log in as user
-        performLogin();
-
         // Proceed with deletion
         WebElement nameInput = driver.findElement(By.id("delete-recipe-name-input"));
         WebElement deleteButton = driver.findElement(By.id("delete-recipe-submit-input"));
@@ -205,8 +182,31 @@ public class RecipePersistenceTest {
         // make assertion: deleted recipe should not be in list
         assertTrue("Expected recipe to be deleted.", !innerHTML.contains("stone soup"));
     
-        // log out user
-        performLogout();
+    }
+
+    @Test
+    public void searchFiltersTest() throws InterruptedException{
+
+        WebElement searchInput = driver.findElement(By.id("search-input"));
+        WebElement searchButton = driver.findElement(By.id("search-button"));
+        WebElement recipeList = driver.findElement(By.id("recipe-list"));
+
+        String searchTerm = "to soup";
+        searchInput.sendKeys(searchTerm);
+        searchButton.click();
+
+         // check recipe list
+         wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("recipe-list")));
+         String innerHTML = recipeList.getAttribute("innerHTML");
+ 
+         
+         // make assertion: deleted recipe should not be in list
+         assertTrue("Expected potato soup recipe to be in list.", innerHTML.contains("potato soup"));
+         assertTrue("Expected tomato soup recipe to be in list.", innerHTML.contains("tomato soup"));
+         assertTrue("Expected stone soup recipe to NOT be in list.", !innerHTML.contains("stone soup"));
+         assertTrue("Expected lemon rice soup recipe to NOT be in list.", !innerHTML.contains("lemon rice soup"));
+         assertTrue("Expected carrot soup recipe to NOT be in list.", !innerHTML.contains("carrot soup"));
+         
     }
 
 }

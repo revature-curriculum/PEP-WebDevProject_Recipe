@@ -54,16 +54,3 @@ async function processLogin() {
         
 }
 
-/**
- * TODO: Process Logout Function
- * 
- * Requirements:
- * - Send POST request to logout endpoint
- *      - ensure, within the headers, the Authorization header contains "Bearer " + the auth-token that should be within session storage
- * - Handle different response status codes:
- *      - On successful logout, removes the auth-token from session storage
- *      - On failed logout, alert the user
- */
-async function processLogout() {
-    // Implement Logic Here
-}
