@@ -19,7 +19,7 @@ const BASE_URL = "http://localhost:8081"; // MockServer + backend URL
 let recipes;
 
 /* 
- * TODO: Ensure that, on start up, we call getRecipes().
+ * TODO: Ensure that, on start up, we call getRecipes() and displayAdminLink() functions
 */
 
 
@@ -36,6 +36,7 @@ let recipes;
  * 
  * Hints:
  * - Use fetch with 'POST' method
+ * - ensure, within the headers, the Authorization header contains "Bearer " + the auth-token that should be within session storage
  * - Trim input values to remove whitespace
  * - Add error handling for failed requests
  * - Verify input before sending request
@@ -58,6 +59,7 @@ async function addRecipe() {
  * 
  * Hints:
  * - Use fetch with 'DELETE' method
+ * - ensure, within the headers, the Authorization header contains "Bearer " + the auth-token that should be within session storage
  * - Locate recipe ID based on recipe name
  * - Add error handling for failed deletion
  * - Validate input before sending request
@@ -152,5 +154,15 @@ async function searchRecipes() {
  *      - On failed logout, alert the user
  */
 async function processLogout() {
+    // Implement Logic Here
+}
+
+/**
+ * TODO: Check if user is admin
+ * 
+ * This function should check session storage to see if the user is admin. If so, change the display of the admin-link HTML element to "inline".
+ * 
+ */
+function displayAdminLink() {
     // Implement Logic Here
 }

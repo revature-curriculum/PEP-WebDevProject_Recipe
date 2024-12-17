@@ -18,7 +18,7 @@ This project is a web-based recipe management application with user authenticati
 ## Requirements
 
 ### 1: The user registration.
-Located within the `frontend/src/main/java/com/revature/register` folder, the files `register-page.html`, `register-page.css`, and `register-page.js` should be present. Their purpose is to provide the user interface and the functionality for the user registration process in to the application. Read the comments in these files in order to complete the below tasks:
+Located within the `frontend/src/main/java/com/revature/parent/register` folder, the files `register-page.html`, `register-page.css`, and `register-page.js` should be present. Their purpose is to provide the user interface and the functionality for the user registration process in to the application. Read the comments in these files in order to complete the below tasks:
 
 - Ensure that `register-page.html` contains the specified elements.
 - Ensure the `register-page.css` contains the necessary CSS styles to make the registration page look visually appealing and consistent with the rest of the application.
@@ -40,11 +40,11 @@ You can manually test this user story by running the backend, then navigating to
         - Click the Register button
 
 ### 2: The user can attempt to login and logout.
-Located within the `frontend/src/main/java/com/revature/login` folder, the files `login-page.html` and `login-page.js` should be present. Their purpose is to provide the user interface and functionality for a user logging in to the application. Read the comments in these files in order to complete the below tasks:
+Located within the `frontend/src/main/java/com/revature/parent/login` folder, the files `login-page.html` and `login-page.js` should be present. Their purpose is to provide the user interface and functionality for a user logging in to the application. Read the comments in these files in order to complete the below tasks:
 - Ensure that `login-page.html`contains the specified elements.
 - Ensure that the user can either login successfully and be redirected to the recipe page, or receive an alert if the login is unsuccessful.
 
-Located within the `frontend/src/main/java/com/revature/recipe` folder, the files `recipe-page.html` and `recipe-page.js` should be present. They include the functionality for a user to log out of the application. Read the comments in these files in order to complete the below tasks:
+Located within the `frontend/src/main/java/com/revature/parent/recipe` folder, the files `recipe-page.html` and `recipe-page.js` should be present. They include the functionality for a user to log out of the application. Read the comments in these files in order to complete the below tasks:
 - Ensure that `recipe-page.html`contains the specified elements for logging out.
 - Ensure that the user can either logout successfully, or receive an alert if the logout is unsuccessful.
 
@@ -53,7 +53,7 @@ You can manually test this user story by running the backend, then navigating to
     - password: 'trevature'
 
 ### 3: The user can view, search, add, update, or delete recipes.
-Located within the `frontend/src/main/java/com/revature/recipe` folder, the files `recipe-page.html` and `recipe-page.js` should be present. Its purpose is to provide the main interface and functionality required to allow the user view and manage recipes. Read the comments in these files in order to complete the below tasks:
+Located within the `frontend/src/main/java/com/revature/parent/recipe` folder, the files `recipe-page.html` and `recipe-page.js` should be present. Their purpose is to provide the main interface and functionality required to allow the user view and manage recipes. Read the comments in these files in order to complete the below tasks:
 - Ensure the specified elements have been added to the HTML page.
 - Ensure the elements have the specified id values as mentioned in the instructions.
 - Ensure that, when the HTML page loads, it contains an initial list of recipes.
@@ -63,3 +63,13 @@ Located within the `frontend/src/main/java/com/revature/recipe` folder, the file
 - Ensure that the most up-to-date list of recipes is displayed after each user action.
 - Ensure that, if the user clicks on the "Search" button, the relevant recipe should display the search results.
 
+### 4: The user can view, add, and delete ingredients.
+Located within the `frontend/src/main/java/com/revature/parent/ingredient` folder, the files `ingredient-page.html` and `ingredient-page.js` should be present. Their purpose is to provide the main interface and functionality required to allow the user view and manage ingredients. Read the comments in these files in order to complete the below tasks:
+- Ensure the specified elements have been added to the HTML page.
+- Ensure the elements have the specified id values as mentioned in the instructions.
+- Ensure that, when the HTML page loads, it contains an initial list of ingredients.
+- Ensure that, if the user clicks on the "Add Ingredient" button, the relevant recipe should be displayed in the list of recipes.
+- Ensure that, if the user clicks on the "Delete Recipe" button, the relevant recipe should no longer be displayed in the list of ingredients.
+- Ensure that the most up-to-date list of ingredients is displayed after each user action.
+
+Additionally, you would also need to review the `recipe-page.html` and `recipe-page.js` files in the  `frontend/src/main/java/com/revature/parent/recipe` regarding the functionality needed to ensure the ingredients page can only be accessed by admin users.
