@@ -49,7 +49,8 @@ public class RecipeService {
      */
     public void saveRecipe(Recipe recipe) {
         if (recipe.getId() == 0) {
-            recipeDAO.createRecipe(recipe);
+            int id = recipeDAO.createRecipe(recipe);
+            recipe.setId(id);
         } else {
             Recipe savedRecipe = recipeDAO.getRecipeById(recipe.getId());
             if (savedRecipe == null) {

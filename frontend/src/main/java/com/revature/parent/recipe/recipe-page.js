@@ -19,7 +19,7 @@ const BASE_URL = "http://localhost:8081"; // MockServer + backend URL
 let recipes;
 
 /* 
- * TODO: Ensure that, on start up, the recipe list is refreshed.
+ * TODO: Ensure that, on start up, we call getRecipes().
 */
 
 
@@ -72,16 +72,25 @@ async function deleteRecipe() {
  * 
  * Requirements:
  * - Fetch all recipes from backend
- * - Clear existing recipe list container
- * - Populate list with fetched recipes
- * - Store fetched recipes in local array
+ * - Store fetched recipes in the local recipes array
+ * - calls refreshRecipeList() to ensure webpage has accurate list of recipes displayed
  * - Handle potential fetch errors
  * 
  * Hints:
  * - Use fetch with 'GET' method
  * - Parse JSON response
- * - Create list items dynamically
  * - Add error logging
+ */
+async function getRecipes() {
+    // Implement getRecipes logic here
+}
+
+/**
+ * TODO: Refresh Recipe List Function
+ * 
+ * Requirements:
+ * - Clear existing recipe list HTML container
+ * - Populate list with contents in recipes array
  */
 async function refreshRecipeList() {
     // Implement recipe list refresh logic here
@@ -130,4 +139,18 @@ async function updateRecipe() {
  */
 async function searchRecipes() {
     // Implement search recipe logic here
+}
+
+/**
+ * TODO: Process Logout Function
+ * 
+ * Requirements:
+ * - Send POST request to logout endpoint
+ *      - ensure, within the headers, the Authorization header contains "Bearer " + the auth-token that should be within session storage
+ * - Handle different response status codes:
+ *      - On successful logout, removes the auth-token from session storage
+ *      - On failed logout, alert the user
+ */
+async function processLogout() {
+    // Implement Logic Here
 }
