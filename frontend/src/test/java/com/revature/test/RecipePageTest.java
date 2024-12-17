@@ -8,6 +8,7 @@ import java.time.Duration;
 import java.util.List;
 
 import org.junit.After;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.By;
@@ -198,6 +199,16 @@ public class RecipePageTest{
          WebElement element = webDriver.findElement(By.id("delete-recipe-submit-input"));
          assertTrue(element.getText().length()>=1);
      }
+
+     @Test
+    public void searchBarExistsTest(){
+        WebElement searchInput = webDriver.findElement(By.id("search-input"));
+        WebElement searchButton = webDriver.findElement(By.id("search-button"));
+        Assert.assertTrue(searchInput.getTagName().equals("input"));
+        Assert.assertTrue(searchButton.getTagName().equals("button"));
+    }
+
+
      /**
      * close down hanging browsers spawned by the chromedriver
      */

@@ -11,18 +11,57 @@ const updateRecipeNameInput = document.getElementById('update-recipe-name-input'
 const updateRecipeInstructionsInput = document.getElementById('update-recipe-instructions-input');
 const deleteRecipeNameInput = document.getElementById('delete-recipe-name-input');
 const recipeListContainer = document.getElementById('recipe-list');
-const searchRecipeNameInput = document.getElementById('search-recipe-name-input');
+let searchInput = document.getElementById("search-input");
+
 
 // Attach 'onclick' events to buttons
 document.getElementById('add-recipe-submit-input').onclick = addRecipe;
 document.getElementById('update-recipe-submit-input').onclick = updateRecipe;
 document.getElementById('delete-recipe-submit-input').onclick = deleteRecipe;
-document.getElementById('search-recipe-submit-input').onclick = searchRecipes;
+document.getElementById("search-button").onclick = searchRecipes;
+document.getElementById("logout-button").onclick = processLogout;
 
 let recipes = [];
 
-// Refresh recipe list on startup
-refreshRecipeList();
+// start off with full recipe list
+getRecipes();
+
+/**
+ * TODO: Search Recipe Function
+ * 
+ * Requirements:
+ * - Capture search term from input field
+ * - Fetch all recipes from backend
+ * - Filter recipes based on search term (case-insensitive)
+ * - Clear existing recipe list
+ * - Display matching recipes or "No results" message
+ * - Handle potential fetch errors
+ * 
+ * Hints:
+ * - Use fetch with 'GET' method to retrieve all recipes
+ * - Use .filter() to find matching recipes
+ * - Compare recipe names using toLowerCase()
+ * - Create list items dynamically for search results
+ * - Add error handling for failed searches
+ * - Validate input before searching
+ */
+async function searchRecipes() {
+    recipes.innerHTML = "";
+    let response = await fetch("http://localhost:8081/recipes?name="+searchInput.value, {
+        method:"GET", 
+        mode: "cors",
+    cache: "no-cache",
+    credentials: "same-origin",
+    headers: {
+      "Content-Type": "application/json",
+      "Access-Control-Allow-Origin":"*",
+      "Access-Control-Allow-Headers": "*"
+    },
+    redirect: "follow",
+    referrerPolicy: "no-referrer"});
+    recipes = await response.json();
+    refreshRecipeList();
+}
 
 /**
  * Function to add a new recipe to the backend and refresh the list.
@@ -44,14 +83,9 @@ async function addRecipe() {
                 
                 if (!response.ok) throw new Error("Failed to add recipe.");
             })
-            // .then(() => {
-            //     refreshRecipeList();
-            //     const recipeList = document.getElementById("recipe-list");
-            //     console.log("Current Recipe List:", recipeList.innerHTML);
-            //     addRecipeNameInput.value = '';
-            //     addRecipeInstructionsInput.value = '';
-            // })
             .then(async () => {
+                
+                await getRecipes();
                 await refreshRecipeList(); // Ensure this completes
                 const recipeList = document.getElementById("recipe-list");
                 console.log("Current Recipe List after refresh:", recipeList.innerHTML);
@@ -67,167 +101,15 @@ async function addRecipe() {
 /**
  * Function to update an existing recipe's instructions in the backend.
  */
-
-
-
-// async function updateRecipe() {
-//     const name = updateRecipeNameInput.value.trim();
-//     const instructions = updateRecipeInstructionsInput.value.trim();
-//     let id = 0;
-    
-//     const listItems = recipeListContainer.getElementsByTagName('li');
-    
-//     for (let i = 0; i < listItems.length; i++) {
-//         if (listItems[i].textContent.includes(name)) {
-//             id = i + 1;
-//         }
-//     }
-
-//     if (name && instructions) {
-//         fetch(`${BASE_URL}/recipes/${id}`, {
-//             method: 'PUT',
-//             headers: { 'Content-Type': 'application/json' },
-//             body: JSON.stringify({ instructions }),
-//         })
-//             .then((response) => {
-//                 if (!response.ok) throw new Error("Failed to update recipe.");
-                
-//             })
-//             .then(() => {
-//                 refreshRecipeList();
-//                 updateRecipeNameInput.value = '';
-//                 updateRecipeInstructionsInput.value = '';
-//             })
-//             // .catch((error) => alert(error.message));
-//             .catch((error) => {
-//                 console.error("Error updating recipe:", error);
-//                 if (!window.__TESTING__) console.log("Failed to update recipe.", error);
-//             });
-            
-//     } else {
-//         alert("Please enter both recipe name and updated instructions.");
-//     }
-// }
-
-// async function displayAllRecipes () => {
-//     fetch(`${BASE_URL}/recipes`)
-//         .then((response) => response.json())
-//         .then((recipes) => {
-//             const list = document.getElementById("recipe-list");
-//             list.innerHTML = "";
-//             recipes.forEach((recipe) => {
-//                 const listItem = document.createElement("li");
-//                 listItem.textContent = `${recipe.name} - ${recipe.instructions}`;
-//                 list.appendChild(listItem);
-//             });
-//         });
-// };
-
-
-// async function updateRecipe = () => {
-//     const name = document.getElementById("update-recipe-name-input").value;
-//     const instructions = document.getElementById("update-recipe-instructions-input").value;
-
-//     // Resolve the recipe ID
-//     const listItems = document.getElementById("recipe-list").children;
-//     let id = 0;
-//     for (let i = 0; i < listItems.length; i++) {
-//         if (listItems[i].textContent.includes(name)) {
-//             id = i + 1; // Assuming ID matches the index
-//             break;
-//         }
-//     }
-
-//     // Send the PUT request
-//     fetch(`${BASE_URL}/recipes/${id}`, {
-//         method: "PUT",
-//         headers: {
-//             "Content-Type": "application/json",
-//         },
-//         body: JSON.stringify({ name, instructions }),
-//     })
-//         .then((response) => {
-//             if (!response.ok) {
-//                 throw new Error("Failed to update recipe.");
-//             }
-//             return response.json();
-//         })
-//         .then((updatedRecipe) => {
-//             console.log("Updated Recipe:", updatedRecipe);
-//             // Refresh the recipe-list
-//             displayAllRecipes(); // Ensure this refreshes the list
-//         })
-//         .catch((error) => {
-//             console.error("Error updating recipe:", error);
-//             alert("Failed to update recipe.");
-//         });
-// };
-
-
-
-
-async function displayAllRecipes() {
+async function getRecipes() {
     try {
         const response = await fetch(`${BASE_URL}/recipes`);
-        if (!response.ok) {
-            throw new Error("Failed to fetch recipes.");
-        }
-        const recipes = await response.json();
-        const list = document.getElementById("recipe-list");
-        list.innerHTML = "";
-        recipes.forEach((recipe) => {
-            const listItem = document.createElement("li");
-            listItem.textContent = `${recipe.name} - ${recipe.instructions}`;
-            list.appendChild(listItem);
-        });
+        recipes = await response.json();
+        refreshRecipeList();
     } catch (error) {
-        console.error("Error fetching recipes:", error);
-        alert("Failed to fetch recipes.");
+        alert("Failed to fetch recipes: " +  error);
     }
 }
-
-// async function updateRecipe() {
-//     const name = updateRecipeNameInput.value.trim();
-//     const instructions = updateRecipeInstructionsInput.value.trim();
-
-//     if (!name || !instructions) {
-//         alert("Please enter both recipe name and updated instructions.");
-//         return;
-//     }
-
-//     try {
-//         // Fetch recipes to resolve ID
-//         const response = await fetch(`${BASE_URL}/recipes`);
-//         if (!response.ok) throw new Error("Failed to fetch recipes.");
-
-//         const recipes = await response.json();
-//         const recipe = recipes.find(r => r.name === name);
-//         if (!recipe) {
-//             alert("Recipe not found in the list.");
-//             return;
-//         }
-
-//         // Send the PUT request
-//         const updateResponse = await fetch(`${BASE_URL}/recipes/${recipe.id}`, {
-//             method: "PUT",
-//             headers: { "Content-Type": "application/json" },
-//             body: JSON.stringify({ name, instructions }),
-//         });
-
-//         if (!updateResponse.ok) throw new Error("Failed to update recipe.");
-
-//         // Refresh the recipe list
-//         await displayAllRecipes();
-//     } catch (error) {
-//         console.error("Error updating recipe:", error);
-//         alert("Failed to update recipe.");
-//     }
-// }
-
-
-
-
-
 
 async function updateRecipe() {
     const name = updateRecipeNameInput.value.trim();
@@ -257,6 +139,7 @@ async function updateRecipe() {
 
         if (!updateResponse.ok) throw new Error("Failed to update recipe.");
 
+        getRecipes();
         await refreshRecipeList();
         updateRecipeNameInput.value = '';
         updateRecipeInstructionsInput.value = '';
@@ -266,159 +149,9 @@ async function updateRecipe() {
     }
 }
 
-
-
-
 /**
  * Function to delete a recipe from the backend and refresh the list.
  */
-// async function deleteRecipe() {
-//     const name = deleteRecipeNameInput.value.trim();
-//     const listItems = recipeListContainer.getElementsByTagName('li');
-    
-//     for (let i = 0; i < listItems.length; i++) {
-//         if (listItems[i].textContent.includes(name)) {
-//             id = i + 1;
-//         }
-//     }
-
-//     if (name) {
-//         fetch(`${BASE_URL}/recipes/${id}`, {
-//             method: 'DELETE',
-//         })
-//             .then((response) => {
-//                 if (!response.ok) throw new Error("Failed to delete recipe.");
-                
-//             })
-//             .then(() => {
-//                 refreshRecipeList();
-//                 deleteRecipeNameInput.value = '';
-//             })
-//             .catch((error) => alert(error.message));
-//     } else {
-//         alert("Please enter the recipe name to delete.");
-//     }
-// }
-
-
-// async function deleteRecipe() {
-//     const name = deleteRecipeNameInput.value.trim();
-
-//     if (!name) {
-//         alert("Please enter the recipe name to delete.");
-//         return;
-//     }
-
-//     try {
-//         // Fetch the list of recipes to resolve the ID
-//         const response = await fetch(`${BASE_URL}/recipes`);
-//         if (!response.ok) throw new Error("Failed to fetch recipes.");
-
-//         const recipes = await response.json();
-//         const recipe = recipes.find(r => r.name === name);
-
-//         if (!recipe) {
-//             alert("Recipe not found.");
-//             return;
-//         }
-
-//         // Send DELETE request using the resolved ID
-//         const deleteResponse = await fetch(`${BASE_URL}/recipes/${recipe.id}`, {
-//             method: "DELETE",
-//         });
-
-//         if (!deleteResponse.ok) throw new Error("Failed to delete recipe.");
-
-//         // Refresh the list
-//         await refreshRecipeList();
-//         deleteRecipeNameInput.value = '';
-//     } catch (error) {
-//         console.error("Error deleting recipe:", error);
-//         alert("Failed to delete recipe.");
-//     }
-// }
-
-
-
-
-
-
-
-// async function deleteRecipe() {
-//     const name = deleteRecipeNameInput.value.trim();
-
-//     if (name) {
-//         fetch(`${BASE_URL}/recipes/${id}`, {
-//             method: 'DELETE',
-//             headers: { 'Content-Type': 'application/json' },
-//             body: JSON.stringify({ name }),
-//         })
-//             .then(response => {
-//                 if (!response.ok) {
-//                     return response.text().then(text => {
-//                         throw new Error(text || "Failed to delete recipe.");
-//                     });
-//                 }
-//                 refreshRecipeList();
-//                 deleteRecipeNameInput.value = '';
-//             })
-//             .catch(error => {
-//                 console.log("Error deleting recipe:", error);
-//                 alert(error.message);
-//             });
-//     } else {
-//         alert("Please enter the recipe name to delete.");
-//     }
-// }
-
-
-
-
-
-
-
-
-
-// async function deleteRecipe() {
-//     const name = deleteRecipeNameInput.value.trim();
-    
-//     // Find the ID of the recipe to delete
-//     let id = null;
-//     const listItems = recipeListContainer.getElementsByTagName('li');
-//     for (let i = 0; i < listItems.length; i++) {
-//         if (listItems[i].textContent.includes(name)) {
-//             id = i + 1; // Ensure this matches your backend logic for ID
-//             break;
-//         }
-//     }
-
-//     if (!id) {
-//         alert("Recipe not found in the list.");
-//         return;
-//     }
-
-//     try {
-//         const response = await fetch(`${BASE_URL}/recipes/${id}`, {
-//             method: 'DELETE',
-//             headers: {
-//                 'Content-Type': 'application/json',
-//                 'Authorization': "Bearer " + sessionStorage.getItem("auth-token")
-            
-//             }
-            
-//         });
-
-//         if (!response.ok) throw new Error(`Error deleting recipe: ${response.statusText}`);
-        
-//         console.log("Recipe deleted successfully.");
-//         refreshRecipeList();
-//     } catch (error) {
-//         console.error("Error deleting recipe:", error);
-//         alert(error.message);
-//     }
-// }
-
-
 async function deleteRecipe() {
     const name = deleteRecipeNameInput.value.trim();
 
@@ -453,6 +186,7 @@ async function deleteRecipe() {
         if (!response.ok) throw new Error(`Error deleting recipe: ${response.statusText}`);
 
         console.log("Recipe deleted successfully.");
+        getRecipes();
         refreshRecipeList();
     } catch (error) {
         console.error("Error deleting recipe:", error);
@@ -460,65 +194,50 @@ async function deleteRecipe() {
     }
 }
 
-
-
 /**
  * Function to fetch and display the list of recipes from the backend.
  */
-async function refreshRecipeList() {
-    try {
-        const response = await fetch(`${BASE_URL}/recipes`);
-        const data = await response.json();
-        recipes = data;
-        recipeListContainer.innerHTML = '';
-        recipes.forEach((recipe) => {
-            const recipeElement = document.createElement('li');
-            recipeElement.textContent = `${recipe.name}: ${recipe.instructions}`;
-            recipeListContainer.appendChild(recipeElement);
-        });
-    } catch (error) {
-        console.error("Error fetching recipes:", error);
+function refreshRecipeList() {
+    recipeListContainer.innerHTML = "";
+
+    for(let i = 0; i < recipes.length; i++){
+        let element = document.createElement("li");
+        let ptag = document.createElement("p");
+        ptag.innerText = recipes[i].name+" "+recipes[i].instructions;
+        element.appendChild(ptag);
+        recipeListContainer.appendChild(element);
     }
 }
-
 
 /**
- *  Function to fetch and display a recipe from the backend.
+ * Handles the logout process for the user by:
+ * - Sending a logout request to the server
+ * - Processing the response based on the status code
  */
-async function searchRecipes() {
-    const searchName = searchRecipeNameInput.value.trim();
-
-    if (!searchName) {
-        alert("Please enter a recipe name to search.");
-        return;
-    }
+async function processLogout() {
 
     try {
-        const response = await fetch(`${BASE_URL}/recipes`);
-        if (!response.ok) throw new Error("Failed to fetch recipes.");
-
-        const recipes = await response.json();
-        const searchResults = recipes.filter(recipe => 
-            recipe.name.toLowerCase().includes(searchName.toLowerCase())
-        );
-
-        // Clear previous list
-        recipeListContainer.innerHTML = '';
-
-        if (searchResults.length === 0) {
-            const noResultsElement = document.createElement('li');
-            noResultsElement.textContent = 'No recipes found matching your search.';
-            recipeListContainer.appendChild(noResultsElement);
-        } else {
-            searchResults.forEach((recipe) => {
-                const recipeElement = document.createElement('li');
-                recipeElement.textContent = `${recipe.name}: ${recipe.instructions}`;
-                recipeListContainer.appendChild(recipeElement);
+        const response = await fetch(`http://localhost:8081/logout`, {
+            method: 'POST',
+            headers: { 
+                'Content-Type': 'application/json',
+                'Authorization': "Bearer " + sessionStorage.getItem("auth-token")
+             }
             });
+        
+        if (response.status === 200) {
+            // remove the token in sessionStorage
+            sessionStorage.removeItem("auth-token");
+            // Add a small delay for the test to capture the token before redirection
+            setTimeout(() => {
+                // Redirect to the recipe page
+            window.location.href = "../login/login-page.html";
+            }, 500);  // 500ms delay
+        } else {
+            alert("Failed to log out!");
         }
     } catch (error) {
-        console.error("Error searching recipes:", error);
-        alert("Failed to search recipes.");
+        console.error("Error during logout process:", error);
+        alert("An error occurred. Please try again.");
     }
 }
-
