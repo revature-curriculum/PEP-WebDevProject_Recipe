@@ -68,8 +68,8 @@ Located within the `frontend/src/main/java/com/revature/parent/ingredient` folde
 - Ensure the specified elements have been added to the HTML page.
 - Ensure the elements have the specified id values as mentioned in the instructions.
 - Ensure that, when the HTML page loads, it contains an initial list of ingredients.
-- Ensure that, if the user clicks on the "Add Ingredient" button, the relevant recipe should be displayed in the list of recipes.
-- Ensure that, if the user clicks on the "Delete Recipe" button, the relevant recipe should no longer be displayed in the list of ingredients.
+- Ensure that, if the user clicks on the "Add Ingredient" button, the relevant ingredient should be displayed in the list of ingredients.
+- Ensure that, if the user clicks on the "Delete Ingredient" button, the relevant ingredient should no longer be displayed in the list of ingredients.
 - Ensure that the most up-to-date list of ingredients is displayed after each user action.
 
 Additionally, you would also need to review the `recipe-page.html` and `recipe-page.js` files in the  `frontend/src/main/java/com/revature/parent/recipe` regarding the functionality needed to ensure the ingredients page can only be accessed by admin users.
