@@ -52,7 +52,7 @@ public class AuthenticationController {
     }
 
     /**
-     * Authenticates a chef and uses a generated authorization token if the credentials are valid. The token is used to check if login is successful. If so, this method responds with a 200 OK status, the token in the response body, and an "Authorization" header that sends the token.
+     * Authenticates a chef and uses a generated authorization token if the credentials are valid. The token is used to check if login is successful. If so, this method responds with a 200 OK status, the token and the chef's role (whether they are admin or not)are sent back in the response body separated by a space, and an "Authorization" header that sends the token.
      * 
      * If login fails, responds with a 401 Unauthorized status and an error message of "Invalid username or password".
      *
@@ -61,9 +61,15 @@ public class AuthenticationController {
     public void login(Context ctx) {
         Chef chefCredentials = ctx.bodyAsClass(Chef.class);
         String token = authService.login(chefCredentials);
-        
         if (token != null) {
-            ctx.status(200).result(token).header("Authorization", token);
+            // get chef's role
+            Chef chef = AuthenticationService.loggedInUsers.get(token);
+
+            // send back token and role
+            ctx.status(200).result(token + " " + Boolean.toString(chef.isAdmin())).header("Authorization", token);
+
+
+            
         } else {
             ctx.status(401).result("Invalid username or password");
         }

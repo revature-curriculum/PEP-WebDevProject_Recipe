@@ -6,7 +6,7 @@
 --      2. username: A unique and non-nullable varchar field to store the chef's username.
 --      3. email: A unique and non-nullable varchar field to store the chef's email address.
 --      4. password: A non-nullable varchar field to store the chef's password.
---      5. isAdmin: A boolean field to indicate if the chef has admin privileges.
+--      5. is_admin: A boolean field to indicate if the chef has admin privileges.
 
 CREATE TABLE CHEF (
     id INT AUTO_INCREMENT PRIMARY KEY,
