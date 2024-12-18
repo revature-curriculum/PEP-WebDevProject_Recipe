@@ -59,6 +59,12 @@ public class AdminTest {
         }
     }
 
+    private static void performLogout() {
+        // perform logout functionality
+        WebElement logoutButton = driver.findElement(By.id("logout-button"));
+        logoutButton.click();
+    }
+
     /**
      * Admin link should not exist when the logged-in user is not an admin.
      * @throws InterruptedException
@@ -89,6 +95,7 @@ public class AdminTest {
         //verify that there are no admin links because the user is not an admin.
         Assert.assertFalse(adminLink.isDisplayed());
 
+        performLogout();
     }
 
     /**
@@ -120,6 +127,8 @@ public class AdminTest {
         WebElement adminLink = driver.findElement(By.id("admin-link"));
         //verify that there are no admin links because the user is not an admin.
         Assert.assertTrue(adminLink.isDisplayed());
+
+        performLogout();
     }
 
     /**
@@ -157,6 +166,12 @@ public class AdminTest {
         Assert.assertTrue(innerString.contains("lemon"));
         Assert.assertTrue(innerString.contains("rice"));
         Assert.assertTrue(innerString.contains("stone"));
+
+        WebElement backLink = driver.findElement(By.id("back-link"));
+        backLink.click();
+        Thread.sleep(1000);
+
+        performLogout();
     }
 
     /**
@@ -202,14 +217,19 @@ public class AdminTest {
         // Assert the result
         assertTrue("Expected ingredient to be added.", innerHTML.contains("salt"));
 
+        WebElement backLink = driver.findElement(By.id("back-link"));
+        backLink.click();
+        Thread.sleep(1000);
+
+        performLogout();
     }
 
     /**
-     * The site should send a request to delete the recipe when the delete button is clicked.
+     * The site should send a request to delete the ingredient when the delete button is clicked.
      * @throws InterruptedException
      */
     @Test
-    public void deleteRecipeDeleteTest() throws InterruptedException{
+    public void deleteIngredientDeleteTest() throws InterruptedException{
         // go to relevant HTML page
         File loginFile = new File("src/main/java/com/revature/parent/login/login-page.html");
         String loginPath = "file:///" + loginFile.getAbsolutePath().replace("\\", "/");
@@ -247,6 +267,11 @@ public class AdminTest {
         // Assert the result
         assertTrue("Expected ingredient to NOT be added.", !innerHTML.contains("tomato"));
 
+        WebElement backLink = driver.findElement(By.id("back-link"));
+        backLink.click();
+        Thread.sleep(1000);
+
+        performLogout();
     }
 
 }
