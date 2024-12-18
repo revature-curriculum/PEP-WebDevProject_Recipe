@@ -11,6 +11,7 @@ const updateRecipeNameInput = document.getElementById('update-recipe-name-input'
 const updateRecipeInstructionsInput = document.getElementById('update-recipe-instructions-input');
 const deleteRecipeNameInput = document.getElementById('delete-recipe-name-input');
 const recipeListContainer = document.getElementById('recipe-list');
+const adminLink = document.getElementById('admin-link');
 let searchInput = document.getElementById("search-input");
 
 
@@ -22,6 +23,9 @@ document.getElementById("search-button").onclick = searchRecipes;
 document.getElementById("logout-button").onclick = processLogout;
 
 let recipes = [];
+
+// call displayAdminLink
+displayAdminlink();
 
 // start off with full recipe list
 getRecipes();
@@ -240,4 +244,12 @@ async function processLogout() {
         console.error("Error during logout process:", error);
         alert("An error occurred. Please try again.");
     }
+}
+
+function displayAdminlink() {
+    const isAdmin = sessionStorage.getItem("is-admin");
+    console.log(isAdmin)
+    if (isAdmin == "true") {
+        adminLink.style.display = "inline";
+    } 
 }

@@ -26,8 +26,11 @@ async function processLogin() {
         method: "POST",
         mode: "cors",
         cache: "no-cache",
+        credentials: "same-origin",
         headers: {
-            "Content-Type": "application/json"
+          "Content-Type": "application/json",
+          "Access-Control-Allow-Origin":"*",
+          "Access-Control-Allow-Headers": "*"
         },
         redirect: "follow",
         referrerPolicy: "no-referrer",
@@ -39,10 +42,11 @@ async function processLogin() {
         
         if (response.status === 200) {
             const data = await response.text();
-            console.log(data);
-            const authToken = data;
+            const authToken = data.split(" ")[0];
+            const isAdmin = data.split(" ")[1];
             // Save the token in sessionStorage
             sessionStorage.setItem("auth-token", authToken);
+            sessionStorage.setItem("is-admin", isAdmin);
 
             // Add a small delay for the test to capture the token before redirection
             setTimeout(() => {
