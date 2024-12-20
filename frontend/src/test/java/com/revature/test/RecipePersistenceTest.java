@@ -195,6 +195,7 @@ public class RecipePersistenceTest {
         searchInput.sendKeys(searchTerm);
         searchButton.click();
 
+        Thread.sleep(1000);
          // check recipe list
          wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("recipe-list")));
          String innerHTML = recipeList.getAttribute("innerHTML");
@@ -206,7 +207,7 @@ public class RecipePersistenceTest {
          assertTrue("Expected stone soup recipe to NOT be in list.", !innerHTML.contains("stone soup"));
          assertTrue("Expected carrot soup recipe to NOT be in list.", !innerHTML.contains("carrot soup"));
          assertTrue("Expected lemon rice soup recipe to NOT be in list.", !innerHTML.contains("lemon rice soup"));
-         
+          
     }
 
 }
