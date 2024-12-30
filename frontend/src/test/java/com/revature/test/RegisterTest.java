@@ -28,7 +28,7 @@ public class RegisterTest {
     private MockServerClient mockServerClient;
 
     @Before
-    public void setUp() {
+    public void setUp() throws InterruptedException {
         System.setProperty("webdriver.chrome.driver", "driver/chromedriver");
 
         File file = new File("src/main/java/com/revature/parent/register/register-page.html");
@@ -51,6 +51,9 @@ public class RegisterTest {
                 .withHeader("Access-Control-Allow-Headers", "Content-Type, Access-Control-Allow-Origin, Access-Control-Allow-Methods, Access-Control-Allow-Headers, Origin, Accept, X-Requested-With"));
 
         driver.get(path);
+
+        
+        Thread.sleep(1000);
     }
 
     /**

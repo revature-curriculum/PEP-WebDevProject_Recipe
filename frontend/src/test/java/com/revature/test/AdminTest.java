@@ -5,7 +5,6 @@ import static org.junit.Assert.assertTrue;
 import java.io.File;
 import java.time.Duration;
 
-import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.BeforeClass;
@@ -33,7 +32,7 @@ public class AdminTest {
     private static JavascriptExecutor js;
 
     @BeforeClass
-    public static void setUp() {
+    public static void setUp() throws InterruptedException {
         // Start the backend programmatically
         app = Main.main(new String[0]);
 
@@ -46,6 +45,8 @@ public class AdminTest {
         wait = new WebDriverWait(driver, Duration.ofSeconds(30));
 
         js = (JavascriptExecutor) driver;
+
+        Thread.sleep(1000);
     }
 
     @AfterClass
