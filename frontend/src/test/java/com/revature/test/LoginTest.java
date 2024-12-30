@@ -29,7 +29,7 @@ public class LoginTest {
     private MockServerClient mockServerClient;
 
     @Before
-    public void setUp() {
+    public void setUp() throws InterruptedException {
         System.setProperty("webdriver.chrome.driver", "driver/chromedriver"); // Adjust path if necessary
 
         File file = new File("src/main/java/com/revature/parent/login/login-page.html");
@@ -55,6 +55,8 @@ public class LoginTest {
 
         // Load the login page
         driver.get(path);
+
+        Thread.sleep(1000);
     }
 
     @Test
