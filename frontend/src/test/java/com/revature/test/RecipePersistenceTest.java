@@ -195,18 +195,19 @@ public class RecipePersistenceTest {
         searchInput.sendKeys(searchTerm);
         searchButton.click();
 
+        Thread.sleep(1000);
          // check recipe list
          wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("recipe-list")));
          String innerHTML = recipeList.getAttribute("innerHTML");
  
          
-         // make assertion: deleted recipe should not be in list
+         
          assertTrue("Expected potato soup recipe to be in list.", innerHTML.contains("potato soup"));
          assertTrue("Expected tomato soup recipe to be in list.", innerHTML.contains("tomato soup"));
          assertTrue("Expected stone soup recipe to NOT be in list.", !innerHTML.contains("stone soup"));
-         assertTrue("Expected lemon rice soup recipe to NOT be in list.", !innerHTML.contains("lemon rice soup"));
          assertTrue("Expected carrot soup recipe to NOT be in list.", !innerHTML.contains("carrot soup"));
-         
+         assertTrue("Expected lemon rice soup recipe to NOT be in list.", !innerHTML.contains("lemon rice soup"));
+          
     }
 
 }
