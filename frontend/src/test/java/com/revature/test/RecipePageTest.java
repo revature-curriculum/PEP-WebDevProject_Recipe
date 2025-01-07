@@ -30,9 +30,10 @@ public class RecipePageTest{
     private WebDriverWait wait;
     /**
      * Set up the chrome driver for running bdd selenium tests in the browser.
+     * @throws InterruptedException 
      */
     @Before
-    public void setUp() {
+    public void setUp() throws InterruptedException {
  System.setProperty("webdriver.chrome.driver", "driver/chromedriver"); // linux_64
 
         File file = new File("src/main/java/com/revature/parent/recipe/recipe-page.html");
@@ -44,6 +45,8 @@ public class RecipePageTest{
         wait = new WebDriverWait(webDriver, Duration.ofSeconds(30));
         webDriver.get(path);
         options.setPageLoadStrategy(PageLoadStrategy.EAGER);
+
+        Thread.sleep(1000);
     }
     /**
      * The page should contain a h1 header element containing the pattern "recipes".

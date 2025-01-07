@@ -33,7 +33,7 @@ public class AdminTest {
     private static JavascriptExecutor js;
 
     @BeforeClass
-    public static void setUp() {
+    public static void setUp() throws InterruptedException {
         // Start the backend programmatically
         app = Main.main(new String[0]);
 
@@ -46,6 +46,8 @@ public class AdminTest {
         wait = new WebDriverWait(driver, Duration.ofSeconds(30));
 
         js = (JavascriptExecutor) driver;
+
+        Thread.sleep(1000);
     }
 
     @AfterClass
