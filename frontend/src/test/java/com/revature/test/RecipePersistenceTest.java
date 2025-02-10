@@ -24,7 +24,7 @@ public class RecipePersistenceTest {
     private static Javalin app;
 
     @BeforeClass
-    public static void setUp() {
+    public static void setUp() throws InterruptedException {
         // Start the backend programmatically
         app = Main.main(new String[0]);
 
@@ -32,10 +32,13 @@ public class RecipePersistenceTest {
 
         ChromeOptions options = new ChromeOptions();
         options.addArguments("--headless");
+        options.setPageLoadStrategy(PageLoadStrategy.EAGER);
         driver = new ChromeDriver(options);
 
         wait = new WebDriverWait(driver, Duration.ofSeconds(30));
 
+        Thread.sleep(1000);
+        
         performLogin();
     }
 
