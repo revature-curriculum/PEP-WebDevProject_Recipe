@@ -6,11 +6,16 @@ import com.revature.service.ChefService;
 import io.javalin.Javalin;
 import io.javalin.http.Context;
 
+
+ // NOTE: This file is part of the backend implementation. No changes are required.
+
+
 /**
  * The AuthenticationController class handles user authentication-related operations. This includes login, logout, registration, and managing the authorization filter. 
  * 
  * It interacts with the ChefService and AuthenticationService for certain functionalities related to the user.
  */
+
 public class AuthenticationController {
 
     /** A service that handles chef-related operations. */
@@ -37,7 +42,8 @@ public class AuthenticationController {
      * 
      * Otherwise, registers the chef and responds with a 201 Created status and the registered chef details.
      *
-     * @param ctx the Javalin context containing the chef information in the request body
+	 * (FOR REFERENCE) This method is part of the backend logic.
+     * No modifications or implementations are required.
      */
     public void register(Context ctx) {
         Chef newChef = ctx.bodyAsClass(Chef.class);
@@ -56,7 +62,8 @@ public class AuthenticationController {
      * 
      * If login fails, responds with a 401 Unauthorized status and an error message of "Invalid username or password".
      *
-     * @param ctx the Javalin context containing the chef login credentials in the request body
+	 * (FOR REFERENCE) This method is part of the backend logic.
+     * No modifications or implementations are required.
      */
     public void login(Context ctx) {
         Chef chefCredentials = ctx.bodyAsClass(Chef.class);
@@ -79,7 +86,8 @@ public class AuthenticationController {
      * Logs out the currently authenticated chef by invalidating their token.
      * If successful, responds with a 200 OK status and a result of "Logout successful".
      *
-     * @param ctx the Javalin context, containing the Authorization token in the request header
+	 * (FOR REFERENCE) This method is part of the backend logic.
+     * No modifications or implementations are required.
      */
     public void logout(Context ctx) {
         authService.logout(ctx.header("Authorization").split(" ")[1]);
@@ -94,7 +102,8 @@ public class AuthenticationController {
      * Configures the routes for authentication operations.
      * Sets up routes for registration, login, and logout, and applies the authorization filter to protect specific routes.
      *
-     * @param app the Javalin application to which routes are added
+	 * (FOR REFERENCE) This method is part of the backend logic.
+     * No modifications or implementations are required.
      */
     public void configureRoutes(Javalin app) {
         app.post("/register", this::register);

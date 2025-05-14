@@ -37,8 +37,8 @@ public class AdminMiddleware implements Handler {
     /**
      * Constructs an AdminMiddleware instance with the specified AuthenticationService and an array of protected methods.
      *
-     * @param AuthenticationService - the AuthenticationService instance for handling authentication operations
-     * @param protectedMethods - the array of protected HTTP methods
+	 * (FOR REFERENCE) This method is part of the backend logic.
+     * No modifications or implementations are required.
      */
 
     public AdminMiddleware(String... protectedMethods) {
@@ -49,7 +49,8 @@ public class AdminMiddleware implements Handler {
     /**
      * Handles the HTTP request, checking for admin access based on the HTTP method being used and the current logged in user's authentication token.
      *
-     * @param ctx the Javalin context representing the HTTP request and response
+	 * (FOR REFERENCE) This method is part of the backend logic.
+     * No modifications or implementations are required.
      */
     @Override
     public void handle(Context ctx) {
@@ -70,8 +71,8 @@ public class AdminMiddleware implements Handler {
     /**
      * Checks if the specified HTTP method is among the protected methods.
      *
-     * @param method the HTTP method to check.
-     * @return true if the method is protected; false otherwise.
+	 * (FOR REFERENCE) This method is part of the backend logic.
+     * No modifications or implementations are required.
      */
     private boolean isProtectedMethod(String method) {
         for (String protectedMethod : protectedMethods) {
@@ -85,8 +86,8 @@ public class AdminMiddleware implements Handler {
     /**
      * Determines if the chef with the specified ID has admin privileges.
      *
-     * @param chefId the unique identifier of the chef.
-     * @return true if the chef is an admin; false otherwise.
+	 * (FOR REFERENCE) This method is part of the backend logic.
+     * No modifications or implementations are required.
      */
     private boolean isAdmin(Chef chef) {
         if (chef != null) {

@@ -100,9 +100,8 @@ public class Page<E> {
     /**
      * Compares this Page object to another object for equality.
      *
-     * @param obj the object to be compared for equality with this Page
-     * @return true if the specified object is equal to this Page; 
-     *         false otherwise
+	 * (FOR REFERENCE) This method is part of the backend logic.
+     * No modifications or implementations are required.
      */
     @Override
     public boolean equals(Object obj) {
