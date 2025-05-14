@@ -8,6 +8,11 @@ import com.revature.dao.ChefDAO;
 import com.revature.util.Page;
 import com.revature.util.PageOptions;
 
+
+// NOTE: This file is part of the backend implementation. No changes are required.
+
+
+
 /**
  * The ChefService class provides business logic for operations related to Chef entities.
  * 
@@ -21,7 +26,8 @@ public class ChefService {
 	/**
      * Constructs a ChefService with the specified ChefDAO.
      *
-     * @param chefDao the ChefDAO used for accessing and managing Chef data
+	 * (FOR REFERENCE) This method is part of the backend logic.
+     * No modifications or implementations are required.
      */
 	public ChefService(ChefDAO chefDAO) {
 	        this.chefDAO = chefDAO;
@@ -30,8 +36,8 @@ public class ChefService {
 	/**
      * Finds a Chef by their unique identifier.
      *
-     * @param id the unique identifier of the Chef
-     * @return an Optional containing the Chef if found, or an empty Optional if not found
+	 * (FOR REFERENCE) This method is part of the backend logic.
+     * No modifications or implementations are required.
      */
 	public Optional<Chef> findChef(int id) {
 		return Optional.ofNullable(chefDAO.getChefById(id));
@@ -42,7 +48,8 @@ public class ChefService {
 	 * 
      * Otherwise, updates the existing Chef.
      *
-     * @param chef the Chef entity to be saved or updated
+	 * (FOR REFERENCE) This method is part of the backend logic.
+     * No modifications or implementations are required.
      */
 	public void saveChef(Chef chef) {
 		if (chef.getId() == 0) {
@@ -57,8 +64,8 @@ public class ChefService {
      * Searches for Chefs based on a search term.
      * If the term is null, retrieves all Chefs.
      *
-     * @param term the search term for filtering Chefs by attributes
-     * @return a list of Chefs matching the search criteria, or all Chefs if term is null
+	 * (FOR REFERENCE) This method is part of the backend logic.
+     * No modifications or implementations are required.
      */
 	public List<Chef> searchChefs(String term) {
 		if (term == null) { 
@@ -71,7 +78,8 @@ public class ChefService {
 	/**
      * Deletes a Chef based on their unique identifier, if they exist.
      *
-     * @param id the unique identifier of the Chef to be deleted
+	 * (FOR REFERENCE) This method is part of the backend logic.
+     * No modifications or implementations are required.
      */
 	public void deleteChef(int id) {
 		Chef chef = chefDAO.getChefById(id);
@@ -83,13 +91,8 @@ public class ChefService {
 	 /**
      * Searches for Chefs based on a search term with pagination and sorting options.
      *
-     * @param term the search term for filtering Chefs by attributes
-     * @param page the page number to retrieve
-     * @param pageSize the number of results per page
-     * @param sortBy the field to sort the results by
-     * @param sortDirection the direction of sorting (e.g., "asc" or "desc")
-	 * 
-     * @return a Page object containing the list of Chefs matching the criteria
+	 * (FOR REFERENCE) This method is part of the backend logic.
+     * No modifications or implementations are required.
      */
 	public Page<Chef> searchChefs(String term, int page, int pageSize, String sortBy, String sortDirection) {
 		PageOptions options = new PageOptions(page, pageSize, sortBy, sortDirection);

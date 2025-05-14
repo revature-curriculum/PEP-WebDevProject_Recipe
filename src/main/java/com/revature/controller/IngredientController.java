@@ -10,6 +10,10 @@ import io.javalin.http.Context;
 
 import java.util.Optional;
 
+
+ // NOTE: This file is part of the backend implementation. No changes are required.
+
+
 /**
  * The IngredientController class handles operations related to ingredients. It allows for creating, retrieving, updating, and deleting individual ingredients, as well as retrieving a list of all ingredients. 
  * 
@@ -24,7 +28,8 @@ public class IngredientController {
     /**
      * Constructs an IngredientController with the specified IngredientService.
      *
-     * @param ingredientService the service used to manage ingredient-related operations
+	 * (FOR REFERENCE) This method is part of the backend logic.
+     * No modifications or implementations are required.
      */
     public IngredientController(IngredientService ingredientService) {
         this.ingredientService = ingredientService;
@@ -35,7 +40,8 @@ public class IngredientController {
      * If the ingredient exists, responds with a 200 OK status and the ingredient data.
      * If not found, responds with a 404 Not Found status.
      *
-     * @param ctx the Javalin context containing the request path parameter for the ingredient ID
+	 * (FOR REFERENCE) This method is part of the backend logic.
+     * No modifications or implementations are required.
      */
     public void getIngredient(Context ctx) {
         int id = Integer.parseInt(ctx.pathParam("id"));
@@ -52,7 +58,8 @@ public class IngredientController {
      * Deletes an ingredient by its ID.
      * Responds with a 204 No Content status.
      *
-     * @param ctx the Javalin context containing the request path parameter for the ingredient ID
+	 * (FOR REFERENCE) This method is part of the backend logic.
+     * No modifications or implementations are required.
      */
     public void deleteIngredient(Context ctx) {
         int id = Integer.parseInt(ctx.pathParam("id"));
@@ -65,7 +72,8 @@ public class IngredientController {
      * If the ingredient exists, updates it and responds with a 204 No Content status.
      * If not found, responds with a 404 Not Found status.
      *
-     * @param ctx the Javalin context containing the request path parameter and updated ingredient data in the request body
+	 * (FOR REFERENCE) This method is part of the backend logic.
+     * No modifications or implementations are required.
      */
     public void updateIngredient(Context ctx) {
         int id = Integer.parseInt(ctx.pathParam("id"));
@@ -83,7 +91,8 @@ public class IngredientController {
      * Creates a new ingredient.
      * Saves the ingredient and responds with a 201 Created status.
      *
-     * @param ctx the Javalin context containing the ingredient data in the request body
+	 * (FOR REFERENCE) This method is part of the backend logic.
+     * No modifications or implementations are required.
      */
     public void createIngredient(Context ctx) {
         Ingredient ingredient = ctx.bodyAsClass(Ingredient.class);
@@ -96,7 +105,8 @@ public class IngredientController {
      * 
      * If pagination parameters are included, returns ingredients based on page, page size, sorting, and filter term.
      *
-     * @param ctx the Javalin context containing query parameters for pagination, sorting, and filtering
+	 * (FOR REFERENCE) This method is part of the backend logic.
+     * No modifications or implementations are required.
      */
     public void getIngredients(Context ctx) {
        String term = getParamAsClassOrElse(ctx, "term", String.class, null);
@@ -112,16 +122,14 @@ public class IngredientController {
         ctx.json(ingredientService.searchIngredients(term));
     }
 
-   /**
-     * A helper method to retrieve a query parameter from the context as a specific class type, or return a default value if the query parameter is not present.
-     *
-     * @param <T> the type of the query parameter
-     * @param ctx the Javalin context containing query parameters
-     * @param queryParam the name of the query parameter to retrieve
-     * @param clazz the class type of the parameter
-     * @param defaultValue the default value to return if the parameter is absent
-     * @return the query parameter value as the specified type, or the default value if absent
-     */
+/**
+     * This utility method is already implemented as part of the backend infrastructure.
+	 
+     * (FOR REFERENCE) This method is part of the backend logic.
+     * No modifications or implementations are required.
+     
+ */
+
     private <T> T getParamAsClassOrElse(Context ctx, String queryParam, Class<T> clazz, T defaultValue) {
         if(ctx.queryParam(queryParam) != null) {
             return ctx.queryParamAsClass(queryParam, clazz).get();
@@ -132,7 +140,8 @@ public class IngredientController {
     /**
      * Configure the routes for ingredient operations.
      *
-     * @param app the Javalin application
+	 * (FOR REFERENCE) This method is part of the backend logic.
+     * No modifications or implementations are required.
      */
     public void configureRoutes(Javalin app) {
         app.get("/ingredients", this::getIngredients);

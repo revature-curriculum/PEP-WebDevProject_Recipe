@@ -13,6 +13,10 @@ import com.revature.util.ConnectionUtil;
 import com.revature.util.Page;
 import com.revature.util.PageOptions;
 
+
+// NOTE: This file is part of the backend implementation. No changes are required.
+
+
 /**
  * Data Access Object (DAO) for performing CRUD operations on Chef entities. This class provides methods to create, read, update, and delete Chef records in the database.
  */
@@ -24,7 +28,8 @@ public class ChefDAO {
 
    /** Constructs a ChefDAO with the specified ConnectionUtil for database connectivity.
     * 
-    * @param connectionUtil the utility used to connect to the database
+	 * (FOR REFERENCE) This method is part of the backend logic.
+     * No modifications or implementations are required.
     */
    public ChefDAO(ConnectionUtil connectionUtil) {
        this.connectionUtil = connectionUtil;
@@ -32,8 +37,10 @@ public class ChefDAO {
      /**
      * Retrieves all Chef records from the database. 
      *
-     * @return a list of all Chef objects.
-     */
+     *
+	 * (FOR REFERENCE) This method is part of the backend logic.
+     * No modifications or implementations are required.
+    */
     public List<Chef> getAllChefs() {
         try  {
             Connection connection = connectionUtil.getConnection();
@@ -50,9 +57,10 @@ public class ChefDAO {
     /**
      * Retrieves all Chef records from the database with pagination options.
      *
-     * @param pageOptions options for pagination and sorting.
-     * @return a Page of Chef objects.
-     */
+        /**
+	 * (FOR REFERENCE) This method is part of the backend logic.
+     * No modifications or implementations are required.
+         */
     public Page<Chef> getAllChefs(PageOptions pageOptions) {
         String sql = String.format("SELECT * FROM CHEF ORDER BY %s %s", pageOptions.getSortBy(),
                 pageOptions.getSortDirection());
@@ -69,8 +77,9 @@ public class ChefDAO {
     /**
      * Retrieves a Chef record by its unique identifier.
      *
-     * @param id the unique identifier of the Chef to retrieve.
-     * @return the Chef object, if found.
+     /*
+	 * (FOR REFERENCE) This method is part of the backend logic.
+     * No modifications or implementations are required.
      */
     public Chef getChefById(int id) {
         String sql = "SELECT * FROM CHEF WHERE id = ?";
@@ -90,9 +99,10 @@ public class ChefDAO {
     /**
      * Creates a new Chef record in the database.
      *
-     * @param chef the Chef object to be created.
-     * @return the unique identifier of the created Chef.
-     */
+    /**
+	 * (FOR REFERENCE) This method is part of the backend logic.
+     * No modifications or implementations are required.
+ */
     public int createChef(Chef chef) {
         String sql = "INSERT INTO CHEF (username, email, password, is_admin) VALUES (?, ?, ?, ?)";
         try {
@@ -121,7 +131,8 @@ public class ChefDAO {
     /**
      * Updates an existing Chef record in the database.
      *
-     * @param chef the Chef object containing updated information.
+	 * (FOR REFERENCE) This method is part of the backend logic.
+     * No modifications or implementations are required.
      */
     public void updateChef(Chef chef) {
         String sql = "UPDATE CHEF SET username = ?, email = ?, password = ?, is_admin = ? WHERE id = ?";
@@ -142,7 +153,8 @@ public class ChefDAO {
     /**
      * Deletes a Chef record from the database.
      *
-     * @param chef the Chef object to be deleted.
+	 * (FOR REFERENCE) This method is part of the backend logic.
+     * No modifications or implementations are required.
      */
     public void deleteChef(Chef chef) {
         String sql = "DELETE FROM CHEF WHERE id = ?";
@@ -159,8 +171,8 @@ public class ChefDAO {
     /**
      * Searches for Chef records by a search term in the username.
      *
-     * @param term the search term to filter Chef usernames.
-     * @return a list of Chef objects that match the search term.
+	 * (FOR REFERENCE) This method is part of the backend logic.
+     * No modifications or implementations are required.
      */
     public List<Chef> searchChefsByTerm(String term) {
         String sql = "SELECT * FROM CHEF WHERE username LIKE ?";
@@ -180,9 +192,8 @@ public class ChefDAO {
     /**
      * Searches for Chef records by a search term in the username with pagination options.
      *
-     * @param term the search term to filter Chef usernames.
-     * @param pageOptions options for pagination and sorting.
-     * @return a Page of Chef objects containing the retrieved chefs.
+	 * (FOR REFERENCE) This method is part of the backend logic.
+     * No modifications or implementations are required.
      */
     public Page<Chef> searchChefsByTerm(String term, PageOptions pageOptions) {
         String sql = String.format("SELECT * FROM CHEF WHERE name LIKE ? ORDER BY %s %s", pageOptions.getSortBy(),
@@ -205,9 +216,10 @@ public class ChefDAO {
     /**
      * Maps a single row from the ResultSet to a Chef object.
      *
-     * @param set the ResultSet containing Chef data.
-     * @return a Chef object representing the row.
-     * @throws SQLException if an error occurs while accessing the ResultSet.
+     * No modifications or implementations are required by candidates.
+     * 
+     * (FOR REFERENCE) This method is part of the backend logic.
+     * No modifications or implementations are required.
      */
     private Chef mapSingleRow(ResultSet set) throws SQLException {
         int id = set.getInt("id");
@@ -221,9 +233,10 @@ public class ChefDAO {
     /**
      * Maps multiple rows from the ResultSet to a list of Chef objects.
      *
-     * @param set the ResultSet containing Chef data.
-     * @return a list of Chef objects.
-     * @throws SQLException if an error occurs while accessing the ResultSet.
+     * No modifications or implementations are required by candidates.
+     * 
+     * (FOR REFERENCE) This method is part of the backend logic.
+     * No modifications or implementations are required.
      */
     private List<Chef> mapRows(ResultSet set) throws SQLException {
         List<Chef> chefs = new ArrayList<>();
@@ -236,10 +249,10 @@ public class ChefDAO {
     /**
      * Paginates the results of a ResultSet into a Page of Chef objects.
      *
-     * @param set the ResultSet containing Chef data.
-     * @param pageOptions options for pagination and sorting.
-     * @return a Page of Chef objects containing the paginated results.
-     * @throws SQLException if an error occurs while accessing the ResultSet.
+     * No modifications or implementations are required by candidates.
+     * 
+     * (FOR REFERENCE) This method is part of the backend logic.
+     * No modifications or implementations are required.
      */
     private Page<Chef> pageResults(ResultSet set, PageOptions pageOptions) throws SQLException {
         List<Chef> chefs = mapRows(set);
@@ -253,10 +266,9 @@ public class ChefDAO {
     /**
      * Slices a list of Chef objects from a starting index to an ending index.
      *
-     * @param list the list of Chef objects to slice.
-     * @param start the starting index.
-     * @param end the ending index.
-     * @return a sliced list of Chef objects.
+     * No modifications or implementations are required by candidates.
+     * (FOR REFERENCE) This method is part of the backend logic.
+     * No modifications or implementations are required.
      */
     private List<Chef> sliceList(List<Chef> list, int start, int end) {
         List<Chef> sliced = new ArrayList<>();

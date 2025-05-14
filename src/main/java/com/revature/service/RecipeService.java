@@ -8,6 +8,10 @@ import com.revature.model.Recipe;
 import com.revature.util.Page;
 import com.revature.util.PageOptions;
 
+
+// NOTE: This file is part of the backend implementation. No changes are required.
+
+
 /**
  * The RecipeService class provides services related to Recipe objects,
  * including CRUD operations and search functionalities. It acts as an
@@ -23,7 +27,8 @@ public class RecipeService {
     /**
      * Constructs a RecipeService with the specified RecipeDao.
      *
-     * @param recipeDao the RecipeDao to be used by this service for data access
+	 * (FOR REFERENCE) This method is part of the backend logic.
+     * No modifications or implementations are required.
      */
     public RecipeService(RecipeDAO recipeDAO) {
         this.recipeDAO = recipeDAO;
@@ -32,9 +37,8 @@ public class RecipeService {
     /**
      * Finds a Recipe by its unique identifier.
      *
-     * @param id the unique identifier of the recipe to be found
-     * @return an Optional containing the found Recipe if present;
-     *         an empty Optional if not found
+	 * (FOR REFERENCE) This method is part of the backend logic.
+     * No modifications or implementations are required.
      */
     public Optional<Recipe> findRecipe(int id) {
         return Optional.ofNullable(recipeDAO.getRecipeById(id));
@@ -43,9 +47,8 @@ public class RecipeService {
     /**
      * Saves a Recipe object to the data store. If the id is 0, create a new Recipe.
      * 
-     * Otherwise, updates the recipe's instructions and chef id.
-     *
-     * @param recipe the Recipe object to be saved
+	 * (FOR REFERENCE) This method is part of the backend logic.
+     * No modifications or implementations are required.
      */
     public void saveRecipe(Recipe recipe) {
         if (recipe.getId() == 0) {
@@ -66,12 +69,8 @@ public class RecipeService {
     /**
      * Searches for recipes with pagination and sorting options.
      *
-     * @param term          the search term used to find recipes
-     * @param page          the page number to retrieve
-     * @param pageSize      the number of recipes per page
-     * @param sortBy        the field by which to sort the results
-     * @param sortDirection the direction of sorting (ascending or descending)
-     * @return a Page containing the results of the search
+	 * (FOR REFERENCE) This method is part of the backend logic.
+     * No modifications or implementations are required.
      */
     public Page<Recipe> searchRecipes(String term, int page, int pageSize, String sortBy, String sortDirection) {
         PageOptions options = new PageOptions(page, pageSize, sortBy, sortDirection);
@@ -85,8 +84,8 @@ public class RecipeService {
     /**
      * Searches for recipes based on a search term.
      *
-     * @param term the search term used to find recipes
-     * @return a list of Recipe objects that match the search term
+	 * (FOR REFERENCE) This method is part of the backend logic.
+     * No modifications or implementations are required.
      */
     public List<Recipe> searchRecipes(String term) {
         
@@ -100,7 +99,8 @@ public class RecipeService {
     /**
      * Deletes a Recipe by its unique identifier.
      *
-     * @param id the unique identifier of the recipe to be deleted
+	 * (FOR REFERENCE) This method is part of the backend logic.
+     * No modifications or implementations are required.
      */
     public boolean deleteRecipe(int id) {
         Recipe recipe = recipeDAO.getRecipeById(id);

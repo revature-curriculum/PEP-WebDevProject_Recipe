@@ -16,6 +16,11 @@ import com.revature.util.ConnectionUtil;
 import com.revature.util.Page;
 import com.revature.util.PageOptions;
 
+
+// NOTE: This file is part of the backend implementation. No changes are required.
+
+
+
 /**
  * Data Access Object (DAO) for managing Recipe entities in the database.
  * This class provides methods for creating, reading, updating, and deleting
@@ -43,9 +48,8 @@ public class RecipeDAO {
 	/**
 	 * Constructs a RecipeDAO instance with specified ChefDAO and IngredientDAO.
 	 *
-	 * @param chefDAO       the ChefDAO used for retrieving chef details.
-	 * @param ingredientDAO the IngredientDAO used for retrieving ingredient
-	 *                      details.
+	 * (FOR REFERENCE) This method is part of the backend logic.
+     * No modifications or implementations are required.
 	 */
 	public RecipeDAO(ChefDAO chefDAO, IngredientDAO ingredientDAO, ConnectionUtil connectionUtil) {
 		this.chefDAO = chefDAO;
@@ -56,7 +60,8 @@ public class RecipeDAO {
 	/**
 	 * Retrieves all recipes from the database.
 	 *
-	 * @return a list of all recipes, or null if an error occurs.
+	 * (FOR REFERENCE) This method is part of the backend logic.
+     * No modifications or implementations are required.
 	 */
 	public List<Recipe> getAllRecipes() {
 
@@ -78,9 +83,8 @@ public class RecipeDAO {
 	 * Retrieves a paginated list of all recipes from the database based on the
 	 * specified page options.
 	 *
-	 * @param pageOptions options for pagination including sorting.
-	 * @return a Page object containing the paginated recipes, or null if an error
-	 *         occurs.
+	 * (FOR REFERENCE) This method is part of the backend logic.
+     * No modifications or implementations are required.
 	 */
 	public Page<Recipe> getAllRecipes(PageOptions pageOptions) {
 		String sql = String.format("SELECT * FROM RECIPE ORDER BY %s %s", pageOptions.getSortBy(),
@@ -98,10 +102,9 @@ public class RecipeDAO {
 
 	/**
 	 * Searches for recipes by a specified search term.
-	 *
-	 * @param term the search term to filter recipes by name.
-	 * @return a list of recipes that match the search term, or null if an error
-	 *         occurs.
+	 * 
+	 * (FOR REFERENCE) This method is part of the backend logic.
+     * No modifications or implementations are required.
 	 */
 	public List<Recipe> searchRecipesByTerm(String term) {
 		String sql = "SELECT * FROM RECIPE WHERE name LIKE ?";
@@ -120,9 +123,8 @@ public class RecipeDAO {
 	/**
 	 * Searches for recipes by a specified ingredient.
 	 *
-	 * @param ingredient the ingredient to filter recipes by.
-	 * @return a list of recipes that include the specified ingredient, or null if
-	 *         an error occurs.
+	 * (FOR REFERENCE) This method is part of the backend logic.
+     * No modifications or implementations are required.
 	 */
 	public List<Recipe> searchRecipesByIngredient(String ingredient) {
 		String sql = "SELECT r.id, r.name, r.instructions FROM recipe r JOIN recipe_ingredient ir ON r.id = ir.recipe_id JOIN ingredient i ON ir.ingredient_id = i.id WHERE i.name LIKE ?;";
@@ -142,10 +144,8 @@ public class RecipeDAO {
 	 * Searches for recipes by a specified search term and returns a paginated
 	 * result.
 	 *
-	 * @param term        the search term to filter recipes by name.
-	 * @param pageOptions options for pagination including sorting.
-	 * @return a Page object containing the paginated recipes that match the search
-	 *         term, or null if an error occurs.
+	 * (FOR REFERENCE) This method is part of the backend logic.
+     * No modifications or implementations are required.
 	 */
 	public Page<Recipe> searchRecipesByTerm(String term, PageOptions pageOptions) {
 		String sql = String.format("SELECT * FROM RECIPE WHERE name LIKE ? ORDER BY %s %s", pageOptions.getSortBy(),
@@ -165,8 +165,8 @@ public class RecipeDAO {
 	/**
 	 * Retrieves a recipe by its unique identifier.
 	 *
-	 * @param id the unique identifier of the recipe.
-	 * @return the Recipe object if found.
+	 * (FOR REFERENCE) This method is part of the backend logic.
+     * No modifications or implementations are required.
 	 */
 	public Recipe getRecipeById(int id) {
 		String sql = "SELECT * FROM RECIPE WHERE id = ?";
@@ -188,8 +188,8 @@ public class RecipeDAO {
 	 * Creates a new recipe in the database and returns its generated unique
 	 * identifier.
 	 *
-	 * @param recipe the Recipe object to be created.
-	 * @return the generated unique identifier of the created recipe.
+	 * (FOR REFERENCE) This method is part of the backend logic.
+     * No modifications or implementations are required.
 	 */
 	public int createRecipe(Recipe recipe) {
 		String sql = "INSERT INTO RECIPE (name, instructions, chef_id) VALUES (?, ?, ?)";
@@ -220,24 +220,9 @@ public class RecipeDAO {
 	/**
 	 * Updates an existing recipe's instructions and chef_id in the database.
 	 *
-	 * @param recipe the Recipe object containing updated information.
+	 * (FOR REFERENCE) This method is part of the backend logic.
+     * No modifications or implementations are required.
 	 */
-	// public void updateRecipe(Recipe recipe) {
-	// 	String sql = "UPDATE RECIPE SET instructions = ?, chef_id = ? WHERE id = ?";
-	// 	try (Connection connection = connectionUtil.getConnection();
-	// 			PreparedStatement statement = connection.prepareStatement(sql)) {
-	// 		statement.setString(1, recipe.getInstructions());
-	// 		statement.setInt(2, recipe.getAuthor().getId());
-	// 		statement.setInt(3, recipe.getId());
-	// 		statement.executeUpdate();
-	// 	} catch (SQLException e) {
-	// 		e.printStackTrace();
-	// 	}
-
-	// }
-
-
-
 
 	public void updateRecipe(Recipe recipe) {
 		if (recipe == null || recipe.getId() == 0) {
@@ -261,31 +246,9 @@ public class RecipeDAO {
 	/**
 	 * Deletes a recipe from the database, along with its associated ingredients.
 	 *
-	 * @param recipe the Recipe object to be deleted.
+	 * (FOR REFERENCE) This method is part of the backend logic.
+     * No modifications or implementations are required.
 	 */
-	// public void deleteRecipe(Recipe recipe) {
-	// 	String ingredientSql = "DELETE FROM RECIPE_INGREDIENT WHERE recipe_id = ?";
-	// 	String sql = "DELETE FROM RECIPE WHERE id = ?";
-	// 	try (Connection connection = connectionUtil.getConnection()) {
-	// 		connection.setAutoCommit(false);
-	// 		try (PreparedStatement ingredientStatement = connection.prepareStatement(ingredientSql);
-	// 				PreparedStatement statement = connection.prepareStatement(sql)) {
-	// 			ingredientStatement.setInt(1, recipe.getId());
-	// 			ingredientStatement.executeUpdate();
-	// 			statement.setInt(1, recipe.getId());
-	// 			statement.executeUpdate();
-	// 			connection.commit();
-	// 		} catch (SQLException e) {
-	// 			connection.rollback(); // Roll back if there's an error
-	// 			throw new RuntimeException("Unable to delete recipe", e);
-	// 		}
-	// 	} catch (SQLException e) {
-	// 		throw new RuntimeException("Unable to obtain connection", e);
-	// 	}
-	// }
-
-
-
 
 	public void deleteRecipe(Recipe recipe) {
 		String ingredientSql = "DELETE FROM RECIPE_INGREDIENT WHERE recipe_id = ?";
@@ -316,8 +279,8 @@ public class RecipeDAO {
 	/**
 	 * Retrieves a list of ingredients associated with a specific recipe.
 	 *
-	 * @param id the unique identifier of the recipe.
-	 * @return a list of RecipeIngredient objects for the specified recipe.
+	 * (FOR REFERENCE) This method is part of the backend logic.
+     * No modifications or implementations are required.
 	 */
 	@SuppressWarnings("unused")
 	private List<RecipeIngredient> getIngredients(int id) {
@@ -345,7 +308,8 @@ public class RecipeDAO {
 	 * RECIPE_INGREDIENT table, establishing a relationship between the recipe and
 	 * its ingredients.
 	 *
-	 * @param recipe the Recipe object containing the ingredients to be saved
+	 * (FOR REFERENCE) This method is part of the backend logic.
+     * No modifications or implementations are required.
 	 */
 	@SuppressWarnings("unused")
 	private void saveIngredients(Recipe recipe) {
@@ -373,9 +337,8 @@ public class RecipeDAO {
 	 * This method extracts the recipe details such as ID, name, instructions,
 	 * and associated chef from the ResultSet and constructs a Recipe instance.
 	 *
-	 * @param set the ResultSet containing the recipe data
-	 * @return a Recipe object representing the mapped row
-	 * @throws SQLException if there is an error accessing the ResultSet
+	 * (FOR REFERENCE) This method is part of the backend logic.
+     * No modifications or implementations are required.
 	 */
 	private Recipe mapSingleRow(ResultSet set) throws SQLException {
 		int id = set.getInt("id");
@@ -390,9 +353,8 @@ public class RecipeDAO {
 	 * This method iterates through the ResultSet and calls mapSingleRow
 	 * for each row, adding the resulting Recipe objects to a list.
 	 *
-	 * @param set the ResultSet containing multiple recipe rows
-	 * @return a list of Recipe objects representing the mapped rows
-	 * @throws SQLException if there is an error accessing the ResultSet
+	 * (FOR REFERENCE) This method is part of the backend logic.
+     * No modifications or implementations are required.
 	 */
 	private List<Recipe> mapRows(ResultSet set) throws SQLException {
 		List<Recipe> recipes = new ArrayList<>();
@@ -409,10 +371,8 @@ public class RecipeDAO {
 	 * containing
 	 * the paginated results.
 	 *
-	 * @param set         the ResultSet containing recipe data
-	 * @param pageOptions the PageOptions object containing pagination details
-	 * @return a Page object containing the paginated list of Recipe objects
-	 * @throws SQLException if there is an error accessing the ResultSet
+	 * (FOR REFERENCE) This method is part of the backend logic.
+     * No modifications or implementations are required.
 	 */
 	private Page<Recipe> pageResults(ResultSet set, PageOptions pageOptions) throws SQLException {
 		List<Recipe> recipes = mapRows(set);
@@ -428,10 +388,8 @@ public class RecipeDAO {
 	 * This method creates a sublist of the provided list, which can be used for
 	 * pagination.
 	 *
-	 * @param list  the original list of Recipe objects
-	 * @param start the starting index (inclusive) for the slice
-	 * @param end   the ending index (exclusive) for the slice
-	 * @return a list of Recipe objects representing the sliced portion
+	 * (FOR REFERENCE) This method is part of the backend logic.
+     * No modifications or implementations are required.
 	 */
 	private List<Recipe> sliceList(List<Recipe> list, int start, int end) {
 		List<Recipe> sliced = new ArrayList<>();
