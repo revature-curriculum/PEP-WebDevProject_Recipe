@@ -1,6 +1,5 @@
 {
-  "projectType": "javascript",
-  "browser": "chrome",
-  "headless": true,
-  "vscodeExtensions": []
-}
+    "projectType":"javascript",
+    "chromedriverPath":"-d driver",
+    "vscodeExtensions":[]
+  }
