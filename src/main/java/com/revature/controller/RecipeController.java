@@ -14,6 +14,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+
+ // NOTE: This file is part of the backend implementation. No changes are required.
+
+
 /**
  * The RecipeController class provides RESTful endpoints for managing recipes.
  * It interacts with the RecipeService to fetch, create, update, and delete recipes.
@@ -28,7 +32,8 @@ public class RecipeController {
     /**
      * Constructor that initializes the RecipeController with the provided RecipeService.
      * 
-     * @param recipeService The service that handles the business logic for managing recipes.
+	 * (FOR REFERENCE) This method is part of the backend logic.
+     * No modifications or implementations are required.
      */
     public RecipeController(RecipeService recipeService, AuthenticationService authService) {
         this.recipeService = recipeService;
@@ -39,6 +44,9 @@ public class RecipeController {
      * Handler for fetching all recipes. Supports pagination, sorting, and filtering by recipe name or ingredient.
      * 
      * Responds with a 200 OK status and the list of recipes, or 404 Not Found with a result of "No recipes found".
+     *
+     * (FOR REFERENCE) This method is part of the backend logic.
+     * No modifications or implementations are required.
      */
     public Handler fetchAllRecipes = ctx -> {
         String term = getParamAsClassOrElse(ctx, "term", String.class, null);
@@ -84,6 +92,9 @@ public class RecipeController {
      * If successful, responds with a 200 status code and the recipe as the response body.
      * 
      * If unsuccessful, responds with a 404 status code and a result of "Recipe not found".
+     * 
+     * (FOR REFERENCE) This method is part of the backend logic.
+     * No modifications or implementations are required.
      */
     public Handler fetchRecipeById = ctx -> {
         int id = Integer.parseInt(ctx.pathParam("id"));
@@ -100,7 +111,10 @@ public class RecipeController {
      * Handler for creating a new recipe. Requires authentication via an authorization token. 
      * 
      * If successful, responds with a 201 Created status.
-     * If unauthorized, responds with a 401 Unauthorized status.
+     * If unauthorized, responds with a 401 Unauthorized status.	 
+     * 
+     * (FOR REFERENCE) This method is part of the backend logic.
+     * No modifications or implementations are required.
      */
     public Handler createRecipe = ctx -> {
         Chef chef = authService.getChefFromSessionToken(ctx.header("Authorization").split(" ")[1]);
@@ -126,6 +140,9 @@ public class RecipeController {
      * If successful, responds with a 200 status and result of "Recipe deleted successfully."
      * 
      * Otherwise, responds with a 404 status and a result of "Recipe not found."
+     * 
+     * (FOR REFERENCE) This method is part of the backend logic.
+     * No modifications or implementations are required.
      */
     public Handler deleteRecipe = ctx -> {
         try {
@@ -156,6 +173,9 @@ public class RecipeController {
      * If successful, responds with a 200 status code and the updated recipe as the response body.
      * 
      * If unsuccessfuly, responds with a 404 status code and a result of "Recipe not found."
+     * 	 
+     * (FOR REFERENCE) This method is part of the backend logic.
+     * No modifications or implementations are required.
      */
     public Handler updateRecipe = ctx -> {
         int id = Integer.parseInt(ctx.pathParam("id"));
@@ -174,14 +194,11 @@ public class RecipeController {
     
     /**
      * A helper method to retrieve a query parameter from the context as a specific class type, or return a default value if the query parameter is not present.
-     * 
-     * @param <T> The type of the query parameter to be returned.
-     * @param ctx The context of the request.
-     * @param queryParam The query parameter name.
-     * @param clazz The class type of the query parameter.
-     * @param defaultValue The default value to return if the query parameter is not found.
-     * @return The value of the query parameter converted to the specified class type, or the default value.
+    /**
+     * (FOR REFERENCE) This method is part of the backend logic.
+     * No modifications or implementations are required by candidates.
      */
+
     private <T> T getParamAsClassOrElse(Context ctx, String queryParam, Class<T> clazz, T defaultValue) {
         String paramValue = ctx.queryParam(queryParam);
         if (paramValue != null) {
@@ -199,7 +216,8 @@ public class RecipeController {
     /**
      * Configure the routes for recipe operations.
      *
-     * @param app the Javalin application
+	 * (FOR REFERENCE) This method is part of the backend logic.
+     * No modifications or implementations are required.
      */
     public void configureRoutes(Javalin app) {
         app.get("/recipes", fetchAllRecipes);

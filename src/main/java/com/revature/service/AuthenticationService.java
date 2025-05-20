@@ -7,6 +7,10 @@ import java.util.UUID;
 
 import com.revature.model.Chef;
 
+
+// NOTE: This file is part of the backend implementation. No changes are required.
+
+
 /**
  * The AuthenticationService class handles user authentication, including login,
  * logout, registration, and session management for users.
@@ -28,7 +32,8 @@ public class AuthenticationService {
 	 /**
 	  * Constructs an AuthenticationService with the specified ChefService.
 	  *
-	  * @param chefService the ChefService to be used by this authentication service
+	 * (FOR REFERENCE) This method is part of the backend logic.
+     * No modifications or implementations are required.
 	  */
 	 public AuthenticationService(ChefService chefService) {
 		 this.chefService = chefService;
@@ -38,10 +43,8 @@ public class AuthenticationService {
 	/**
 	 * Authenticates a chef by verifying the provided credentials. If successful, a session token is generated and stored in the logged in users map.
 	 *
-	 * @param chef the chef object containing username and password for
-	 *             authentication
-	 * @return a unique session token if login is successful, or null if
-	 *         authentication fails
+	 * (FOR REFERENCE) This method is part of the backend logic.
+     * No modifications or implementations are required.
 	 */
 	public String login(Chef chef) {
 		List<Chef> existingChefs = chefService.searchChefs(chef.getUsername());
@@ -64,7 +67,8 @@ public class AuthenticationService {
 	 * Logs out a chef by removing the associated session token from the session
 	 * map.
 	 *
-	 * @param token the session token to be invalidated
+	 * (FOR REFERENCE) This method is part of the backend logic.
+     * No modifications or implementations are required.
 	 */
 	public void logout(String token) {
 		loggedInUsers.remove(token);
@@ -73,8 +77,8 @@ public class AuthenticationService {
 	/**
 	 * Registers a new chef by saving the chef's information using ChefService.
 	 *
-	 * @param chef the chef object containing registration details
-	 * @return the registered chef object
+	 * (FOR REFERENCE) This method is part of the backend logic.
+     * No modifications or implementations are required.
 	 */
 	public Chef registerChef(Chef chef) {
 		chefService.saveChef(chef);
@@ -84,8 +88,8 @@ public class AuthenticationService {
 	/**
 	 * Retrieves the chef associated with a specific session token.
 	 *
-	 * @param token the session token associated with the chef
-	 * @return the chef associated with the token, or null if the token is invalid
+	 * (FOR REFERENCE) This method is part of the backend logic.
+     * No modifications or implementations are required.
 	 */
 	public Chef getChefFromSessionToken(String token) {
 		return loggedInUsers.get(token);

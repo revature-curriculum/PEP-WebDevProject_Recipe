@@ -8,6 +8,10 @@ import com.revature.dao.IngredientDAO;
 import com.revature.util.Page;
 import com.revature.util.PageOptions;
 
+
+// NOTE: This file is part of the backend implementation. No changes are required.
+
+
 /**
  * The IngredientService class provides business logic for operations related to Ingredient entities.
  * 
@@ -21,7 +25,8 @@ public class IngredientService {
     /**
      * Constructs an IngredientService with the specified IngredientDAO.
      *
-     * @param ingredientDAO the IngredientDAO used for accessing and managing Ingredient data
+	 * (FOR REFERENCE) This method is part of the backend logic.
+     * No modifications or implementations are required.
      */
     public IngredientService(IngredientDAO ingredientDAO) {
         this.ingredientDAO = ingredientDAO;
@@ -30,8 +35,8 @@ public class IngredientService {
     /**
      * Finds an Ingredient by its unique identifier.
      *
-     * @param id the unique identifier of the Ingredient
-     * @return an Optional containing the Ingredient if found, or an empty Optional if not found
+	 * (FOR REFERENCE) This method is part of the backend logic.
+     * No modifications or implementations are required.
      */
     public Optional<Ingredient> findIngredient(int id) {
         return Optional.ofNullable(ingredientDAO.getIngredientById(id));
@@ -41,7 +46,8 @@ public class IngredientService {
      * Saves an Ingredient entity. If the Ingredient's ID is zero, a new Ingredient is created and the `ingredient` parameter's ID is updated.
      * Otherwise, updates the existing Ingredient.
      *
-     * @param ingredient the Ingredient entity to be saved or updated
+	 * (FOR REFERENCE) This method is part of the backend logic.
+     * No modifications or implementations are required.
      */
     public void saveIngredient(Ingredient ingredient) {
         if(ingredient.getId() == 0) {
@@ -55,7 +61,8 @@ public class IngredientService {
     /**
      * Deletes an Ingredient based on its unique identifier, if it exists.
      *
-     * @param id the unique identifier of the Ingredient to be deleted
+	 * (FOR REFERENCE) This method is part of the backend logic.
+     * No modifications or implementations are required.
      */
     public void deleteIngredient(int id) {
         Ingredient ingredient = ingredientDAO.getIngredientById(id);
@@ -68,8 +75,8 @@ public class IngredientService {
      * Searches for Ingredients based on a search term.
      * If the term is null, retrieves all Ingredients.
      *
-     * @param term the search term for filtering Ingredients by attributes
-     * @return a list of Ingredients matching the search criteria, or all Ingredients if term is null
+	 * (FOR REFERENCE) This method is part of the backend logic.
+     * No modifications or implementations are required.
      */
     public List<Ingredient> searchIngredients(String term) {
         if(term == null ) { 
@@ -82,12 +89,8 @@ public class IngredientService {
     /**
      * Searches for Ingredients based on a search term with pagination and sorting options.
      *
-     * @param term the search term for filtering Ingredients by attributes
-     * @param page the page number to retrieve
-     * @param pageSize the number of results per page
-     * @param sortBy the field to sort the results by
-     * @param sortDirection the direction of sorting (e.g., "asc" or "desc")
-     * @return a Page object containing the list of Ingredients matching the criteria
+	 * (FOR REFERENCE) This method is part of the backend logic.
+     * No modifications or implementations are required.
      */
     public Page<Ingredient> searchIngredients(String term, int page, int pageSize, String sortBy, String sortDirection) {
         PageOptions pageOptions = new PageOptions(page, pageSize, sortBy, sortDirection);
