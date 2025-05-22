@@ -4,12 +4,8 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.time.Duration;
 
-import org.json.JSONObject;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
@@ -23,17 +19,13 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
-import org.openqa.selenium.edge.EdgeDriver;
-import org.openqa.selenium.edge.EdgeOptions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
-//import com.revature.parent.Main;
 
 import io.javalin.Javalin;
 
-@SuppressWarnings("unused")
 public class AuthenticationTest {
 
     private static WebDriver driver;
@@ -46,50 +38,19 @@ public class AuthenticationTest {
         // Start the backend programmatically
         int port = 8081;
         app = Main.main(new String[] { String.valueOf(port) });
+
+        WebDriverManager.chromedriver().setup();
         
-        // System.setProperty("webdriver.chrome.driver", "driver/chromedriver");
+        ChromeOptions options = new ChromeOptions();
+        options.addArguments("--headless");
+        driver = new ChromeDriver(options);
 
-        // ChromeOptions options = new ChromeOptions();
-        // options.addArguments("--headless");
-        // driver = new ChromeDriver(options);
-
-        // wait = new WebDriverWait(driver, Duration.ofSeconds(30));
-
-        // js = (JavascriptExecutor) driver;
-
-        // Thread.sleep(1000);
-
-    String browser = "chrome";
-    boolean headless = true;
-    try {
-        String json = new String(Files.readAllBytes(Paths.get("config.json")));
-        JSONObject config = new JSONObject(json);
-        browser = config.getString("browser");
-        headless = config.optBoolean("headless", true);
-    } catch (IOException e) {
-        System.out.println("Could not read config.json, defaulting to Chrome headless.");
-    }
-
-    // Setup driver dynamically
-    switch (browser.toLowerCase()) {
-        case "edge":
-            WebDriverManager.edgedriver().setup();
-            EdgeOptions edgeOptions = new EdgeOptions();
-            if (headless) edgeOptions.addArguments("--headless=new");
-            driver = new EdgeDriver(edgeOptions);
-            break;
-
-            default:
-            WebDriverManager.chromedriver().setup();
-            ChromeOptions chromeOptions = new ChromeOptions();
-            if (headless) chromeOptions.addArguments("--headless=new");
-            driver = new org.openqa.selenium.chrome.ChromeDriver(chromeOptions);
-    }
         wait = new WebDriverWait(driver, Duration.ofSeconds(30));
+
         js = (JavascriptExecutor) driver;
+
         Thread.sleep(1000);
     }
-    
 
     @AfterClass
     public static void tearDown() {
