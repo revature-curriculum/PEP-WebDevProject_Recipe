@@ -4,13 +4,8 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.time.Duration;
 import java.util.List;
-
-import org.json.JSONObject;
 
 import org.junit.After;
 import org.junit.Assert;
@@ -22,8 +17,6 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
-import org.openqa.selenium.edge.EdgeDriver;
-import org.openqa.selenium.edge.EdgeOptions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
@@ -31,7 +24,6 @@ import io.github.bonigarcia.wdm.WebDriverManager;
  * This class contains Selenium tests written in Java. Selenium is a tool used for BDD, or behavior-driven-development, for frontends. That means that the tests verify that the site exhbits expected
  * behavior behavior, such as verifying that some behavior occurs on the site when a button is clicked. In this case, Selenium will just be used to verify that certain tags exist on the site.
  */
-@SuppressWarnings("unused")
 public class RecipePageTest{
     
     private WebDriver webDriver;
@@ -42,59 +34,23 @@ public class RecipePageTest{
      * Set up the chrome driver for running bdd selenium tests in the browser.
      * @throws InterruptedException 
      */
-//     @Before
-//     public void setUp() throws InterruptedException {
-//  System.setProperty("webdriver.chrome.driver", "driver/chromedriver"); // linux_64
+    @Before
+    public void setUp() throws InterruptedException {
 
-//         File file = new File("src/main/resources/public/frontend/recipe/recipe-page.html");
-//         String path = "file://" + file.getAbsolutePath();
+        WebDriverManager.chromedriver().setup();
 
-//         ChromeOptions options = new ChromeOptions();
-//         options.addArguments("headless");
-//         webDriver = new ChromeDriver(options);
-//         wait = new WebDriverWait(webDriver, Duration.ofSeconds(30));
-//         webDriver.get(path);
-//         options.setPageLoadStrategy(PageLoadStrategy.EAGER);
+        File file = new File("src/main/resources/public/frontend/recipe/recipe-page.html");
+        String path = "file://" + file.getAbsolutePath();
 
-//         Thread.sleep(1000);
-//     }
+        ChromeOptions options = new ChromeOptions();
+        options.addArguments("headless");
+        webDriver = new ChromeDriver(options);
+        wait = new WebDriverWait(webDriver, Duration.ofSeconds(30));
+        webDriver.get(path);
+        options.setPageLoadStrategy(PageLoadStrategy.EAGER);
 
-@Before
-public void setUp() throws InterruptedException {
-    String browser = "chrome";
-    boolean headless = true;
-
-    try {
-        String json = new String(Files.readAllBytes(Paths.get("config.json")));
-        JSONObject config = new JSONObject(json);
-        browser = config.getString("browser");
-        headless = config.optBoolean("headless", true);
-    } catch (IOException e) {
-        System.out.println("Could not read config.json, defaulting to Chrome headless.");
+        Thread.sleep(1000);
     }
-
-    switch (browser.toLowerCase()) {
-        case "edge":
-            WebDriverManager.edgedriver().setup();
-            EdgeOptions edgeOptions = new EdgeOptions();
-            if (headless) edgeOptions.addArguments("--headless=new");
-            webDriver = new EdgeDriver(edgeOptions);
-            break;
-        default:
-            WebDriverManager.chromedriver().setup();
-            ChromeOptions chromeOptions = new ChromeOptions();
-            if (headless) chromeOptions.addArguments("--headless=new");
-            webDriver = new ChromeDriver(chromeOptions);
-    }
-
-    wait = new WebDriverWait(webDriver, Duration.ofSeconds(30));
-
-    File file = new File("src/main/resources/public/frontend/recipe/recipe-page.html");
-    String path = "file://" + file.getAbsolutePath();
-    webDriver.get(path);
-    Thread.sleep(1000);
-}
-
     /**
      * The page should contain a h1 header element containing the pattern "recipes".
      */

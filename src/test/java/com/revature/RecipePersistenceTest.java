@@ -3,12 +3,7 @@ package com.revature;
 import static org.junit.Assert.assertTrue;
 
 import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.time.Duration;
-
-import org.json.JSONObject;
 
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
@@ -16,15 +11,12 @@ import org.junit.Test;
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
-import org.openqa.selenium.edge.EdgeDriver;
-import org.openqa.selenium.edge.EdgeOptions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-import io.javalin.Javalin;
-
 import io.github.bonigarcia.wdm.WebDriverManager;
-//import com.revature.parent.Main;
+
+import io.javalin.Javalin;
 
 public class RecipePersistenceTest {
 
@@ -38,57 +30,24 @@ public class RecipePersistenceTest {
         int port = 8081;
         app = Main.main(new String[] { String.valueOf(port) });
 
-
-        // System.setProperty("webdriver.chrome.driver", "driver/chromedriver");
-
-        // ChromeOptions options = new ChromeOptions();
-        // options.addArguments("--headless");
-        // driver = new ChromeDriver(options);
-
-        // wait = new WebDriverWait(driver, Duration.ofSeconds(30));
-
+        WebDriverManager.chromedriver().setup();
         
-        // Thread.sleep(1000);
-        
-        // performLogin();
-        String browser = "chrome";
-    boolean headless = true;
+        ChromeOptions options = new ChromeOptions();
+        options.addArguments("--headless");
+        driver = new ChromeDriver(options);
 
-    try {
-        String json = new String(Files.readAllBytes(Paths.get("config.json")));
-        JSONObject config = new JSONObject(json);
-        browser = config.getString("browser");
-        headless = config.optBoolean("headless", true);
-    } catch (IOException e) {
-        System.out.println("Could not read config.json, defaulting to Chrome headless.");
-    }
+        wait = new WebDriverWait(driver, Duration.ofSeconds(30));
 
-    switch (browser.toLowerCase()) {
-        case "edge":
-            WebDriverManager.edgedriver().setup();
-            EdgeOptions edgeOptions = new EdgeOptions();
-            if (headless) edgeOptions.addArguments("--headless=new");
-            driver = new EdgeDriver(edgeOptions);
-            break;
-        default:
-            WebDriverManager.chromedriver().setup();
-            ChromeOptions chromeOptions = new ChromeOptions();
-            if (headless) chromeOptions.addArguments("--headless=new");
-            driver = new ChromeDriver(chromeOptions);
-    }
+        Thread.sleep(1000);
 
-    wait = new WebDriverWait(driver, Duration.ofSeconds(30));
-    Thread.sleep(1000);
-
-    performLogin();
-
+        performLogin();
 
     }
 
     @AfterClass
     public static void tearDown() {
         performLogout();
-        
+
         // Stop the backend and clean up
         if (app != null) {
             app.stop();
@@ -108,7 +67,7 @@ public class RecipePersistenceTest {
             System.out.println("No unexpected alerts.");
         }
     }
-  
+
     private void handleUnexpectedAlerts() {
         try {
             Alert alert = wait.until(ExpectedConditions.alertIsPresent());
@@ -135,7 +94,7 @@ public class RecipePersistenceTest {
 
         // ensure we navigate to appropriate webpage
         wait.until(ExpectedConditions.urlContains("recipe-page")); // Wait for navigation to the recipe page
-        
+
     }
 
     private static void performLogout() {
@@ -184,9 +143,8 @@ public class RecipePersistenceTest {
         assertTrue("Expected recipes to be displayed.", innerHTML.contains("tomato soup"));
         assertTrue("Expected recipes to be displayed.", innerHTML.contains("lemon rice soup"));
         assertTrue("Expected recipes to be displayed.", innerHTML.contains("stone soup"));
-        
-    }
 
+    }
 
     @Test
     public void updateRecipePutTest() {
@@ -209,7 +167,7 @@ public class RecipePersistenceTest {
 
         // make assertion: recipe should be updated
         assertTrue("Expected recipe to be updated.", innerHTML.contains("Updated instructions for carrot soup"));
-    
+
     }
 
     @Test
@@ -227,11 +185,11 @@ public class RecipePersistenceTest {
 
         // make assertion: deleted recipe should not be in list
         assertTrue("Expected recipe to be deleted.", !innerHTML.contains("stone soup"));
-    
+
     }
 
     @Test
-    public void searchFiltersTest() throws InterruptedException{
+    public void searchFiltersTest() throws InterruptedException {
 
         WebElement searchInput = driver.findElement(By.id("search-input"));
         WebElement searchButton = driver.findElement(By.id("search-button"));
@@ -242,18 +200,16 @@ public class RecipePersistenceTest {
         searchButton.click();
 
         Thread.sleep(1000);
-         // check recipe list
-         wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("recipe-list")));
-         String innerHTML = recipeList.getAttribute("innerHTML");
- 
-         
-         
-         assertTrue("Expected potato soup recipe to be in list.", innerHTML.contains("potato soup"));
-         assertTrue("Expected tomato soup recipe to be in list.", innerHTML.contains("tomato soup"));
-         assertTrue("Expected stone soup recipe to NOT be in list.", !innerHTML.contains("stone soup"));
-         assertTrue("Expected carrot soup recipe to NOT be in list.", !innerHTML.contains("carrot soup"));
-         assertTrue("Expected lemon rice soup recipe to NOT be in list.", !innerHTML.contains("lemon rice soup"));
-          
+        // check recipe list
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("recipe-list")));
+        String innerHTML = recipeList.getAttribute("innerHTML");
+
+        assertTrue("Expected potato soup recipe to be in list.", innerHTML.contains("potato soup"));
+        assertTrue("Expected tomato soup recipe to be in list.", innerHTML.contains("tomato soup"));
+        assertTrue("Expected stone soup recipe to NOT be in list.", !innerHTML.contains("stone soup"));
+        assertTrue("Expected carrot soup recipe to NOT be in list.", !innerHTML.contains("carrot soup"));
+        assertTrue("Expected lemon rice soup recipe to NOT be in list.", !innerHTML.contains("lemon rice soup"));
+
     }
 
 }

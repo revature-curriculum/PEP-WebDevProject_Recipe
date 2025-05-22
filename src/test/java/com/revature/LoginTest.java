@@ -3,13 +3,7 @@ package com.revature;
 import static org.junit.Assert.assertTrue;
 
 import java.io.File;
-import java.io.IOException;
 import java.time.Duration;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.time.Duration;
-
-import org.json.JSONObject;
 
 import org.junit.After;
 import org.junit.Before;
@@ -23,16 +17,11 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
-import org.openqa.selenium.edge.EdgeDriver;
-import org.openqa.selenium.edge.EdgeOptions;
-import org.openqa.selenium.firefox.FirefoxDriver;
-import org.openqa.selenium.firefox.FirefoxOptions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
 
-@SuppressWarnings("unused")
 public class LoginTest {
 
     private WebDriver driver;
@@ -41,88 +30,37 @@ public class LoginTest {
     private ClientAndServer mockServer;
     private MockServerClient mockServerClient;
 
-    // @Before
-    // public void setUp() throws InterruptedException {
-    //     System.setProperty("webdriver.chrome.driver", "driver/chromedriver"); // Adjust path if necessary
-
-    //     File file = new File("src/main/resources/public/frontend/login/login-page.html");
-    //     String path = "file://" + file.getAbsolutePath();
-
-    //     ChromeOptions options = new ChromeOptions();
-    //     options.addArguments("headless");
-
-    //     // Initialize ChromeDriver and MockServer
-    //     driver = new ChromeDriver(options);
-    //     wait = new WebDriverWait(driver, Duration.ofSeconds(30));
-    //     mockServer = ClientAndServer.startClientAndServer(8081);
-    //     mockServerClient = new MockServerClient("localhost", 8081);
-
-    //     // CORS options request setup
-    //     mockServerClient
-    //     .when(HttpRequest.request().withMethod("OPTIONS").withPath(".*"))
-    //     .respond(HttpResponse.response()
-    //         .withHeader("Access-Control-Allow-Origin", "*")
-    //         .withHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS")
-    //         .withHeader("Access-Control-Allow-Headers", "Content-Type, Access-Control-Allow-Origin, Access-Control-Allow-Methods, Access-Control-Allow-Headers, Origin, Accept, X-Requested-With"));
-    
-
-    //     // Load the login page
-    //     driver.get(path);
-
-    //     Thread.sleep(1000);
-    // }
-
     @Before
-public void setUp() throws InterruptedException {
-    // Read config.json
-    String browser = "chrome";
-    boolean headless = true;
-    try {
-        String json = new String(Files.readAllBytes(Paths.get("config.json")));
-        JSONObject config = new JSONObject(json);
-        browser = config.getString("browser");
-        headless = config.optBoolean("headless", true);
-    } catch (IOException e) {
-        System.out.println("Could not read config.json, defaulting to Chrome headless.");
-    }
+    public void setUp() throws InterruptedException {
+       
+        WebDriverManager.chromedriver().setup();
 
-    // Setup WebDriver dynamically based on config
-    switch (browser.toLowerCase()) {
-        case "edge":
-            WebDriverManager.edgedriver().setup();
-            EdgeOptions edgeOptions = new EdgeOptions();
-            if (headless) edgeOptions.addArguments("--headless=new");
-            driver = new EdgeDriver(edgeOptions);
-            break;
+        File file = new File("src/main/resources/public/frontend/login/login-page.html");
+        String path = "file://" + file.getAbsolutePath();
 
-        default:
-            WebDriverManager.chromedriver().setup();
-            ChromeOptions chromeOptions = new ChromeOptions();
-            if (headless) chromeOptions.addArguments("--headless=new");
-            driver = new ChromeDriver(chromeOptions);
-    }
+        ChromeOptions options = new ChromeOptions();
+        options.addArguments("headless");
 
-    wait = new WebDriverWait(driver, Duration.ofSeconds(30));
+        // Initialize ChromeDriver and MockServer
+        driver = new ChromeDriver(options);
+        wait = new WebDriverWait(driver, Duration.ofSeconds(30));
+        mockServer = ClientAndServer.startClientAndServer(8081);
+        mockServerClient = new MockServerClient("localhost", 8081);
 
-    // Start MockServer
-    mockServer = ClientAndServer.startClientAndServer(8081);
-    mockServerClient = new MockServerClient("localhost", 8081);
-
-    mockServerClient
+        // CORS options request setup
+        mockServerClient
         .when(HttpRequest.request().withMethod("OPTIONS").withPath(".*"))
         .respond(HttpResponse.response()
             .withHeader("Access-Control-Allow-Origin", "*")
             .withHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS")
             .withHeader("Access-Control-Allow-Headers", "Content-Type, Access-Control-Allow-Origin, Access-Control-Allow-Methods, Access-Control-Allow-Headers, Origin, Accept, X-Requested-With"));
+    
 
-    // Load the login page
-    File file = new File("src/main/resources/public/frontend/login/login-page.html");
-    String path = "file://" + file.getAbsolutePath();
-    driver.get(path);
+        // Load the login page
+        driver.get(path);
 
-    Thread.sleep(1000);
-}
-
+        Thread.sleep(1000);
+    }
 
     @Test
     public void correctLoginTest() throws InterruptedException {
