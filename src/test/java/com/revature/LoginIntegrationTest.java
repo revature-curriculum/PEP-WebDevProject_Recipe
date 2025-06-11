@@ -110,7 +110,7 @@ class LoginIntegrationTest {
 
 		// Send recipe creation request
 		Request recipeRequest = new Request.Builder()
-				.url("http://localhost:8080/recipes")
+				.url("http://localhost:8085/recipes")
 				.addHeader("Authorization", "Bearer " + token) // Ensure correct format
 				.post(recipeBody)
 				.build();
@@ -149,7 +149,7 @@ class LoginIntegrationTest {
 		String token = loginResponse.body().string();
 		RequestBody recipeBody = RequestBody.create(new JavalinJackson().toJsonString(newRecipe, Recipe.class),
 				MediaType.get("application/json; charset=utf-8"));
-		Request recipeRequest = new Request.Builder().url("http://localhost:8080/recipes")
+		Request recipeRequest = new Request.Builder().url("http://localhost:8085/recipes")
 				.addHeader("Authorization", token).post(recipeBody).build();
 		Response postResponse = client.newCall(recipeRequest).execute();
 		assertEquals(401, loginResponse.code(),
@@ -175,7 +175,7 @@ class LoginIntegrationTest {
 		RequestBody recipeBody = RequestBody.create(new JavalinJackson().toJsonString(newRecipe, Recipe.class),
 				MediaType.get("application/json; charset=utf-8"));
 				
-		Request recipeRequest = new Request.Builder().url("http://localhost:8080/recipes")
+		Request recipeRequest = new Request.Builder().url("http://localhost:8085/recipes")
 				.addHeader("Authorization", "Bearer " + token).post(recipeBody).build();
 		Response postResponse = client.newCall(recipeRequest).execute();
 		Request getRequest = new Request.Builder().url(BASE_URL + "/recipes/6").get().build();
